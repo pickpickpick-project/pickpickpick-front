@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import BoardTable from "../../components/Inquiry/BoardTable";
 
@@ -40,6 +41,7 @@ const InquiryStyle = styled.div`
 `;
 
 const InquiryBoard = () => {
+  let navigate = useNavigate();
   return (
     <InquiryStyle>
       <div className="header">헤더</div>
@@ -47,7 +49,12 @@ const InquiryBoard = () => {
         <div className="title">문의 게시판</div>
         <BoardTable />
         <div className="write">
-          <button className="write-button">글 작성</button>
+          <button
+            className="write-button"
+            onClick={() => navigate("/inquiry/write")}
+          >
+            글 작성
+          </button>
         </div>
       </section>
       <footer>footer</footer>

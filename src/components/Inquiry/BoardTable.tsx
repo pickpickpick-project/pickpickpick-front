@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 
 const TableStyle = styled.div`
@@ -36,6 +37,7 @@ const TableStyle = styled.div`
 `;
 
 const BoardTable = () => {
+  let navigate = useNavigate();
   return (
     <TableStyle>
       <table className="board">
@@ -48,13 +50,13 @@ const BoardTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr onClick={() => navigate("/inquiry/post/1")}>
             <td>1</td>
             <td>제목입니다</td>
             <td>픽픽픽</td>
             <td>2023-01-15</td>
           </tr>
-          <tr>
+          <tr onClick={() => navigate("/inquiry/post/2")}>
             <td>2</td>
             <td>제목입니다</td>
             <td>픽픽픽</td>

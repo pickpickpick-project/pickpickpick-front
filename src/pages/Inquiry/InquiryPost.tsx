@@ -74,7 +74,7 @@ const PostStyle = styled.div`
   }
 `;
 
-const InquirtPost = () => {
+const InquiryPost = () => {
   return (
     <PostStyle>
       <div className="header">헤더</div>
@@ -103,4 +103,4 @@ const InquirtPost = () => {
   );
 };
 
-export default InquirtPost;
+export default InquiryPost;

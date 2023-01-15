@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import MainContent from "../../components/Home/MainContent";
 
@@ -44,6 +45,7 @@ const MainStyle = styled.div`
 `;
 
 const Main = () => {
+  let navigate = useNavigate();
   return (
     <MainStyle>
       <div className="header">header</div>
@@ -62,7 +64,7 @@ const Main = () => {
           <MainContent />
         </div>
       </section>
-      <footer>footer</footer>
+      <footer onClick={() => navigate("/inquiry")}>문의게시판 가기</footer>
     </MainStyle>
   );
 };

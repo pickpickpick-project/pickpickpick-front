@@ -1,16 +1,15 @@
 import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "./pages/Home/Main";
 import InquiryBoard from "./pages/Inquiry/InquiryBoard";
-import InquirtPost from "./pages/Inquiry/InquiryPost";
+import InquiryPost from "./pages/Inquiry/InquiryPost";
 import InquiryWritePage from "./pages/Inquiry/InquiryWirtePage";
+import AppRouter from "./routes/AppRouter";
 
 function App() {
   return (
     <div className="App" style={{ margin: "-8px" }}>
-      {/* <Main /> */}
-      {/* <InquiryBoard /> */}
-      {/* <InquiryWritePage /> */}
-      <InquirtPost />
+      <AppRouter />
     </div>
   );
 }
