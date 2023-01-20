@@ -3,11 +3,6 @@ import styled from "styled-components";
 import MainContent from "../../components/Home/MainContent";
 
 const MainStyle = styled.div`
-  .header {
-    height: 60px;
-    background-color: lightgray;
-  }
-
   .main {
     margin: 40px 10rem;
     margin-bottom: 60px;
@@ -37,18 +32,12 @@ const MainStyle = styled.div`
     column-gap: 40px;
     padding: 40px 30px;
   }
-
-  footer {
-    background-color: lightgray;
-    height: 60px;
-  }
 `;
 
 const Main = () => {
   let navigate = useNavigate();
   return (
     <MainStyle>
-      <div className="header">header</div>
       <section className="main">
         <div className="tags">
           <button className="tag">#일러스트</button>
@@ -64,7 +53,6 @@ const Main = () => {
           <MainContent />
         </div>
       </section>
-      <footer>footer</footer>
     </MainStyle>
   );
 };
