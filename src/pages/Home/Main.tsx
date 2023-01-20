@@ -52,10 +52,10 @@ const Main = () => {
       <section className="main">
         <div className="tags">
           <button className="tag">#일러스트</button>
-          <button className="tag">#디자인</button>
-          <button className="tag">#디자인</button>
-          <button className="tag">#디자인</button>
-          <button className="tag">#디자인</button>
+          <button className="tag">#캐리커쳐</button>
+          <button className="tag">#웹툰 콘티</button>
+          <button className="tag">#캐릭터</button>
+          <button className="tag">#이모티콘</button>
         </div>
         <div className="contents-container">
           <MainContent />
