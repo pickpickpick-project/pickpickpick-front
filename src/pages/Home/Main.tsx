@@ -64,7 +64,7 @@ const Main = () => {
           <MainContent />
         </div>
       </section>
-      <footer onClick={() => navigate("/inquiry")}>문의게시판 가기</footer>
+      <footer>footer</footer>
     </MainStyle>
   );
 };
