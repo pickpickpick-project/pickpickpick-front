@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import colors from "../../assets/colors";
-import MainContent from "../../components/Home/MainContent";
-import Img from "../../assets/images/Home/content.jpg";
-import Img2 from "../../assets/images/Home/content2.jpg";
+// import MainContent from "../../components/Home/MainContent";
+// import Img from "../../assets/images/Home/content.jpg";
+// import Img2 from "../../assets/images/Home/content2.jpg";
 import Masonry from "@mui/lab/Masonry";
 // import { styled } from "@mui/material/styles";
 
@@ -31,10 +31,14 @@ const MainStyle = styled.div`
   .contents-container {
     width: 100%;
   }
+
+  .content-item {
+    cursor: pointer;
+  }
 `;
 
 const Main = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <MainStyle>
       <section className="main">
@@ -52,7 +56,11 @@ const Main = () => {
           <MainContent src={Img2} /> */}
           <Masonry columns={2} spacing={2}>
             {itemData.map((item, index) => (
-              <div key={index}>
+              <div
+                key={index}
+                className="content-item"
+                onClick={index => navigate(`/portfolio/:${1}`)}
+              >
                 <img
                   src={`${item.img}?w=162&auto=format`}
                   srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}

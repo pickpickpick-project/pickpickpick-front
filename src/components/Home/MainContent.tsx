@@ -24,7 +24,7 @@ const ContentStyle = styled.div`
 const MainContent = ({ src }: any) => {
   return (
     <ContentStyle>
-      <img src={src} className="content" />
+      <img src={src} className="content" alt="" />
     </ContentStyle>
   );
 };
