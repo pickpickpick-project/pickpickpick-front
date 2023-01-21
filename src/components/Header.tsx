@@ -4,7 +4,7 @@ import colors from "../assets/colors";
 import { ReactComponent as Logo } from "../assets/images/Home/PPPick-logo.svg";
 import { ReactComponent as Profile } from "../assets/images/Home/profile.svg";
 import type { MenuProps } from "antd";
-import { Dropdown, Space } from "antd";
+import { Dropdown } from "antd";
 import Kakao from "../assets/images/Home/kakao.png";
 
 const HeaderStyle = styled.div`
@@ -107,7 +107,7 @@ const Header = () => {
           ) : (
             <>
               <div className="login-button">
-                <img src={Kakao} />
+                <img src={Kakao} alt="kakao" />
               </div>
             </>
           )}
