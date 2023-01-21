@@ -4,7 +4,7 @@ import ImageSwiper from "../../components/Portfolio/ImageSwiper";
 import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg";
 
 const PageStyle = styled.div`
-  padding: 60px 0px 140px 0px;
+  padding: 135px 0px 140px 0px;
   color: ${colors.text};
   .images-container {
     height: 500px;

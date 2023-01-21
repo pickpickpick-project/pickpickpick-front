@@ -7,7 +7,6 @@ import AppRouter from "./routes/AppRouter";
 function App() {
   return (
     <div className="App" style={{ margin: "-8px" }}>
-      <Header />
       <AppRouter />
     </div>
   );

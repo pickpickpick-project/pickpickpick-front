@@ -35,10 +35,15 @@ const SwiperStyle = styled.div`
   .item-img {
     // width: 500px;
     height: 500px;
+    transition: 0.3s all ease-out;
 
     img {
       height: 500px;
     }
+  }
+
+  .item-img:hover {
+    transform: scale(1.05);
   }
 `;
 
