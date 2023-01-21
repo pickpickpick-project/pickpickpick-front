@@ -7,6 +7,9 @@ import colors from "../../assets/colors";
 import Masonry from "@mui/lab/Masonry";
 // import { styled } from "@mui/material/styles";
 
+import { useState } from "react";
+import MainContent from "../../components/Home/MainContent";
+
 const MainStyle = styled.div`
   padding: 60px 16px 140px 16px;
   .tags {
@@ -34,11 +37,26 @@ const MainStyle = styled.div`
 
   .content-item {
     cursor: pointer;
+    position: relative;
+
+    img {
+      transition:  0.2s all ease-out;
+      transform 0.3s ease 0s;
+    }
+    img:hover {
+      transform: scale(1.005);
+      filter: brightness(0.8);
+    }
+
+  }
+
+
   }
 `;
 
 const Main = () => {
   const navigate = useNavigate();
+
   return (
     <MainStyle>
       <section className="main">
@@ -50,10 +68,6 @@ const Main = () => {
           <button className="tag">#이모티콘</button>
         </div>
         <div className="contents-container">
-          {/* <MainContent src={Img} />
-          <MainContent src={Img2} />
-          <MainContent src={Img} />
-          <MainContent src={Img2} /> */}
           <Masonry columns={2} spacing={2}>
             {itemData.map((item, index) => (
               <div
@@ -61,18 +75,7 @@ const Main = () => {
                 className="content-item"
                 onClick={index => navigate(`/portfolio/:${1}`)}
               >
-                <img
-                  src={`${item.img}?w=162&auto=format`}
-                  srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
-                  alt={item.title}
-                  loading="lazy"
-                  style={{
-                    borderBottomLeftRadius: 4,
-                    borderBottomRightRadius: 4,
-                    display: "block",
-                    width: "100%",
-                  }}
-                />
+                <MainContent item={item} />
               </div>
             ))}
           </Masonry>
