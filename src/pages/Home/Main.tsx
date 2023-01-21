@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import colors from "../../assets/colors";
-// import MainContent from "../../components/Home/MainContent";
-// import Img from "../../assets/images/Home/content.jpg";
-// import Img2 from "../../assets/images/Home/content2.jpg";
 import Masonry from "@mui/lab/Masonry";
-// import { styled } from "@mui/material/styles";
+
+import { useState } from "react";
+import MainContent from "../../components/Home/MainContent";
 
 const MainStyle = styled.div`
-  padding: 60px 16px 140px 16px;
+  padding: 135px 16px 140px 16px;
+  
   .tags {
     width: 1200px;
     margin: 0 auto;
@@ -20,12 +20,17 @@ const MainStyle = styled.div`
   .tag {
     font-size: 17px;
     font-weight: bold;
-    width: 6em;
-    height: 6em;
-    border: none;
+    width: 7rem;
+    height: 7rem;
+    border: 1px solid #e4e5ed;;
     border-radius: 50%;
     cursor: pointer;
     background-color: ${colors.button};
+    transition: 0.2s all ease-out;
+  }
+
+  .tag:hover{
+    font-size:19px;
   }
 
   .contents-container {
@@ -34,26 +39,37 @@ const MainStyle = styled.div`
 
   .content-item {
     cursor: pointer;
+    position: relative;
+
+    img {
+      transition:  0.2s all ease-out;
+      transform 0.3s ease 0s;
+    }
+    img:hover {
+      transform: scale(1.005);
+      filter: brightness(0.8);
+    }
+
+  }
+
+
   }
 `;
 
 const Main = () => {
   const navigate = useNavigate();
+
   return (
     <MainStyle>
       <section className="main">
         <div className="tags">
           <button className="tag">#일러스트</button>
           <button className="tag">#캐리커쳐</button>
-          <button className="tag">#웹툰 콘티</button>
+          <button className="tag">#웹툰·콘티</button>
           <button className="tag">#캐릭터</button>
           <button className="tag">#이모티콘</button>
         </div>
         <div className="contents-container">
-          {/* <MainContent src={Img} />
-          <MainContent src={Img2} />
-          <MainContent src={Img} />
-          <MainContent src={Img2} /> */}
           <Masonry columns={2} spacing={2}>
             {itemData.map((item, index) => (
               <div
@@ -61,18 +77,7 @@ const Main = () => {
                 className="content-item"
                 onClick={index => navigate(`/portfolio/:${1}`)}
               >
-                <img
-                  src={`${item.img}?w=162&auto=format`}
-                  srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
-                  alt={item.title}
-                  loading="lazy"
-                  style={{
-                    borderBottomLeftRadius: 4,
-                    borderBottomRightRadius: 4,
-                    display: "block",
-                    width: "100%",
-                  }}
-                />
+                <MainContent item={item} />
               </div>
             ))}
           </Masonry>

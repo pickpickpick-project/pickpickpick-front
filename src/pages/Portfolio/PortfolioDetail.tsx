@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import colors from "../../assets/colors";
 import ImageSwiper from "../../components/Portfolio/ImageSwiper";
+import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg";
 
 const PageStyle = styled.div`
-  padding: 60px 0px 140px 0px;
+  padding: 135px 0px 140px 0px;
   color: ${colors.text};
   .images-container {
     height: 500px;
@@ -68,7 +69,9 @@ const PortfolioDetail = () => {
       </div>
       <div className="bottom-section">
         <div className="artist-section">
-          <div className="artist-img">작가 사진</div>
+          <div className="artist-img">
+            <Profile width="100px" height="100px" />
+          </div>
           <div className="arist-info">
             <div className="artist-info-name">작가 이름</div>
             <div className="artist-info-introduce">안녕하세용</div>
