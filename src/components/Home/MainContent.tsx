@@ -1,18 +1,30 @@
 import styled from "styled-components";
 
 const ContentStyle = styled.div`
-  border: 1px solid black;
-  height: 17em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // height: 50rem;
   cursor: pointer;
+  // height: 100%;
+  // position: relative;
+
+  // :after {
+  //   content: "";
+  //   display: block;
+  //   padding-bottom: 100%;
+  }
+  img {
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
-const MainContent = () => {
+const MainContent = ({ src }: any) => {
   return (
     <ContentStyle>
-      <div className="content">컨텐츠</div>
+      <img src={src} className="content" />
     </ContentStyle>
   );
 };
