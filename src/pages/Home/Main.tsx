@@ -108,7 +108,7 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    console.log(inView, hasNextPage, page.current, load);
+    // console.log(inView, hasNextPage, page.current, load);
     if (inView && hasNextPage) {
       fetch();
     }
@@ -135,7 +135,7 @@ const Main = () => {
           </button>
         </div>
         <div className="contents-container" id="scrollArea">
-          <Masonry columns={2} spacing={2}>
+          <Masonry columns={3} spacing={2}>
             {posts?.map(
               (
                 item,
@@ -159,39 +159,5 @@ const Main = () => {
     </MainStyle>
   );
 };
-
-const itemData = [
-  {
-    url: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-    title: "Fern",
-    tag: 1,
-  },
-  {
-    url: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f",
-    title: "Snacks",
-    tag: 1,
-  },
-  {
-    url: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-    title: "Mushrooms",
-    tag: 2,
-  },
-  {
-    url: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383",
-    title: "Tower",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-    title: "Sea star",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-    title: "Honey",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-    title: "Basketball",
-  },
-];
 
 export default Main;
