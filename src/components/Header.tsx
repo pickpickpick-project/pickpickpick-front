@@ -10,7 +10,7 @@ import { Navigate, useNavigate } from "react-router";
 
 const HeaderStyle = styled.div`
   position: fixed;
-  z-index: 9999;
+  z-index: 10;
   background-color: #ffffff;
   width: 100%;
   border-bottom: 1px solid #e4e5ed;
@@ -113,7 +113,7 @@ const Header = () => {
           <div className="login">
             {isLogin ? (
               <>
-                <Dropdown menu={{ items }}>
+                <Dropdown menu={{ items }} overlayStyle={{ zIndex: 11 }}>
                   <div className="profile">
                     <Profile />
                   </div>

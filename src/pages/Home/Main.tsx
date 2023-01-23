@@ -1,12 +1,14 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import colors from "../../assets/colors";
 import Masonry from "@mui/lab/Masonry";
-
-import { useState } from "react";
+import { useInView } from "react-intersection-observer";
+import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useCallback, useEffect, useRef, useState } from "react";
 import MainContent from "../../components/Home/MainContent";
 
-const MainStyle = styled.div`
+const MainStyle = styled.div<{ isLoad: boolean }>`
   padding: 135px 16px 140px 16px;
   
   .tags {
@@ -35,6 +37,7 @@ const MainStyle = styled.div`
 
   .contents-container {
     width: 100%;
+    position: relative;
   }
 
   .content-item {
@@ -49,38 +52,108 @@ const MainStyle = styled.div`
       transform: scale(1.005);
       filter: brightness(0.8);
     }
-
+  }
   }
 
-
+  .load{
+    position: absolute,
+    margin: 0 auto;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items:center;
   }
+
+ 
 `;
+
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
 
 const Main = () => {
   const navigate = useNavigate();
+  let { id } = useParams();
+
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+  const [load, setLoad] = useState<boolean>(false);
+  const page = useRef<number>(1);
+  const [ref, inView] = useInView();
+
+  const fetch = useCallback(async () => {
+    setLoad(true);
+    try {
+      const { data } = await axios.get<Post[]>(
+        `https://api.thecatapi.com/v1/images/?limit=4&page=${page.current}&order=DESC`,
+        {
+          headers: {
+            "x-api-key": "17d94b92-754f-46eb-99a0-65be65b5d18f",
+          },
+        }
+      );
+
+      setPosts(prevPosts => [...prevPosts, ...data]);
+      setHasNextPage(data.length === 4);
+      if (data.length) {
+        page.current += 1;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    setLoad(false);
+  }, []);
+
+  useEffect(() => {
+    console.log(inView, hasNextPage, page.current, load);
+    if (inView && hasNextPage) {
+      fetch();
+    }
+  }, [fetch, hasNextPage, inView, load]);
 
   return (
-    <MainStyle>
+    <MainStyle isLoad={load}>
       <section className="main">
         <div className="tags">
-          <button className="tag">#일러스트</button>
-          <button className="tag">#캐리커쳐</button>
-          <button className="tag">#웹툰·콘티</button>
-          <button className="tag">#캐릭터</button>
-          <button className="tag">#이모티콘</button>
+          <button className="tag" onClick={() => navigate("/1")}>
+            #일러스트
+          </button>
+          <button className="tag" onClick={() => navigate("/2")}>
+            #캐리커쳐
+          </button>
+          <button className="tag" onClick={() => navigate("/3")}>
+            #웹툰·콘티
+          </button>
+          <button className="tag" onClick={() => navigate("/4")}>
+            #캐릭터
+          </button>
+          <button className="tag" onClick={() => navigate("/5")}>
+            #이모티콘
+          </button>
         </div>
-        <div className="contents-container">
+        <div className="contents-container" id="scrollArea">
           <Masonry columns={2} spacing={2}>
-            {itemData.map((item, index) => (
-              <div
-                key={index}
-                className="content-item"
-                onClick={index => navigate(`/portfolio/:${1}`)}
-              >
-                <MainContent item={item} />
-              </div>
-            ))}
+            {posts?.map(
+              (
+                item,
+                index //쿼리스트링
+              ) => (
+                <div
+                  key={index}
+                  className="content-item"
+                  onClick={index => navigate(`/portfolio/${1}`)}
+                >
+                  <MainContent item={item} />
+                </div>
+              )
+            )}
           </Masonry>
+          <div className="load" ref={ref}>
+            {load && <CircularProgress color="inherit" />}
+          </div>
         </div>
       </section>
     </MainStyle>
@@ -89,72 +162,35 @@ const Main = () => {
 
 const itemData = [
   {
-    img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
+    url: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
     title: "Fern",
+    tag: 1,
   },
   {
-    img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f",
+    url: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f",
     title: "Snacks",
+    tag: 1,
   },
   {
-    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
+    url: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
     title: "Mushrooms",
+    tag: 2,
   },
   {
-    img: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383",
+    url: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383",
     title: "Tower",
   },
   {
-    img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
+    url: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
     title: "Sea star",
   },
   {
-    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
+    url: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
     title: "Honey",
   },
   {
-    img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
+    url: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
     title: "Basketball",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1627328715728-7bcc1b5db87d",
-    title: "Tree",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    title: "Burger",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-    title: "Camera",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-    title: "Coffee",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1627000086207-76eabf23aa2e",
-    title: "Camping Car",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-    title: "Hats",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-    title: "Tomato basil",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1627328561499-a3584d4ee4f7",
-    title: "Mountain",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-    title: "Bike",
   },
 ];
 
