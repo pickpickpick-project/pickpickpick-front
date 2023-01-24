@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import styled from "styled-components";
 import { ReactComponent as Arrow } from "../../assets/images/Portfolio/arrow-btn.svg";
 import ImageSwiperItem from "./ImageSwiperItem";
+import { PortfolioImg } from "../../api/types";
 
 const SwiperStyle = styled.div`
   display: flex;
@@ -64,15 +65,6 @@ const DivNext = styled.div`
   text-align: center;
 `;
 
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-  url: string;
-  portfolioNum: number;
-}
-
 const ImageSwiper = () => {
   const settings = {
     className: "slider variable-width",
@@ -94,11 +86,11 @@ const ImageSwiper = () => {
       </DivNext>
     ),
   };
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<PortfolioImg[]>([]);
 
   const getUserPortfolioImgs = useCallback(async () => {
     try {
-      const { data } = await axios.get<Post[]>(
+      const { data } = await axios.get<PortfolioImg[]>(
         `https://api.thecatapi.com/v1/images/?limit=4&order=DESC`,
         {
           headers: {

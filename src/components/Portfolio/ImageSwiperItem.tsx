@@ -1,18 +1,9 @@
 import { useState } from "react";
 import PortfolioModal from "./PortfolioModal";
-
-interface Post {
-  //파일 따로 빼서 import 하기
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-  url: string;
-  portfolioNum: number;
-}
+import { PortfolioImg } from "../../api/types";
 
 interface Item {
-  item: Post;
+  item: PortfolioImg;
 }
 
 const ImageSwiperItem = ({ item }: Item) => {
@@ -30,7 +21,6 @@ const ImageSwiperItem = ({ item }: Item) => {
         isOpen={modalIsOpen}
         setIsOpen={setIsOpen}
         portfolioNum={item.portfolioNum}
-        item={item}
       />
     </>
   );

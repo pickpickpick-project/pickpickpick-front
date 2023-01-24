@@ -127,15 +127,9 @@ interface Modaltype {
   isOpen: boolean;
   setIsOpen: any;
   portfolioNum: number;
-  item: any;
 }
 
-const PortfolioModal = ({
-  isOpen,
-  setIsOpen,
-  portfolioNum,
-  item,
-}: Modaltype) => {
+const PortfolioModal = ({ isOpen, setIsOpen, portfolioNum }: Modaltype) => {
   const closeModal = () => {
     setIsOpen(false);
   };
