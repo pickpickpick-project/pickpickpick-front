@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import Slider from "react-slick";
 import styled from "styled-components";
 import { ReactComponent as Arrow } from "../../assets/images/Portfolio/arrow-btn.svg";
+import ImageSwiperItem from "./ImageSwiperItem";
 
 const SwiperStyle = styled.div`
   display: flex;
@@ -69,6 +70,7 @@ interface Post {
   title: string;
   body: string;
   url: string;
+  portfolioNum: number;
 }
 
 const ImageSwiper = () => {
@@ -118,9 +120,7 @@ const ImageSwiper = () => {
     <SwiperStyle>
       <Slider {...settings}>
         {posts.map((item, idx) => (
-          <div key={idx} className="item-img">
-            <img src={item.url} alt="" />
-          </div>
+          <ImageSwiperItem key={idx} item={item} />
         ))}
       </Slider>
     </SwiperStyle>
