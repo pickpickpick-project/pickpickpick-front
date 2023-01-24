@@ -14,7 +14,7 @@ const KakaoLogout = () => {
     //     .post(`https://kapi.kakao.com/v1/user/logout`, {
     //       headers: {
     //         "Content-type": "application/x-www-form-urlencoded",
-    //         Authorization: `Bearer voJsKm5srKcRN485H4uXVoGSgOMsrhGLg4DR4jFuCj1y6wAAAYXe3c1W`,
+    //         Authorization: `Bearer token`,
     //       },
     //     })
     //     .then(res => {
