@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "../components/Header";
 import MyHeartPage from "../pages/Heart/MyHeartPage";
 import Main from "../pages/Home/Main";
+import KakaoLogin from "../pages/Login/KakaoLogin";
 import PortfolioDetail from "../pages/Portfolio/PortfolioDetail";
 
 const AppRouter = () => {
@@ -11,6 +12,7 @@ const AppRouter = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="/:id" element={<Main />} />
         <Route path="portfolio/:id" element={<PortfolioDetail />} />
         <Route path="heart" element={<MyHeartPage />} />
       </Routes>

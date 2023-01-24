@@ -8,7 +8,7 @@ const PageStyle = styled.div`
   color: ${colors.text};
   .images-container {
     height: 500px;
-    display:flex;
+    display: flex;
     overflow: hidden;
   }
 
@@ -48,17 +48,21 @@ const PageStyle = styled.div`
   .inquiry-button {
     color: ${colors.text};
     background-color: ${colors.button};
-    padding: 15px 20px;
+    padding: 1px 6px;
+    width: 269px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 7px;
     font-weight: bold;
-    font-size: 20px;
-    filter: drop-shadow(0 0 3px  rgba(0, 0, 0, 0.3));
+    font-size: 16px;
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
     cursor: pointer;
+    transition: 0.2s all ease-out;
   }
-
-  .inquiry-button: active {
-   transform: scale(0.9);
-    transition: 0.2s all ease-out; t
+  .inquiry-button:hover {
+    filter: brightness(90%);
   }
 `;
 const PortfolioDetail = () => {

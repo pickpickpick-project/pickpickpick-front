@@ -5,12 +5,13 @@ import { ReactComponent as Logo } from "../assets/images/Home/PPPick-logo.svg";
 import { ReactComponent as Profile } from "../assets/images/Home/profile.svg";
 import type { MenuProps } from "antd";
 import { Dropdown, Button } from "antd";
-import Kakao from "../assets/images/Home/kakao.png";
 import { Navigate, useNavigate } from "react-router";
+import KakaoLogin from "../pages/Login/KakaoLogin";
+import KakaoLogout from "../pages/Login/KakaoLogout";
 
 const HeaderStyle = styled.div`
   position: fixed;
-  z-index: 9999;
+  z-index: 10;
   background-color: #ffffff;
   width: 100%;
   border-bottom: 1px solid #e4e5ed;
@@ -27,10 +28,15 @@ const HeaderStyle = styled.div`
 
   .login-button {
     width: 150px;
+    cursor: pointer;
 
     img {
       width: 100%;
     }
+  }
+
+  .login-button:active {
+    transform: scale(0.98);
   }
 
   .profile {
@@ -85,25 +91,36 @@ const items: MenuProps["items"] = [
   {
     key: "3",
     label: (
-      <div
-        className="menu-item"
-        style={{
-          fontSize: "15px",
-          width: "100px",
-          padding: "7px 0",
-          textAlign: "center",
-          color: colors.text,
-        }}
-      >
-        로그아웃
-      </div>
+      <KakaoLogout />
+      // <div
+      //   className="menu-item"
+      //   style={{
+      //     fontSize: "15px",
+      //     width: "100px",
+      //     padding: "7px 0",
+      //     textAlign: "center",
+      //     color: colors.text,
+      //   }}
+      // >
+      //   로그아웃
+      // </div>
     ),
   },
 ];
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const userId = localStorage.getItem("userId"); //string
+
+  useEffect(() => {
+    if (userId) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [userId]);
 
   return (
     <HeaderStyle>
@@ -113,7 +130,7 @@ const Header = () => {
           <div className="login">
             {isLogin ? (
               <>
-                <Dropdown menu={{ items }}>
+                <Dropdown menu={{ items }} overlayStyle={{ zIndex: 11 }}>
                   <div className="profile">
                     <Profile />
                   </div>
@@ -122,7 +139,7 @@ const Header = () => {
             ) : (
               <>
                 <div className="login-button">
-                  <img src={Kakao} alt="kakao" />
+                  <KakaoLogin />
                 </div>
               </>
             )}

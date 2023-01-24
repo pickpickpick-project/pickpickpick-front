@@ -18,20 +18,22 @@ const ContentStyle = styled.div`
 `;
 
 const MainContent = ({ item }: any) => {
+  //interface만들기
   const [isHeart, setIsHeart] = useState<boolean>(false);
 
   const heartItem = (item: any) => {
     item.stopPropagation();
     setIsHeart(!isHeart);
   };
+
   return (
     <ContentStyle>
       <div className="item-heart" onClick={item => heartItem(item)}>
         {isHeart ? <HeartFilled /> : <Heart />}
       </div>
       <img
-        src={`${item.img}?w=162&auto=format`}
-        srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
+        src={`${item.url}?w=162&auto=format`}
+        srcSet={`${item.url}?w=162&auto=format&dpr=2 2x`}
         alt={item.title}
         loading="lazy"
         style={{
