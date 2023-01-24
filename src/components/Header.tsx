@@ -59,7 +59,7 @@ const items: MenuProps["items"] = [
         className="menu-item"
         style={{
           fontSize: "15px",
-          width: "100px",
+          width: "120px",
           padding: "7px 0",
           textAlign: "center",
           color: colors.text,
@@ -77,7 +77,7 @@ const items: MenuProps["items"] = [
           className="menu-item"
           style={{
             fontSize: "15px",
-            width: "100px",
+            width: "120px",
             padding: "7px 0",
             textAlign: "center",
             color: colors.text,
@@ -90,6 +90,25 @@ const items: MenuProps["items"] = [
   },
   {
     key: "3",
+    label: (
+      <a href="http://localhost:3000/portfolio/post">
+        <div
+          className="menu-item"
+          style={{
+            fontSize: "15px",
+            width: "120px",
+            padding: "7px 0",
+            textAlign: "center",
+            color: colors.text,
+          }}
+        >
+          포트폴리오 등록
+        </div>
+      </a>
+    ),
+  },
+  {
+    key: "4",
     label: (
       <KakaoLogout />
       // <div
