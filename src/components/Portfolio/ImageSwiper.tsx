@@ -110,8 +110,6 @@ const ImageSwiper = () => {
     }
   }, []);
 
-  console.log(posts);
-
   useEffect(() => {
     getUserPortfolioImgs();
   }, []);
