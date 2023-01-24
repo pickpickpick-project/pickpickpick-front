@@ -18,6 +18,7 @@ const ContentStyle = styled.div`
 `;
 
 const MainContent = ({ item }: any) => {
+  //interface만들기
   const [isHeart, setIsHeart] = useState<boolean>(false);
 
   const heartItem = (item: any) => {

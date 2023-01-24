@@ -84,7 +84,7 @@ const Main = () => {
   const page = useRef<number>(1);
   const [ref, inView] = useInView();
 
-  const fetch = useCallback(async () => {
+  const getMainPortfolioImgs = useCallback(async () => {
     setLoad(true);
     try {
       const { data } = await axios.get<Post[]>(
@@ -110,9 +110,9 @@ const Main = () => {
   useEffect(() => {
     // console.log(inView, hasNextPage, page.current, load);
     if (inView && hasNextPage) {
-      fetch();
+      getMainPortfolioImgs();
     }
-  }, [fetch, hasNextPage, inView, load]);
+  }, [getMainPortfolioImgs, hasNextPage, inView, load]);
 
   return (
     <MainStyle isLoad={load}>
