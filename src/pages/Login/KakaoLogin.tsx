@@ -22,6 +22,7 @@ const KakaoLogin = () => {
   const loaction = useLocation();
   const navigate = useNavigate();
   const KAKAO_CODE = loaction.search.split("=")[1];
+  const [excuted, setExcuted] = useState<boolean>(false);
 
   const getKakaoToken = useCallback(async () => {
     try {
@@ -35,15 +36,16 @@ const KakaoLogin = () => {
           }
         )
         .then(res => {
+          setExcuted(true);
           const idToken = res.data.id_token;
           //   setCookie("accessJwtToken", jwtToken);
           const decodedUserInfo: UserInfo = jwt_decode(idToken);
-          console.log(res.data.access_toke);
-          console.log(decodedUserInfo.sub);
+          console.log(decodedUserInfo);
 
           if (res.data.access_token) {
             localStorage.setItem("userId", decodedUserInfo.sub);
-            // localStorage.setItem("accessToken", res.data.access_token);
+            localStorage.setItem("nickname", decodedUserInfo.nickname);
+            localStorage.setItem("email", decodedUserInfo.email);
           }
           navigate("/");
         });
@@ -57,7 +59,8 @@ const KakaoLogin = () => {
   };
 
   useEffect(() => {
-    if (!loaction.search) return;
+    console.log("화면들어옴", excuted);
+    if (!loaction.search || excuted) return;
     getKakaoToken();
   }, []);
 
