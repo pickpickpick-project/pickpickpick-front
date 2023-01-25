@@ -50,7 +50,7 @@ const KakaoLogout = () => {
       className="menu-item"
       style={{
         fontSize: "15px",
-        width: "100px",
+        width: "120px",
         padding: "7px 0",
         textAlign: "center",
         color: colors.text,
