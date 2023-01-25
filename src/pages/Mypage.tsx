@@ -17,8 +17,8 @@ const Mypage = () => {
     return (
         <MypageStyled>
             <MypageProfile/>
+            <MypageCarousel title={"판매"}/>
             <MypageCarousel title={"구매"}/>
-            <MypageCarousel title={"결제내역"}/>
         </MypageStyled>
     )
 }
