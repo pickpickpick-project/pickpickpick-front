@@ -5,6 +5,7 @@ import MyHeartPage from "../pages/Heart/MyHeartPage";
 import Main from "../pages/Home/Main";
 import KakaoLogin from "../pages/Login/KakaoLogin";
 import PortfolioDetail from "../pages/Portfolio/PortfolioDetail";
+import Mypage from "../pages/Mypage";
 
 const AppRouter = () => {
   return (
@@ -15,6 +16,7 @@ const AppRouter = () => {
         <Route path="/:id" element={<Main />} />
         <Route path="portfolio/:id" element={<PortfolioDetail />} />
         <Route path="heart" element={<MyHeartPage />} />
+        <Route path="mypage" element={<Mypage/>}/>
       </Routes>
     </BrowserRouter>
   );
