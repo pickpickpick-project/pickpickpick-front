@@ -2,6 +2,7 @@ import styled from "styled-components";
 import colors from "../../assets/colors";
 import ImageSwiper from "../../components/Portfolio/ImageSwiper";
 import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg";
+import ModalTag from "../../components/Portfolio/ModalTag";
 
 const PageStyle = styled.div`
   padding: 135px 0px 140px 0px;
@@ -23,13 +24,15 @@ const PageStyle = styled.div`
 
   .artist-section {
     display: flex;
-    justify-content: space-between;
+    // justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
+    margin-left: 10px;
   }
 
   .artist-img {
-    width: 100px;
-    height: 100px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     background: gray;
     margin-right: 20px;
@@ -40,9 +43,7 @@ const PageStyle = styled.div`
   }
 
   .artist-info-name {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 18px;
   }
 
   .inquiry-button {
@@ -64,6 +65,38 @@ const PageStyle = styled.div`
   .inquiry-button:hover {
     filter: brightness(90%);
   }
+
+  .modal-info {
+    .modal-info-top {
+      width: 300px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-info-type,
+    .modal-info-date {
+      color: rgb(114, 117, 133);
+      margin: 0px;
+      font-weight: normal;
+      font-size: 14px;
+    }
+    .modal-info-title {
+      margin-top: 8px;
+      font-size: 20px;
+      line-height: 31px;
+      font-weight: 700;
+      color: rgb(48, 52, 65);
+    }
+
+    .modal-info-tags {
+      margin: 24px 0px 0px;
+      font-weight: normal;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-top: 24px;
+    }
+  }
 `;
 const PortfolioDetail = () => {
   return (
@@ -72,19 +105,50 @@ const PortfolioDetail = () => {
         <ImageSwiper />
       </div>
       <div className="bottom-section">
-        <div className="artist-section">
-          <div className="artist-img">
-            <Profile width="100px" height="100px" />
+        <div className="modal-info">
+          <div className="modal-info-top">
+            <div className="modal-info-type">일러스트</div>
+            {/* 날짜 하트로 바꾸기 */}
+            <div className="modal-info-date">2023-01-24</div>
           </div>
-          <div className="arist-info">
-            <div className="artist-info-name">작가 이름</div>
-            <div className="artist-info-introduce">안녕하세용</div>
+          <div className="modal-info-title">귀여운고양이</div>
+          <div className="modal-info-tags">
+            {tags.map((item, index) => (
+              <ModalTag key={index} tag={item} />
+            ))}
           </div>
         </div>
-        <div className="inquiry-button">작가에게 문의하기</div>
+        <div className="right-section">
+          <div className="artist-section">
+            <div className="artist-img">
+              <Profile width="45px" height="45px" />
+            </div>
+            <div className="arist-info">
+              <div className="artist-info-name">작가 이름</div>
+            </div>
+          </div>
+          <div className="inquiry-button">작가에게 문의하기</div>
+        </div>
       </div>
     </PageStyle>
   );
 };
+const tags = [
+  "로고",
+  "로고제작",
+  "로고디자인",
+  "공공기관로고",
+  "회사로고",
+  "로고",
+  "로고제작",
+  "로고디자인",
+  "공공기관로고",
+  "회사로고",
+  "로고",
+  "로고제작",
+  "로고디자인",
+  "공공기관로고",
+  "회사로고",
+];
 
 export default PortfolioDetail;
