@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import colors from "../../assets/colors";
+import ProductCarousel from "../../components/Product/ProductCarousel";
 
 const PageStyle = styled.div`
   padding: 165px 16px 140px 16px;
@@ -94,7 +95,9 @@ const PageStyle = styled.div`
 const ProductPage = () => {
   return (
     <PageStyle>
-      <div className="image-section">product</div>
+      <div className="image-section">
+        <ProductCarousel />
+      </div>
       <div className="purchase-section">
         <div className="name">
           "고퀼리티 로고제작" 로고는 로고디자인 전문가에게
