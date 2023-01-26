@@ -20,10 +20,12 @@ const ContentStyle = styled.div`
 const MainContent = ({ item }: any) => {
   //interface만들기
   const [isHeart, setIsHeart] = useState<boolean>(false);
+  // const [heartList, setHeartList] = useState<number>([]);
 
   const heartItem = (item: any) => {
     item.stopPropagation();
     setIsHeart(!isHeart);
+    // setHeartList(heartList => [...heartList, item.portfolioNum])
   };
 
   return (
