@@ -1,5 +1,4 @@
 import { useState } from "react";
-import PortfolioModal from "./PortfolioModal";
 import { PortfolioImg } from "../../api/types";
 
 interface Item {
@@ -7,21 +6,11 @@ interface Item {
 }
 
 const ImageSwiperItem = ({ item }: Item) => {
-  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
   return (
     <>
-      <div className="item-img" onClick={openModal}>
+      <div className="item-img">
         <img src={item.url} alt="" />
       </div>
-      <PortfolioModal
-        isOpen={modalIsOpen}
-        setIsOpen={setIsOpen}
-        portfolioNum={item.portfolioNum}
-      />
     </>
   );
 };
