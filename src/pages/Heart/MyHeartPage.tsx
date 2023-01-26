@@ -6,29 +6,13 @@ const PageStyle = styled.div`
   padding: 135px 16px 140px 16px;
   margin: 0 auto;
   width: 1200px;
-  display: flex;
   color: ${colors.text};
 
-  .left-section {
-    width: 200px;
-    margin-right: 40px;
-    .title {
-      font-size: 22px;
-      font-weight: bold;
-      padding-bottom: 16px;
-      border-bottom: 3px solid ${colors.button};
-    }
-    .tag-list {
-      margin-top: 20px;
-      font-size: 14px;
-    }
-    .tag {
-      padding: 8px 0;
-    }
-    .tag:hover {
-      font-weight: 700;
-      cursor: pointer;
-    }
+  .title {
+    font-size: 22px;
+    font-weight: bold;
+    padding-bottom: 16px;
+    border-bottom: 3px solid ${colors.button};
   }
 
   .heart-section {
@@ -40,17 +24,8 @@ const PageStyle = styled.div`
 const MyHeartPage = () => {
   return (
     <PageStyle>
-      <div className="left-section">
-        <div className="title">나의 찜목록</div>
-        <div className="tag-list">
-          <div className="tag">전체 (1)</div>
-          <div className="tag">일러스트 (0)</div>
-          <div className="tag">캐리커쳐 (0)</div>
-          <div className="tag">웹툰·콘티 (0)</div>
-          <div className="tag">캐릭터 (0)</div>
-          <div className="tag">이모티콘 (0)</div>
-        </div>
-      </div>
+      <div className="title">나의 찜목록</div>
+
       <div className="heart-section">
         {itemData.map((item, index) => (
           <div key={index}>

@@ -40,6 +40,7 @@ const SwiperStyle = styled.div`
     // width: 500px;
     height: 500px;
     transition: 0.3s all ease-out;
+    cursor: pointer;
 
     img {
       height: 500px;

@@ -12,6 +12,7 @@ const ModalStyle = styled.div`
     // padding: 40px;
     min-height: 600px;
     width: 100%;
+    z-index: 2;
   }
 
   .modal-header {
@@ -117,6 +118,7 @@ const customStyles = {
     borderRadius: "8px",
     margin: "32px auto",
     padding: "40px",
+    zIndex: "2",
   },
   overlay: {
     background: "rgba(0, 0, 0, 0.5)",
