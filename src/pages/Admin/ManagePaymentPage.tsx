@@ -18,15 +18,15 @@ const PageStyle = styled.div`
   }
 `;
 
-const ManageUserPage = () => {
+const ManagePaymentPage = () => {
   return (
     <PageStyle>
       <div className="container">
-        <AdminContainer now={"user"} />
+        <AdminContainer now={"payment"} />
         <div>관리자페이지 유저</div>
       </div>
     </PageStyle>
   );
 };
 
-export default ManageUserPage;
+export default ManagePaymentPage;
