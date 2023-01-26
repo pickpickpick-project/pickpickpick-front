@@ -55,18 +55,21 @@ const items: MenuProps["items"] = [
   {
     key: "1",
     label: (
-      <div
-        className="menu-item"
-        style={{
-          fontSize: "15px",
-          width: "120px",
-          padding: "7px 0",
-          textAlign: "center",
-          color: colors.text,
-        }}
-      >
-        마이페이지
-      </div>
+        <a href="http://localhost:3000/mypage">
+            <div
+                className="menu-item"
+                style={{
+                fontSize: "15px",
+                width: "100px",
+                padding: "7px 0",
+                textAlign: "center",
+                color: colors.text,
+                }}
+            >
+                마이페이지
+            </div>
+        </a>
+
     ),
   },
   {
