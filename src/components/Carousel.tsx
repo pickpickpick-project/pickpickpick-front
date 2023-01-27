@@ -4,7 +4,6 @@ import {ReactComponent as ArrowLeft} from "../assets/images/Mypage/arrow-left.sv
 import {ReactComponent as ArrowRight} from "../assets/images/Mypage/arrow-right.svg";
 import {CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled} from "../components/IntroduceBox"
 
-
 const ArrowStyled = styled.span<{left?:number, right?:number}>`
     position : absolute;
     top : 50%;
@@ -18,11 +17,11 @@ const ArrowStyled = styled.span<{left?:number, right?:number}>`
         transform: scale(1.3);
     }
 `
+
 const CarouselStyled = styled.div`
     width : 100%; // 900px
     margin : 0 0 50px 0;
     position : relative;
-           
 `
 
 const CarouselContainerStyled = styled.div<{width:number}>`
@@ -32,6 +31,7 @@ const CarouselContainerStyled = styled.div<{width:number}>`
     display: flex;
     flex-direction: row;
 `
+
 const CarouselElementContainerStyled = styled.div`
     width : 274px;
     margin-right : 10px;
@@ -39,7 +39,6 @@ const CarouselElementContainerStyled = styled.div`
     flex-direction: column;
     justify-content: center;
 `
-
 
 const CarouselElementImgStyled = styled.div`
     background-color: black;
@@ -60,7 +59,6 @@ const CommonCarousel = () => {
     const slideRef = useRef<HTMLDivElement>(null);
     
     const onClickArrowRight = () => {
-        console.log(currentSlide);
         if(currentSlide === 0){
             return
         }else{
@@ -69,14 +67,12 @@ const CommonCarousel = () => {
     }
 
     const onClickArrowLeft = () => {
-        console.log(currentSlide);
         if(currentSlide === -(TOTAL_SLIDES)+3){
             return
         }else{
             setCurrentSlide(currentSlide-1);
         }
     }
-
 
     useEffect(() => {
         slideRef.current!.style.transition = "all 0.5s ease-in-out";

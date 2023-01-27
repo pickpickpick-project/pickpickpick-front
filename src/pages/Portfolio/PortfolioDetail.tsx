@@ -4,6 +4,7 @@ import ImageSwiper from "../../components/Portfolio/ImageSwiper";
 import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg";
 import ModalTag from "../../components/Portfolio/ModalTag";
 import { useNavigate } from "react-router";
+import CommonYellowButton from "../../components/Button";
 
 const PageStyle = styled.div`
   padding: 135px 0px 140px 0px;
@@ -48,7 +49,7 @@ const PageStyle = styled.div`
     font-size: 18px;
   }
 
-  .inquiry-button {
+  /* .inquiry-button {
     color: ${colors.text};
     background-color: ${colors.button};
     padding: 1px 6px;
@@ -66,7 +67,7 @@ const PageStyle = styled.div`
   }
   .inquiry-button:hover {
     filter: brightness(90%);
-  }
+  } */
 
   .modal-info {
     .modal-info-top {
@@ -135,7 +136,7 @@ const PortfolioDetail = () => {
               <div className="artist-info-name">작가 이름</div>
             </div>
           </div>
-          <div className="inquiry-button">작가에게 문의하기</div>
+          <CommonYellowButton text={"작가에게 문의하기"} width={269} height={52} hover={true}/>
         </div>
       </div>
     </PageStyle>

@@ -7,7 +7,6 @@ const ArtistIntroduceStyled = styled.div`
     margin-top : 50px;
 `
 
-
 const ArtistIntroduce = () => {
     return(
         <ArtistIntroduceStyled>

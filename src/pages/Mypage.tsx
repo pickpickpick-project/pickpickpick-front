@@ -3,6 +3,7 @@ import colors from "../assets/colors";
 import {ReactComponent as Logo} from "../assets/images/Home/profile.svg"
 import MypageProfile from "../components/Mypage/Mypage_profile";
 import CommonCarousel from "../components/Carousel";
+
 const MypageStyled = styled.div`
     padding: 125px 16px 140px 16px;
     height : 100%;
