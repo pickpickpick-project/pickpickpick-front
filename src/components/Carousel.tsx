@@ -19,7 +19,7 @@ const ArrowStyled = styled.span<{left?:number, right?:number}>`
 `
 
 const CarouselStyled = styled.div`
-    width : 100%; // 900px
+    width : 900px; // 900px
     margin : 0 0 50px 0;
     position : relative;
 `
@@ -33,7 +33,7 @@ const CarouselContainerStyled = styled.div<{width:number}>`
 `
 
 const CarouselElementContainerStyled = styled.div`
-    width : 274px;
+    width : 284px;
     margin-right : 10px;
     display: flex;
     flex-direction: column;
@@ -52,13 +52,17 @@ const CarouselTextStyled = styled.span`
     text-align : center;
 `
 
-const CommonCarousel = () => {
-    const repeat = [1, 2, 3, 4, 5]; // 게시물 개수 test
-    const TOTAL_SLIDES = repeat.length;
+type CarouselElements = {
+    data : number[],
+}
+
+const CommonCarousel = ({data} : CarouselElements) => {
+    // const repeat = [1, 2, 3, 4, 5]; // 게시물 개수 test
+    const TOTAL_SLIDES = data.length;
     const [currentSlide, setCurrentSlide] = useState<number>(0);
     const slideRef = useRef<HTMLDivElement>(null);
     
-    const onClickArrowRight = () => {
+    const onClickArrowLeft = () => {
         if(currentSlide === 0){
             return
         }else{
@@ -66,7 +70,7 @@ const CommonCarousel = () => {
         }
     }
 
-    const onClickArrowLeft = () => {
+    const onClickArrowRight = () => {
         if(currentSlide === -(TOTAL_SLIDES)+3){
             return
         }else{
@@ -90,8 +94,8 @@ const CommonCarousel = () => {
             <CommonIntroduceBoxContainerStyled style={{overflow:'hidden'}}>
                 <CommonIntroduceBoxWrapperStyled>
                     {/* 게시물의 개수에 따라서  */}
-                    <CarouselContainerStyled width={repeat.length * 300} ref={slideRef}>   
-                        {repeat.map((value:number, index:number) => {return(
+                    <CarouselContainerStyled width={data.length * 300} ref={slideRef}>   
+                        {data.map((value:number, index:number) => {return(
                             <CarouselElementContainerStyled>
                                 <CarouselElementImgStyled></CarouselElementImgStyled>
                                 <CarouselTextStyled>{index}</CarouselTextStyled>

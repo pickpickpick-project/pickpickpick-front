@@ -6,7 +6,6 @@ import colors from "../assets/colors";
 const CommonYelowButtonStyled = styled.div<{width?:number, height?:number, hover?:any}>`
     color: ${colors.text};
     background-color: ${colors.button};
-    padding: 1px 6px;
     width: ${(props) => `${props.width}px`};
     height: ${(props) => `${props.height}px`};
     display: flex;
