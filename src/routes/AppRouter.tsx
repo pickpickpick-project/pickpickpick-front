@@ -7,19 +7,21 @@ import KakaoLogin from "../pages/Login/KakaoLogin";
 import PortfolioDetail from "../pages/Portfolio/PortfolioDetail";
 import Mypage from "../pages/Mypage";
 import PostPortfolio from "../pages/Portfolio/PostPortfolio";
+import ArtistPage from "../pages/Artist/Artist";
 
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <Header />
+      <Header/>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/:id" element={<Main />} />
-        <Route path="portfolio/:id" element={<PortfolioDetail />} />
-        <Route path="/portfolio/post" element={<PostPortfolio />} />
-        <Route path="heart" element={<MyHeartPage />} />
+        <Route path="/" element={<Main />}/>
+        <Route path="/:id" element={<Main />}/>
+        <Route path="portfolio/:id" element={<PortfolioDetail />}/>
+        <Route path="/portfolio/post" element={<PostPortfolio />}/>
+        <Route path="heart" element={<MyHeartPage />}/>
         <Route path="mypage" element={<Mypage/>}/>
+        <Route path="artist" element={<ArtistPage/>}/>
       </Routes>
     </BrowserRouter>
   );

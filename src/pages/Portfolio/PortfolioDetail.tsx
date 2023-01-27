@@ -3,6 +3,7 @@ import colors from "../../assets/colors";
 import ImageSwiper from "../../components/Portfolio/ImageSwiper";
 import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg";
 import ModalTag from "../../components/Portfolio/ModalTag";
+import { useNavigate } from "react-router";
 
 const PageStyle = styled.div`
   padding: 135px 0px 140px 0px;
@@ -28,6 +29,7 @@ const PageStyle = styled.div`
     align-items: center;
     margin-bottom: 20px;
     margin-left: 10px;
+    cursor: pointer;
   }
 
   .artist-img {
@@ -99,6 +101,12 @@ const PageStyle = styled.div`
   }
 `;
 const PortfolioDetail = () => {
+     
+    const movePage = useNavigate();
+    const goArtistPage = () => {
+        movePage('/artist');
+    }
+
   return (
     <PageStyle>
       <div className="images-container">
@@ -119,7 +127,7 @@ const PortfolioDetail = () => {
           </div>
         </div>
         <div className="right-section">
-          <div className="artist-section">
+          <div onClick={goArtistPage} className="artist-section">
             <div className="artist-img">
               <Profile width="45px" height="45px" />
             </div>
