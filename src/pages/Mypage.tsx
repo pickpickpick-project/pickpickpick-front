@@ -2,7 +2,7 @@ import styled from "styled-components";
 import colors from "../assets/colors";
 import {ReactComponent as Logo} from "../assets/images/Home/profile.svg"
 import MypageProfile from "../components/Mypage/Mypage_profile";
-import MypageCarousel from "../components/Mypage/Mypage_carousel";
+import CommonCarousel from "../components/Carousel";
 const MypageStyled = styled.div`
     padding: 125px 16px 140px 16px;
     height : 100%;
@@ -17,8 +17,10 @@ const Mypage = () => {
     return (
         <MypageStyled>
             <MypageProfile/>
-            <MypageCarousel title={"판매"}/>
-            <MypageCarousel title={"구매"}/>
+            <h1>판매</h1>
+            <CommonCarousel/>
+            <h1>구매</h1>
+            <CommonCarousel/>
         </MypageStyled>
     )
 }
