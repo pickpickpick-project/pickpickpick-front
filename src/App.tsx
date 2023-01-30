@@ -1,4 +1,5 @@
 import React from "react";
+import { RecoilRoot } from "recoil";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Reset } from "styled-reset";
 import Header from "./components/Common/Header";
@@ -7,10 +8,12 @@ import AppRouter from "./routes/AppRouter";
 
 function App() {
   return (
-    <div className="App" style={{ margin: "-8px" }}>
-        <Reset/>
-        <AppRouter />
-    </div>
+    <RecoilRoot>
+        <div className="App" style={{ margin: "-8px" }}>
+            <Reset/>
+            <AppRouter />
+        </div>
+    </RecoilRoot>
   );
 }
 
