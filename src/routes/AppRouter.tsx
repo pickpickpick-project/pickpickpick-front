@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "../components/Header";
+import Header from "../components/Common/Header";
 import MyHeartPage from "../pages/Heart/MyHeartPage";
 import Main from "../pages/Home/Main";
 import KakaoLogin from "../pages/Login/KakaoLogin";
@@ -14,33 +14,26 @@ import ManageUserPage from "../pages/Admin/ManageUserPage";
 import ManageProductPage from "../pages/Admin/ManagerProductPage";
 import ManagePortfolioPage from "../pages/Admin/ManagerPortfolioPage";
 import ManagePaymentPage from "../pages/Admin/ManagePaymentPage";
+import BoardPage from "../pages/Board/BoardPage";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <Header/>
       <Routes>
-        <Route path="/" element={<Main />}/>
-        <Route path="/:id" element={<Main />}/>
-        <Route path="portfolio/:id" element={<PortfolioDetail />}/>
-        <Route path="/portfolio/post" element={<PostPortfolio />}/>
-        <Route path="heart" element={<MyHeartPage />}/>
-        <Route path="mypage" element={<Mypage/>}/>
-        <Route path="artist" element={<ArtistPage/>}/>
         <Route path="/" element={<Main />} />
         <Route path="/:id" element={<Main />} />
         <Route path="portfolio/:id" element={<PortfolioDetail />} />
         <Route path="/portfolio/post" element={<PostPortfolio />} />
         <Route path="heart" element={<MyHeartPage />} />
         <Route path="mypage" element={<Mypage />} />
+        <Route path="artist" element={<ArtistPage/>}/>
         <Route path="product/:id" element={<ProductPage />} />
         <Route path="admin/manage/user" element={<ManageUserPage />} />
         <Route path="admin/manage/product" element={<ManageProductPage />} />
-        <Route
-          path="admin/manage/portfolio"
-          element={<ManagePortfolioPage />}
-        />
+        <Route path="admin/manage/portfolio" element={<ManagePortfolioPage />}/>
         <Route path="admin/manage/payment" element={<ManagePaymentPage />} />
+        <Route path="board" element={<BoardPage/>}/>
       </Routes>
     </BrowserRouter>
   );

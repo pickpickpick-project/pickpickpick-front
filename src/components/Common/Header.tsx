@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import colors from "../assets/colors";
-import { ReactComponent as Logo } from "../assets/images/Home/PPPick-logo.svg";
-import { ReactComponent as Profile } from "../assets/images/Home/profile.svg";
+import colors from "../../assets/colors";
+import { ReactComponent as Logo } from "../../assets/images/Home/PPPick-logo.svg";
+import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg";
 import type { MenuProps } from "antd";
 import { Dropdown, Button } from "antd";
 import { Navigate, useNavigate } from "react-router";
-import KakaoLogin from "../pages/Login/KakaoLogin";
-import KakaoLogout from "../pages/Login/KakaoLogout";
+import KakaoLogin from "../../pages/Login/KakaoLogin";
+import KakaoLogout from "../../pages/Login/KakaoLogout";
 
 const HeaderStyle = styled.div`
   position: fixed;

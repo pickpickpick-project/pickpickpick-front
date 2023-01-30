@@ -4,7 +4,7 @@ import ImageSwiper from "../../components/Portfolio/ImageSwiper";
 import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg";
 import ModalTag from "../../components/Portfolio/ModalTag";
 import { useNavigate } from "react-router";
-import CommonYellowButton from "../../components/Button";
+import CommonYellowButton from "../../components/Common/Button";
 
 const PageStyle = styled.div`
   padding: 135px 0px 140px 0px;

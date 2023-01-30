@@ -1,7 +1,7 @@
 import {ReactComponent as Logo} from '../../assets/images/Home/profile.svg';
 import styled from 'styled-components';
 import colors from '../../assets/colors';
-import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled, CommonIntroduceBoxStyled } from '../IntroduceBox';
+import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled, CommonIntroduceBoxStyled } from '../Common/IntroduceBox';
 
 
 const ProfileStyled = styled.div`

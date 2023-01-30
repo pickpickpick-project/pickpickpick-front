@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { ReactComponent as ArtistImg } from "../../assets/images/Home/profile.svg"
 import colors from "../../assets/colors";
 import ArtistIntroduce from "../../components/Artist/Introduce";
-import CommonYellowButton from "../../components/Button";
+import CommonYellowButton from "../../components/Common/Button";
 import { CommonText } from "../../components/Artist/ArtistStyled";
-import CommonCarousel from "../../components/Carousel";
+import CommonCarousel from "../../components/Common/Carousel";
 const ArtistBannerContainerStyled = styled.div`
     width : 1140px;
     height : 120px;
