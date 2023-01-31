@@ -1,9 +1,6 @@
-
 import { useNavigate } from "react-router";
 
-
-
-const useMovePage:any = (page:string) => {
+const MovePage:any = (page:string) => {
     
     const movePage = useNavigate();
     const goToMovePage = () => {
@@ -13,4 +10,4 @@ const useMovePage:any = (page:string) => {
     return goToMovePage;
 }
 
-export default useMovePage;
+export default MovePage;
