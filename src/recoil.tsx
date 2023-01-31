@@ -8,6 +8,6 @@ export const inquiryBoardCurrentPage = atom<number>({
 
 export const inquiryBoardPostPerPage = atom<number>({
     key : 'inquiryBoardPostPerPage',
-    default : 10,
+    default : 5,
 });
 

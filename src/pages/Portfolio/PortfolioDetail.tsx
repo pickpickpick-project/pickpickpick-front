@@ -5,6 +5,7 @@ import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg"
 import ModalTag from "../../components/Portfolio/ModalTag";
 import { useNavigate } from "react-router";
 import CommonYellowButton from "../../components/Common/Button";
+import useMovePage from "../../util/navigate";
 
 const PageStyle = styled.div`
   padding: 135px 0px 140px 0px;
@@ -128,7 +129,7 @@ const PortfolioDetail = () => {
           </div>
         </div>
         <div className="right-section">
-          <div onClick={goArtistPage} className="artist-section">
+          <div onClick={useMovePage('artist')} className="artist-section">
             <div className="artist-img">
               <Profile width="45px" height="45px" />
             </div>
@@ -136,7 +137,7 @@ const PortfolioDetail = () => {
               <div className="artist-info-name">작가 이름</div>
             </div>
           </div>
-          <CommonYellowButton text={"작가에게 문의하기"} width={269} height={52} hover={true}/>
+          <CommonYellowButton onClick={useMovePage('board')} text={"작가에게 문의하기"} width={269} height={52} hover={true}/>
         </div>
       </div>
     </PageStyle>
