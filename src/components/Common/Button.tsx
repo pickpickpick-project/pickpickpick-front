@@ -1,9 +1,7 @@
 import styled, { css } from "styled-components";
 import colors from "../../assets/colors";
-
-
-
-const CommonYelowButtonStyled = styled.div<{width?:number, height?:number, hover?:any}>`
+import { ButtonHTMLAttributes } from "react";
+const CommonYelowButtonStyled = styled.div<{width?:number, height?:number, hover?:any, onClick?:any}>`
     color: ${colors.text};
     background-color: ${colors.button};
     width: ${(props) => `${props.width}px`};
@@ -25,17 +23,18 @@ const CommonYelowButtonStyled = styled.div<{width?:number, height?:number, hover
     ` : ``}
 `
 
-type YellowButtonProps = {
-    text : string,
-    width : number,
-    height : number,
-    hover : boolean,
+interface YellowButtonProps {
+    text : string;
+    width : number;
+    height : number;
+    hover : boolean;
+    onClick : ButtonHTMLAttributes<HTMLButtonElement>["onClick"];
 }
 
 const CommonYellowButton = ({text, ...props} : YellowButtonProps) => {
     
     return(
-        <CommonYelowButtonStyled width={props.width} height={props.height} hover={props.hover}>{text}</CommonYelowButtonStyled>
+        <CommonYelowButtonStyled onClick={props.onClick} width={props.width} height={props.height} hover={props.hover}>{text}</CommonYelowButtonStyled>
     )
 }
 
