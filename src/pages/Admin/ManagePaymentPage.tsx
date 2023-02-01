@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import colors from "../../assets/colors";
 import AdminContainer from "../../components/Admin/AdminContainer";
+import Calendar from "../../components/Admin/Calendar";
 
 const PageStyle = styled.div`
   padding: 135px 16px 140px 16px;
@@ -23,7 +24,7 @@ const ManagePaymentPage = () => {
     <PageStyle>
       <div className="container">
         <AdminContainer now={"payment"} />
-        <div>관리자페이지 유저</div>
+        <Calendar />
       </div>
     </PageStyle>
   );
