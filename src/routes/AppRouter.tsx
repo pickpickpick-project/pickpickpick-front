@@ -15,6 +15,7 @@ import ManageProductPage from "../pages/Admin/ManagerProductPage";
 import ManagePortfolioPage from "../pages/Admin/ManagerPortfolioPage";
 import ManagePaymentPage from "../pages/Admin/ManagePaymentPage";
 import BoardPage from "../pages/Board/BoardPage";
+import PostWritingPage from "../pages/PostWriting/PostWritingPage";
 
 const AppRouter = () => {
   return (
@@ -34,6 +35,7 @@ const AppRouter = () => {
         <Route path="admin/manage/portfolio" element={<ManagePortfolioPage />}/>
         <Route path="admin/manage/payment" element={<ManagePaymentPage />} />
         <Route path="board" element={<BoardPage/>}/>
+        <Route path="writing" element={<PostWritingPage/>}/>
       </Routes>
     </BrowserRouter>
   );

@@ -5,14 +5,14 @@ import { inquiryBoardCurrentPage, inquiryBoardPostPerPage } from "../../recoil";
 import { useRecoilState } from "recoil";
 import PaginationBottomUl from "../../components/Pagination/pageUl";
 import BoardPost from "./BoardPost";
+import CommonYellowButton from "../../components/Common/Button";
+import MovePage from "../../util/navigate";
 
 const BoardContainerStyled = styled.div`
     width : 650px;
     margin : 0 auto;
     background-color: beige;
 `
-
-
 
 const BoardPage = () => {
 
@@ -34,11 +34,9 @@ const BoardPage = () => {
 
     const currentPosts = (TestBoardElements:any) => {           // 
         const currentPostsArray = TestBoardElements.slice(indexOfFirst, indexOfLast);
-        console.log(currentPostsArray, indexOfFirst, indexOfLast);
         return currentPostsArray;
       };
       
-    
     return (
         <PageStyled>
             <h1 style={{marginBottom : "40px", fontWeight:"700", fontSize:"20px"}}>문의 게시판</h1>
@@ -47,6 +45,7 @@ const BoardPage = () => {
                 {/* BoardPost 한 페이지에 있는 UI */}
                 <PaginationBottomUl totalPosts={TestBoardElements.length} postPerPage={boardPostPerPage} pagination={setBoardCurrentPage}/>
                 {/*  */}
+                <CommonYellowButton onClick={MovePage('writing')} width={200} height={50} hover={false} text={'문의글 작성하기'}/>
             </BoardContainerStyled>
         </PageStyled>
     )
