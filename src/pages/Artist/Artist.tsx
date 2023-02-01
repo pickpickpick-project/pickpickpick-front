@@ -5,7 +5,7 @@ import ArtistIntroduce from "../../components/Artist/Introduce";
 import CommonYellowButton from "../../components/Common/Button";
 import { CommonText } from "../../components/Artist/ArtistStyled";
 import CommonCarousel from "../../components/Common/Carousel";
-import useMovePage from "../../util/navigate";
+import MovePage from "../../util/navigate";
 const ArtistBannerContainerStyled = styled.div`
     width : 1140px;
     height : 120px;
@@ -50,7 +50,7 @@ const ArtistPage = () => {
                 <ArtistBannerElementContainerStyled>
                     <ArtistBannerTitleStyled>Title</ArtistBannerTitleStyled>
                     <ArtistBannerButtonWrapperStyled>
-                        <CommonYellowButton onClick={useMovePage('board')} width={269} height={52} text={"문의하기"} hover={false}/>
+                        <CommonYellowButton onClick={MovePage('board')} width={269} height={52} text={"문의하기"} hover={false}/>
                     </ArtistBannerButtonWrapperStyled>
                 </ArtistBannerElementContainerStyled>
             </ArtistBannerContainerStyled>
