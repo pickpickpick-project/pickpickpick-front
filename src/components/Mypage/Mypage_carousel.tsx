@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {ReactComponent as ArrowLeft} from "../../assets/images/Mypage/arrow-left.svg";
 import {ReactComponent as ArrowRight} from "../../assets/images/Mypage/arrow-right.svg";
-import {CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled} from "../../components/IntroduceBox"
+import {CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled} from "../../components/Common/IntroduceBox"
 
 
 const ArrowStyled = styled.span<{left?:number, right?:number}>`

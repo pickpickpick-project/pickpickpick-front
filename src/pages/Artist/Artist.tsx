@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { ReactComponent as ArtistImg } from "../../assets/images/Home/profile.svg"
 import colors from "../../assets/colors";
 import ArtistIntroduce from "../../components/Artist/Introduce";
-import CommonYellowButton from "../../components/Button";
+import CommonYellowButton from "../../components/Common/Button";
 import { CommonText } from "../../components/Artist/ArtistStyled";
-import CommonCarousel from "../../components/Carousel";
+import CommonCarousel from "../../components/Common/Carousel";
+import MovePage from "../../util/navigate";
 const ArtistBannerContainerStyled = styled.div`
     width : 1140px;
     height : 120px;
@@ -49,7 +50,7 @@ const ArtistPage = () => {
                 <ArtistBannerElementContainerStyled>
                     <ArtistBannerTitleStyled>Title</ArtistBannerTitleStyled>
                     <ArtistBannerButtonWrapperStyled>
-                        <CommonYellowButton width={269} height={52} text={"문의하기"} hover={false}/>
+                        <CommonYellowButton onClick={MovePage('board')} width={269} height={52} text={"문의하기"} hover={false}/>
                     </ArtistBannerButtonWrapperStyled>
                 </ArtistBannerElementContainerStyled>
             </ArtistBannerContainerStyled>

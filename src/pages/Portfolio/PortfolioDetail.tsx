@@ -3,8 +3,8 @@ import colors from "../../assets/colors";
 import ImageSwiper from "../../components/Portfolio/ImageSwiper";
 import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg";
 import ModalTag from "../../components/Portfolio/ModalTag";
-import { useNavigate } from "react-router";
-import CommonYellowButton from "../../components/Button";
+import CommonYellowButton from "../../components/Common/Button";
+import MovePage from "../../util/navigate";
 
 const PageStyle = styled.div`
   padding: 135px 0px 140px 0px;
@@ -103,10 +103,6 @@ const PageStyle = styled.div`
 `;
 const PortfolioDetail = () => {
      
-    const movePage = useNavigate();
-    const goArtistPage = () => {
-        movePage('/artist');
-    }
 
   return (
     <PageStyle>
@@ -128,7 +124,7 @@ const PortfolioDetail = () => {
           </div>
         </div>
         <div className="right-section">
-          <div onClick={goArtistPage} className="artist-section">
+          <div onClick={MovePage('artist')} className="artist-section">
             <div className="artist-img">
               <Profile width="45px" height="45px" />
             </div>
@@ -136,7 +132,7 @@ const PortfolioDetail = () => {
               <div className="artist-info-name">작가 이름</div>
             </div>
           </div>
-          <CommonYellowButton text={"작가에게 문의하기"} width={269} height={52} hover={true}/>
+          <CommonYellowButton onClick={MovePage('board')} text={"작가에게 문의하기"} width={269} height={52} hover={true}/>
         </div>
       </div>
     </PageStyle>

@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import colors from "../assets/colors"
+import colors from "../../assets/colors"
 
 export const CommonIntroduceBoxContainerStyled = styled.div<{width?:number, height?:number}>`
     width : ${(props) => `${props.width}px` || `${100}%`};
@@ -15,7 +15,7 @@ export const CommonIntroduceBoxWrapperStyled = styled.div`
 export const CommonIntroduceBoxStyled = styled.div`
     background-color: white;
     padding : 16px;
-    box-shadow: 0 4px 14px rgb(48 52 65 / 8%);
+    box-shadow: 6px 8px 14px rgb(0 0 0 / 8%);
     border-radius: 12px;
     color : ${colors.text};
 `
