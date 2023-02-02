@@ -19,6 +19,7 @@ interface UserInfo {
 
 const KakaoLogin = () => {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=account_email,openid`;
+  const KAKAO_URL = `http://ec2-52-79-45-14.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/kakao`;
   const loaction = useLocation();
   const navigate = useNavigate();
   const KAKAO_CODE = loaction.search.split("=")[1];
@@ -27,8 +28,8 @@ const KakaoLogin = () => {
   const getKakaoToken = useCallback(async () => {
     try {
       await axios
-        .post(
-          `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${KAKAO_CODE}`,
+        .get(
+          `ec2-52-79-45-14.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/kakao`,
           {
             headers: {
               "Content-type": "application/x-www-form-urlencoded",
@@ -47,7 +48,6 @@ const KakaoLogin = () => {
             localStorage.setItem("nickname", decodedUserInfo.nickname);
             localStorage.setItem("email", decodedUserInfo.email);
           }
-          navigate("/");
         });
     } catch (err) {
       console.log(err, "카카오로그인에러");
@@ -55,7 +55,7 @@ const KakaoLogin = () => {
   }, []);
 
   const handleLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
+    window.location.href = KAKAO_URL;
   };
 
   useEffect(() => {

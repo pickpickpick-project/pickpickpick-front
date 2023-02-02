@@ -20,7 +20,7 @@ import PostWritingPage from "../pages/PostWriting/PostWritingPage";
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <Header/>
+      <Header />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/:id" element={<Main />} />
@@ -28,14 +28,17 @@ const AppRouter = () => {
         <Route path="/portfolio/post" element={<PostPortfolio />} />
         <Route path="heart" element={<MyHeartPage />} />
         <Route path="mypage" element={<Mypage />} />
-        <Route path="artist" element={<ArtistPage/>}/>
+        <Route path="artist" element={<ArtistPage />} />
         <Route path="product/:id" element={<ProductPage />} />
         <Route path="admin/manage/user" element={<ManageUserPage />} />
         <Route path="admin/manage/product" element={<ManageProductPage />} />
-        <Route path="admin/manage/portfolio" element={<ManagePortfolioPage />}/>
+        <Route
+          path="admin/manage/portfolio"
+          element={<ManagePortfolioPage />}
+        />
         <Route path="admin/manage/payment" element={<ManagePaymentPage />} />
-        <Route path="board" element={<BoardPage/>}/>
-        <Route path="writing" element={<PostWritingPage/>}/>
+        <Route path="board" element={<BoardPage />} />
+        <Route path="writing" element={<PostWritingPage />} />
       </Routes>
     </BrowserRouter>
   );
