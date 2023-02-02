@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { CommonIntroduceBoxStyled } from "../../components/Common/IntroduceBox";
+import { CommonIntroduceBoxStyled } from "../../assets/CommonStyled";
 
 
 const BoardPostWrapperStyled = styled(CommonIntroduceBoxStyled)`

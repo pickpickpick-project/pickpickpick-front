@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { PageStyled } from "../../assets/pageStyle";
-import Title from "../../assets/title";
 import colors from "../../assets/colors";
 
 import '@toast-ui/editor/dist/toastui-editor.css';
