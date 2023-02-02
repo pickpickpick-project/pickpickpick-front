@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import {ReactComponent as ArrowLeft} from "../../assets/images/Mypage/arrow-left.svg";
 import {ReactComponent as ArrowRight} from "../../assets/images/Mypage/arrow-right.svg";
-import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled } from "./IntroduceBox";
+import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled } from "../../assets/CommonStyled";
 
 const ArrowStyled = styled.span<{left?:number, right?:number}>`
     position : absolute;
