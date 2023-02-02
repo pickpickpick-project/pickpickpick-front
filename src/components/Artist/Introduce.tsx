@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import colors from "../../assets/colors";
 import { CommonText } from "./ArtistStyled";
-import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled, CommonIntroduceBoxStyled } from '../Common/IntroduceBox';
+import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled, CommonIntroduceBoxStyled } from '../../assets/CommonStyled';
 
 const ArtistIntroduceStyled = styled.div`
     margin-top : 50px;

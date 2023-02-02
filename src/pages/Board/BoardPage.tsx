@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { PageStyled } from "../../assets/pageStyle";
-import {CommonIntroduceBoxStyled } from "../../components/Common/IntroduceBox";
+import {CommonIntroduceBoxStyled } from "../../assets/CommonStyled";
 import { inquiryBoardCurrentPage, inquiryBoardPostPerPage } from "../../recoil";
 import { useRecoilState } from "recoil";
 import PaginationBottomUl from "../../components/Pagination/pageUl";
