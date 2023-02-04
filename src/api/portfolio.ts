@@ -1,8 +1,8 @@
-import axios from "axios";
+import api from "./api";
 import { Portfolio } from "./types";
 
 
 export async function getUserPortfolioImgs(userNum: number){
-    const response = await  axios.get<Portfolio>(`portfolio?userNum=${userNum}`);
+    const response = await  api.get<Portfolio>(`portfolio?userNum=${userNum}`);
     return response.data;
 }

@@ -5,12 +5,15 @@ import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg"
 import ModalTag from "../../components/Portfolio/ModalTag";
 import CommonYellowButton from "../../components/Common/Button";
 import MovePage from "../../util/navigate";
+import { ReactComponent as Heart } from "../../assets/images/Portfolio/heart.svg";
+import { ReactComponent as HeartFilled } from "../../assets/images/Portfolio/heart-filled.svg";
+import { useState } from "react";
 
 const PageStyle = styled.div`
-  padding: 135px 0px 140px 0px;
+  padding: 135px 0px 40px 0px;
   color: ${colors.text};
   .images-container {
-    height: 500px;
+    height: 450px;
     display: flex;
     overflow: hidden;
   }
@@ -22,6 +25,9 @@ const PageStyle = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: ${colors.bgcolor};
+    padding: 20px;
+    border-radius: 8px;
   }
 
   .artist-section {
@@ -75,9 +81,9 @@ const PageStyle = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
     }
-    .modal-info-type,
-    .modal-info-date {
+    .modal-info-type {
       color: rgb(114, 117, 133);
       margin: 0px;
       font-weight: normal;
@@ -90,20 +96,36 @@ const PageStyle = styled.div`
       font-weight: 700;
       color: rgb(48, 52, 65);
     }
+    .item-heart {
+      position: absolute;
+      top: 0px;
+      right: 30px;
+      transition: 0.2s all ease-out;
+      // background: red;
+      cursor: pointer;
+      color: black;
+    }
 
+    .item-heart:hover {
+      transform: scale(1.1);
+    }
     .modal-info-tags {
       margin: 24px 0px 0px;
       font-weight: normal;
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      padding-top: 24px;
+      padding: 14px 24px 0 0;
     }
   }
 `;
 const PortfolioDetail = () => {
-     
-
+  const [isHeart, setIsHeart] = useState<boolean>(false);
+  const heartItem = (item: any) => {
+    item.stopPropagation();
+    setIsHeart(!isHeart);
+    // setHeartList(heartList => [...heartList, item.portfolioNum])
+  };
   return (
     <PageStyle>
       <div className="images-container">
@@ -114,7 +136,9 @@ const PortfolioDetail = () => {
           <div className="modal-info-top">
             <div className="modal-info-type">일러스트</div>
             {/* 날짜 하트로 바꾸기 */}
-            <div className="modal-info-date">2023-01-24</div>
+            <div className="item-heart" onClick={item => heartItem(item)}>
+              {isHeart ? <HeartFilled /> : <Heart />}
+            </div>
           </div>
           <div className="modal-info-title">귀여운고양이</div>
           <div className="modal-info-tags">
@@ -124,7 +148,7 @@ const PortfolioDetail = () => {
           </div>
         </div>
         <div className="right-section">
-          <div onClick={MovePage('artist')} className="artist-section">
+          <div onClick={MovePage("artist")} className="artist-section">
             <div className="artist-img">
               <Profile width="45px" height="45px" />
             </div>
@@ -132,7 +156,13 @@ const PortfolioDetail = () => {
               <div className="artist-info-name">작가 이름</div>
             </div>
           </div>
-          <CommonYellowButton onClick={MovePage('board')} text={"작가에게 문의하기"} width={269} height={52} hover={true}/>
+          <CommonYellowButton
+            onClick={MovePage("board")}
+            text={"작가에게 문의하기"}
+            width={269}
+            height={52}
+            hover={true}
+          />
         </div>
       </div>
     </PageStyle>

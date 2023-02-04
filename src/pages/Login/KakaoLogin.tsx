@@ -18,17 +18,20 @@ interface UserInfo {
 }
 
 const KakaoLogin = () => {
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=account_email,openid`;
+  const KAKAO_AUTH_URL = `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth2/redirect`;
   const loaction = useLocation();
   const navigate = useNavigate();
   const KAKAO_CODE = loaction.search.split("=")[1];
+  const searchParams = new URLSearchParams(loaction.search);
+  const token = searchParams.get("token");
   const [excuted, setExcuted] = useState<boolean>(false);
 
   const getKakaoToken = useCallback(async () => {
+    console.log("여기로 들어오는지");
     try {
       await axios
-        .post(
-          `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${KAKAO_CODE}`,
+        .get(
+          `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/auth/token?token=${token}`,
           {
             headers: {
               "Content-type": "application/x-www-form-urlencoded",
@@ -37,12 +40,12 @@ const KakaoLogin = () => {
         )
         .then(res => {
           setExcuted(true);
-          const idToken = res.data.id_token;
-          //   setCookie("accessJwtToken", jwtToken);
+          console.log("데이터" + JSON.stringify(res.data));
+          const idToken = res.data.data.jwt;
           const decodedUserInfo: UserInfo = jwt_decode(idToken);
           console.log(decodedUserInfo);
 
-          if (res.data.access_token) {
+          if (decodedUserInfo) {
             localStorage.setItem("userId", decodedUserInfo.sub);
             localStorage.setItem("nickname", decodedUserInfo.nickname);
             localStorage.setItem("email", decodedUserInfo.email);
