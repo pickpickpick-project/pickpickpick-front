@@ -7,7 +7,6 @@ import Main from "./pages/Home/Main";
 import AppRouter from "./routes/AppRouter";
 
 function App() {
-  console.log(window.location);
   return (
     <RecoilRoot>
       <div className="App" style={{ margin: "-8px" }}>

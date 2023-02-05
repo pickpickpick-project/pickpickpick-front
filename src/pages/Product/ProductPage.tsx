@@ -17,7 +17,6 @@ const PageStyle = styled.div`
     height: 488px;
     width: 652px;
     object-fit: cover;
-    background-color: pink;
   }
 
   .purchase-section {
