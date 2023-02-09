@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import colors from "../../assets/colors";
 import ProductCarousel from "../../components/Product/ProductCarousel";
@@ -17,7 +18,6 @@ const PageStyle = styled.div`
     height: 488px;
     width: 652px;
     object-fit: cover;
-    background-color: pink;
   }
 
   .purchase-section {
@@ -64,6 +64,21 @@ const PageStyle = styled.div`
     margin-top: 24px;
     padding: 0px 24px;
 
+    .amount{
+      position: absolute;
+      bottom: 120px;
+      font-size: 20px;
+      font-weight: 700;
+
+      span{
+        margin-right : 20px;
+      }
+      .minus, .plus{
+        background-color: ${colors.bgcolor}
+        font-size: 30px;
+        cursor: pointer;
+      }
+    }
 
     .purchase-button{
       outline: none;
@@ -93,6 +108,16 @@ const PageStyle = styled.div`
 `;
 
 const ProductPage = () => {
+  const [amount, setAmout] = useState(1);
+
+  const handleAmout = (text: string) => {
+    if (text === "add") {
+      setAmout(amount + 1);
+    } else {
+      if (amount === 0) return;
+      setAmout(amount - 1);
+    }
+  };
   return (
     <PageStyle>
       <div className="image-section">
@@ -110,6 +135,15 @@ const ProductPage = () => {
         <div className="description">샬라샬라 {"\n"} ggg 좋아용</div>
 
         <div className="button-section">
+          <div className="amount">
+            <span className="minus" onClick={() => handleAmout("sub")}>
+              -
+            </span>
+            <span>수량 ({amount})</span>
+            <span className="plus" onClick={() => handleAmout("add")}>
+              +
+            </span>
+          </div>
           <button className="purchase-button">구매하기</button>
         </div>
       </div>
