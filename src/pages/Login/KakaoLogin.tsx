@@ -2,9 +2,7 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import Kakao from "../../assets/images/Home/kakao.png";
-import { setCookie } from "../../util/cookie";
 import jwt_decode from "jwt-decode";
-import MovePage from "../../util/navigate";
 
 interface UserInfo {
   aud: string;
@@ -23,6 +21,9 @@ const KakaoLogin = () => {
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");
   const [excuted, setExcuted] = useState<boolean>(false);
+  console.log(token);
+
+  const navigate = useNavigate();
 
   const getKakaoToken = useCallback(async () => {
     try {
@@ -47,7 +48,7 @@ const KakaoLogin = () => {
             localStorage.setItem("nickname", decodedUserInfo.nickname);
             localStorage.setItem("email", decodedUserInfo.email);
           }
-          MovePage("");
+          navigate("/");
         });
     } catch (err) {
       console.log(err, "카카오로그인에러");
