@@ -134,7 +134,6 @@ const Header = () => {
   const navigate = useNavigate();
 
   const userId = localStorage.getItem("userId"); //string
-  console.log(userId);
 
   useEffect(() => {
     if (userId) {

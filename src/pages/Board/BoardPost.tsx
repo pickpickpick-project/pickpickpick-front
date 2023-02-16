@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { CommonIntroduceBoxStyled } from "../../assets/CommonStyled";
+import MovePage from "../../util/navigate";
 
 
 const BoardPostWrapperStyled = styled(CommonIntroduceBoxStyled)`
@@ -36,7 +37,7 @@ const BoardPost = (posts:any) => {
         <div>
             <BoardPostContainerStyled>
                 {posts.post.map((e:any) => 
-                    <BoardPostWrapperStyled>
+                    <BoardPostWrapperStyled onClick={MovePage('post')}>
                         <BoardPostStyled>{e.title}</BoardPostStyled>
                     </BoardPostWrapperStyled>
                 )}

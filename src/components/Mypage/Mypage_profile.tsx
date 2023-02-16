@@ -2,7 +2,7 @@ import {ReactComponent as Logo} from '../../assets/images/Home/profile.svg';
 import styled from 'styled-components';
 import colors from '../../assets/colors';
 import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled, CommonIntroduceBoxStyled } from '../../assets/CommonStyled';
-
+import { BigText } from '../../assets/CommonStyled';
 
 const ProfileStyled = styled.div`
     display : flex;
@@ -17,16 +17,17 @@ const ProfileContainerStyled = styled.div`
     width : 650px;
 `
 
+interface Email {
+    email : string|null,
+}
 
-
-
-const MypageProfile = () => {
+const MypageProfile = ({email}:Email) => {
     return (
         <ProfileStyled>
                 <Logo width="90" height="90"/>
                 <ProfileContainerStyled>
-                    <h2>닉네임닉네임닉네임</h2>
-                        <CommonIntroduceBoxContainerStyled>
+                    <BigText>{email}</BigText>
+                        <CommonIntroduceBoxContainerStyled style={{marginTop:"20px"}}>
                             <CommonIntroduceBoxWrapperStyled>
                                 <CommonIntroduceBoxStyled>
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. 
