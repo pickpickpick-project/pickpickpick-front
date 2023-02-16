@@ -27,7 +27,6 @@ const KakaoLogin = () => {
   const [excuted, setExcuted] = useState<boolean>(false);
 
   const getKakaoToken = useCallback(async () => {
-    console.log("여기로 들어오는지");
     try {
       await axios
         .get(
@@ -53,7 +52,6 @@ const KakaoLogin = () => {
           navigate("/");
         });
     } catch (err) {
-      console.log(err, "카카오로그인에러");
     }
   }, []);
 
@@ -62,7 +60,6 @@ const KakaoLogin = () => {
   };
 
   useEffect(() => {
-    console.log("화면들어옴", excuted);
     if (!loaction.search || excuted) return;
     getKakaoToken();
   }, []);
