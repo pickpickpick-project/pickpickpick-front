@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {ReactComponent as ArrowLeft} from "../../assets/images/Mypage/arrow-left.svg";
 import {ReactComponent as ArrowRight} from "../../assets/images/Mypage/arrow-right.svg";
 import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled } from "../../assets/CommonStyled";
+import MovePage from "../../util/navigate";
 
 const ArrowStyled = styled.span<{left?:number, right?:number}>`
     position : absolute;
@@ -46,17 +47,30 @@ const CarouselElementImgStyled = styled.div`
     width : 60%;
     margin : 0 auto;
     margin-bottom : 10px;
+    cursor: pointer;
 `
 
 const CarouselTextStyled = styled.span`
     text-align : center;
 `
 
-type CarouselElements = {
-    data : number[],
+interface test{
+    portfolio_id : number,
+    user_id : number,
+    portfolio_name : string,
+    portfolio_type : number | string,
 }
 
-const CommonCarousel = ({data} : CarouselElements) => {
+interface props{
+    portfolioProps : test[];
+}
+
+const CommonCarousel = ({ data, category } : any,) => {
+    let page_category:any = {
+        portfolio : 'portfolio',
+        product : 'product',
+    }
+    const page_type = page_category[category];
     // const repeat = [1, 2, 3, 4, 5]; // 게시물 개수 test
     const TOTAL_SLIDES = data.length;
     const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -94,12 +108,13 @@ const CommonCarousel = ({data} : CarouselElements) => {
             <CommonIntroduceBoxContainerStyled style={{overflow:'hidden'}}>
                 <CommonIntroduceBoxWrapperStyled>
                     {/* 게시물의 개수에 따라서  */}
-                    <CarouselContainerStyled width={data.length * 300} ref={slideRef}>   
-                        {data.map((value:number, index:number) => {return(
-                            <CarouselElementContainerStyled>
+                    <CarouselContainerStyled width={data.length * 300} ref={slideRef}> 
+                        {data.map((data:any) => {
+                            console.log(data);
+                            return(
+                            <CarouselElementContainerStyled onClick={MovePage(`${page_type}/${data.id}`)}>
                                 <CarouselElementImgStyled></CarouselElementImgStyled>
-                                <CarouselTextStyled>{index}</CarouselTextStyled>
-                                <CarouselTextStyled>10,000원</CarouselTextStyled>
+                                <CarouselTextStyled>{data.portfolioName}</CarouselTextStyled>
                             </CarouselElementContainerStyled>
                         )})}
                     </CarouselContainerStyled>

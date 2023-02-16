@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { ReactComponent as ArtistImg } from "../../assets/images/Home/profile.svg"
+import { useQuery } from "react-query";
 import colors from "../../assets/colors";
 import ArtistIntroduce from "../../components/Artist/Introduce";
 import CommonYellowButton from "../../components/Common/Button";
@@ -43,6 +44,7 @@ const ArtistBannerButtonWrapperStyled = styled.div`
 `
 
 const ArtistPage = () => {
+
     return(
         <ArtistStyled>
             <ArtistBannerContainerStyled>
@@ -56,9 +58,9 @@ const ArtistPage = () => {
             </ArtistBannerContainerStyled>
             <ArtistIntroduce/>
             <CommonText>포트폴리오</CommonText>
-            <CommonCarousel data={[1, 2, 3, 4, 5, 6]}></CommonCarousel>
-            <CommonText>서비스</CommonText>
-            <CommonCarousel data={[1, 2, 3, 4, 5, 6]}></CommonCarousel>
+            <CommonCarousel data={[]}></CommonCarousel>
+            {/* <CommonText>서비스</CommonText>
+            <CommonCarousel data={[]}></CommonCarousel> */}
         </ArtistStyled>
     )
 }

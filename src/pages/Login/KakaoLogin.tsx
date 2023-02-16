@@ -50,7 +50,6 @@ const KakaoLogin = () => {
           navigate("/");
         });
     } catch (err) {
-      console.log(err, "카카오로그인에러");
     }
   }, []);
 
@@ -59,7 +58,6 @@ const KakaoLogin = () => {
   };
 
   useEffect(() => {
-    console.log("화면들어옴", excuted);
     if (!loaction.search || excuted) return;
     getKakaoToken();
   }, []);
