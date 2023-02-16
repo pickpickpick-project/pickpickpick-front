@@ -1,14 +1,16 @@
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import colors from "../../assets/colors";
 import Masonry from "@mui/lab/Masonry";
 import { useInView } from "react-intersection-observer";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Key, useCallback, useEffect, useRef, useState } from "react";
 import MainContent from "../../components/Home/MainContent";
+import { getPortfolioList } from "../../api/portfolio";
+import { useQuery } from "react-query";
 
-const MainStyle = styled.div<{ isLoad: boolean }>`
+const MainStyle = styled.div`
   padding: 135px 16px 140px 16px;
   
   .tags {
@@ -67,55 +69,48 @@ const MainStyle = styled.div<{ isLoad: boolean }>`
  
 `;
 
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
-
 const Main = () => {
   const navigate = useNavigate();
-  let { id } = useParams();
 
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
-  const [load, setLoad] = useState<boolean>(false);
-  const page = useRef<number>(1);
-  const [ref, inView] = useInView();
+  // const [posts, setPosts] = useState<Portfolio>([]);
+  // const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+  // const [load, setLoad] = useState<boolean>(false);
+  // const page = useRef<number>(1);
+  // const [ref, inView] = useInView();
 
-  const getMainPortfolioImgs = useCallback(async () => {
-    setLoad(true);
-    try {
-      const { data } = await axios.get<Post[]>(
-        `https://api.thecatapi.com/v1/images/?limit=4&page=${page.current}&order=DESC`,
-        {
-          headers: {
-            "x-api-key": "17d94b92-754f-46eb-99a0-65be65b5d18f",
-          },
-        }
-      );
+  const { data } = useQuery("getList", getPortfolioList);
+  const List = data?.data;
 
-      setPosts(prevPosts => [...prevPosts, ...data]);
-      setHasNextPage(data.length === 4);
-      if (data.length) {
-        page.current += 1;
-      }
-    } catch (err) {
-      console.error(err);
-    }
-    setLoad(false);
-  }, []);
+  // const getMainPortfolioImgs = useCallback(async () => {
+  //   setLoad(true);
+  //   try {
+  //     // const { data } = await axios.get<Post[]>(
+  //     //   `https://api.thecatapi.com/v1/images/?limit=4&page=${page.current}&order=DESC`,
+  //     // );
+  //     const { data } = await api.get<Portfolio>(
+  //       `portfolio/list/?limit=4&page=${page.current}`
+  //     );
 
-  useEffect(() => {
-    // console.log(inView, hasNextPage, page.current, load);
-    if (inView && hasNextPage) {
-      getMainPortfolioImgs();
-    }
-  }, [getMainPortfolioImgs, hasNextPage, inView, load]);
+  //     setPosts(prevPosts => [...prevPosts, ...data.data]);
+  //     setHasNextPage(data.data.length === 4);
+  //     if (data.data.length) {
+  //       page.current += 1;
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  //   setLoad(false);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (inView && hasNextPage) {
+  //     getMainPortfolioImgs();
+  //   }
+  // }, [getMainPortfolioImgs, hasNextPage, inView, load]);
 
   return (
-    <MainStyle isLoad={load}>
+    // <MainStyle isLoad={load}>
+    <MainStyle>
       <section className="main">
         <div className="tags">
           <button className="tag" onClick={() => navigate("/1")}>
@@ -136,24 +131,20 @@ const Main = () => {
         </div>
         <div className="contents-container" id="scrollArea">
           <Masonry columns={3} spacing={2}>
-            {posts?.map(
-              (
-                item,
-                index //쿼리스트링
-              ) => (
-                <div
-                  key={index}
-                  className="content-item"
-                  onClick={index => navigate(`/portfolio/${1}`)}
-                >
-                  <MainContent item={item} />
-                </div>
-              )
-            )}
+            {List?.map((item: any) => (
+              <div
+                key={item.id}
+                className="content-item"
+                onClick={() => navigate(`/portfolio/${item.id}`)}
+              >
+                <h1>{item.portfolioName}</h1>
+                <MainContent item={item} />
+              </div>
+            ))}
           </Masonry>
-          <div className="load" ref={ref}>
+          {/* <div className="load" ref={ref}>
             {load && <CircularProgress color="inherit" />}
-          </div>
+          </div> */}
         </div>
       </section>
     </MainStyle>

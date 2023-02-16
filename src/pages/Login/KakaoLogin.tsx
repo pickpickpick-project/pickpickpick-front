@@ -38,7 +38,6 @@ const KakaoLogin = () => {
         )
         .then(res => {
           setExcuted(true);
-          console.log("데이터" + JSON.stringify(res.data));
           const idToken = res.data.data.jwt;
           const decodedUserInfo: UserInfo = jwt_decode(idToken);
           console.log(decodedUserInfo);

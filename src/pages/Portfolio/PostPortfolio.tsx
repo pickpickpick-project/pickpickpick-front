@@ -1,6 +1,10 @@
 import { useCallback, useRef, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
+import { postPortfolio } from "../../api/portfolio";
 import colors from "../../assets/colors";
+import MovePage from "../../util/navigate";
 
 const PageStyle = styled.div<{ type: string }>`
   padding: 135px 16px 140px 16px;
@@ -126,6 +130,7 @@ const PageStyle = styled.div<{ type: string }>`
 `;
 
 const PostPortfolio = () => {
+  const navigate = useNavigate();
   const [checkedType, setCheckedType] = useState<string>("illust");
   const [checkedTypeNum, setCheckedTypeNum] = useState<number>(1);
   const [portfolioName, setPortfolioName] = useState<string>("");
@@ -135,8 +140,28 @@ const PostPortfolio = () => {
   const imgRef = useRef<any>();
   const tagRef = useRef<any>();
 
+  const userId = localStorage.getItem("userId") ?? 0;
+  const formData = new FormData();
+  const portfolioDate = new Date().toString();
+  console.log(portfolioDate);
+
+  const queryClient = useQueryClient();
+  const { mutate: posting } = useMutation(postPortfolio, {
+    onSuccess: data => {
+      queryClient.invalidateQueries("postPortfolio");
+      console.log(data);
+      if (data.msg === "Success") {
+        navigate("/");
+      }
+    },
+    onError: error => {
+      console.log(error, "포스팅에러");
+    },
+  });
+
   const onUploadImage = () => {
     const file = imgRef.current.files[0];
+    formData.append("file", file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -165,6 +190,16 @@ const PostPortfolio = () => {
   const deleteTag = (e: any) => {
     const newTagArr = tagArr.filter(v => v !== e.target.outerText);
     setTagArr(newTagArr);
+  };
+
+  const handlePost = () => {
+    posting({
+      file: formData,
+      portfolioDate,
+      portfolioName,
+      portfolioType: "3",
+      userNum: +userId,
+    });
   };
 
   return (
@@ -247,7 +282,9 @@ const PostPortfolio = () => {
         />
       </div>
       <div className="post">
-        <div className="post-button">등록하기</div>
+        <div className="post-button" onClick={handlePost}>
+          등록하기
+        </div>
       </div>
     </PageStyle>
   );
