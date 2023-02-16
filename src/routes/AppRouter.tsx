@@ -39,10 +39,10 @@ const AppRouter = () => {
           element={<ManagePortfolioPage />}
         />
         <Route path="admin/manage/payment" element={<ManagePaymentPage />} />
-        <Route path="board" element={<BoardPage />} />
+        <Route path="board/:id" element={<BoardPage />} />
         <Route path="writing" element={<PostWritingPage />} />
         <Route path="order" element={<OrderPage />} />
-        <Route path="post" element={<PostView/>} />
+        <Route path="board/post/:id" element={<PostView/>} />
       </Routes>
     </BrowserRouter>
   );
