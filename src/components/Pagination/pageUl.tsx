@@ -41,8 +41,8 @@ const PaginationBottomUl = ({pagination, totalPosts, postPerPage}:any) => {
             <PageUl>
                 <ArrowLeft style={{marginRight:"15px", cursor:"pointer"}}/>
                 {pageNumbers.map((number) => (  // type 공부 후에 타입 지정하기.
-                    <PageLi key={number}>
-                        <PageSpan onClick={() => pagination(number)}>{number}</PageSpan>
+                    <PageLi key={number} onClick={() => pagination(number)}>
+                        <PageSpan>{number}</PageSpan>
                     </PageLi>
                 ))}
                 <ArrowRight style={{cursor:"pointer"}}/>
