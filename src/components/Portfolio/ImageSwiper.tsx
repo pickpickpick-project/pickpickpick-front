@@ -66,7 +66,8 @@ const DivNext = styled.div`
   text-align: center;
 `;
 
-const ImageSwiper = () => {
+const ImageSwiper = ({ data }: any) => {
+  console.log(data, "props");
   const settings = {
     className: "slider variable-width",
     dots: false,

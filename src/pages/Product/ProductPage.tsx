@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useParams } from "react-router";
 import styled from "styled-components";
+import { getWorkId } from "../../api/work";
 import colors from "../../assets/colors";
 import ProductCarousel from "../../components/Product/ProductCarousel";
 
@@ -21,6 +24,7 @@ const PageStyle = styled.div`
   }
 
   .purchase-section {
+    min-width: 450px;
     height: 488px;
     margin-left: 58px;
     padding: 24px 24px 0px;
@@ -108,9 +112,16 @@ const PageStyle = styled.div`
 `;
 
 const ProductPage = () => {
+  let { id } = useParams();
   const [amount, setAmout] = useState(1);
+  const { data } = useQuery("work", () => getWorkId(Number(id)));
+  const [imgView, setImgView] = useState<string>("");
+
+  const workInfo = data?.data.workInfo;
+  const workImg = data?.data.workInfo.workImages;
 
   const handleAmout = (text: string) => {
+    console.log(imgView);
     if (text === "add") {
       setAmout(amount + 1);
     } else {
@@ -118,21 +129,30 @@ const ProductPage = () => {
       setAmout(amount - 1);
     }
   };
+  useEffect(() => {
+    const file = data?.data.workInfo.workImages[0];
+
+    const reader = new FileReader();
+    const newBlob = new Blob([new Uint8Array(file)]);
+    console.log(newBlob);
+    reader.readAsDataURL(newBlob);
+    reader.onloadend = () => {
+      setImgView(reader.result as string);
+    };
+  }, [data]);
   return (
     <PageStyle>
       <div className="image-section">
         <ProductCarousel />
       </div>
       <div className="purchase-section">
-        <div className="name">
-          "고퀼리티 로고제작" 로고는 로고디자인 전문가에게
-        </div>
+        <div className="name">{workInfo?.workName}</div>
         <div className="priceAndArtist">
-          <div className="price">65,000원</div>
+          <div className="price">{workInfo?.workPrice}원</div>
           <div className="artist">김작가</div>
         </div>
 
-        <div className="description">샬라샬라 {"\n"} ggg 좋아용</div>
+        <div className="description">{workInfo?.workDesc}</div>
 
         <div className="button-section">
           <div className="amount">

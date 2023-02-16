@@ -8,6 +8,9 @@ import MovePage from "../../util/navigate";
 import { ReactComponent as Heart } from "../../assets/images/Portfolio/heart.svg";
 import { ReactComponent as HeartFilled } from "../../assets/images/Portfolio/heart-filled.svg";
 import { useState } from "react";
+import { useQuery } from "react-query";
+import { useParams } from "react-router";
+import { getPortfolioId } from "../../api/portfolio";
 
 const PageStyle = styled.div`
   padding: 135px 0px 40px 0px;
@@ -120,7 +123,12 @@ const PageStyle = styled.div`
   }
 `;
 const PortfolioDetail = () => {
+  let { id } = useParams();
   const [isHeart, setIsHeart] = useState<boolean>(false);
+
+  const { data } = useQuery("getList", () => getPortfolioId(Number(id)));
+  console.log(data);
+
   const heartItem = (item: any) => {
     item.stopPropagation();
     setIsHeart(!isHeart);
@@ -129,7 +137,7 @@ const PortfolioDetail = () => {
   return (
     <PageStyle>
       <div className="images-container">
-        <ImageSwiper />
+        <ImageSwiper data={data} />
       </div>
       <div className="bottom-section">
         <div className="modal-info">
@@ -140,7 +148,7 @@ const PortfolioDetail = () => {
               {isHeart ? <HeartFilled /> : <Heart />}
             </div>
           </div>
-          <div className="modal-info-title">귀여운고양이</div>
+          <div className="modal-info-title">{data?.data.portfolioName}</div>
           <div className="modal-info-tags">
             {tags.map((item, index) => (
               <ModalTag key={index} tag={item} />
