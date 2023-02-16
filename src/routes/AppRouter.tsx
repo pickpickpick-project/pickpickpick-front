@@ -17,6 +17,7 @@ import ManagePaymentPage from "../pages/Admin/ManagePaymentPage";
 import BoardPage from "../pages/Board/BoardPage";
 import PostWritingPage from "../pages/PostWriting/PostWritingPage";
 import OrderPage from "../pages/order/OrderPage";
+import PostView from "../pages/PostView/PostView";
 
 const AppRouter = () => {
   return (
@@ -29,7 +30,7 @@ const AppRouter = () => {
         <Route path="/portfolio/post" element={<PostPortfolio />} />
         <Route path="heart" element={<MyHeartPage />} />
         <Route path="mypage" element={<Mypage />} />
-        <Route path="artist" element={<ArtistPage />} />
+        <Route path="artist/:id" element={<ArtistPage />} />
         <Route path="product/:id" element={<ProductPage />} />
         <Route path="admin/manage/user" element={<ManageUserPage />} />
         <Route path="admin/manage/product" element={<ManageProductPage />} />
@@ -41,6 +42,7 @@ const AppRouter = () => {
         <Route path="board" element={<BoardPage />} />
         <Route path="writing" element={<PostWritingPage />} />
         <Route path="order" element={<OrderPage />} />
+        <Route path="post" element={<PostView/>} />
       </Routes>
     </BrowserRouter>
   );
