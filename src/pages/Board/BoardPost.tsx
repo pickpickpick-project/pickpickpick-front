@@ -31,14 +31,14 @@ const BoardPostStyled = styled.div`
 `
 
 const BoardPost = (posts:any) => {
-    console.log(posts.post);
     
+    console.log(posts.post);
     return(
         <div>
             <BoardPostContainerStyled>
                 {posts.post.map((e:any) => 
-                    <BoardPostWrapperStyled onClick={MovePage('post')}>
-                        <BoardPostStyled>{e.title}</BoardPostStyled>
+                    <BoardPostWrapperStyled onClick={MovePage(`board/postview/`)}>
+                        <BoardPostStyled>{e.postTitle}</BoardPostStyled>
                     </BoardPostWrapperStyled>
                 )}
             </BoardPostContainerStyled>

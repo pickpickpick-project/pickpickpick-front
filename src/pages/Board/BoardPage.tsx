@@ -7,15 +7,21 @@ import PaginationBottomUl from "../../components/Pagination/pageUl";
 import BoardPost from "./BoardPost";
 import CommonYellowButton from "../../components/Common/Button";
 import MovePage from "../../util/navigate";
+import { getBoardList } from "../../api/board";
+import { useQuery } from "react-query";
+import { useParams } from "react-router";
+import { Suspense, useState } from "react";
+
 
 const BoardContainerStyled = styled.div`
     width : 650px;
     margin : 0 auto;
-    background-color: beige;
 `
 
 const BoardPage = () => {
-
+    const [loading, setLoading] = useState('loading');
+    const [boardCurrentPage, setBoardCurrentPage] = useRecoilState<number>(inquiryBoardCurrentPage);    // 현재 페이지
+    const [boardPostPerPage, setBoardPostPerPage] = useRecoilState<number>(inquiryBoardPostPerPage);    // 한 페이지당 게시물 개수
     const TestBoardElements = [
         {title : "test1", idx : 1},
         {title : "test2", idx : 2},
@@ -26,28 +32,36 @@ const BoardPage = () => {
         {title : "test7", idx : 7},
         {title : "test8", idx : 8},
     ];
+    const param = useParams();
+    const ArtistId = Number(param.id);
+    const { isLoading, error, data } = useQuery("getBoardList", () => getBoardList(ArtistId), {suspense : true});
+    const testBoardList = data?.data
 
-    const [boardCurrentPage, setBoardCurrentPage] = useRecoilState<number>(inquiryBoardCurrentPage);    // 현재 페이지
-    const [boardPostPerPage, setBoardPostPerPage] = useRecoilState<number>(inquiryBoardPostPerPage);    // 한 페이지당 게시물 개수
     let indexOfLast = boardCurrentPage * boardPostPerPage;    // last index
     let indexOfFirst = indexOfLast - boardPostPerPage;        // first index
-
-    const currentPosts = (TestBoardElements:any) => {           // 
-        const currentPostsArray = TestBoardElements.slice(indexOfFirst, indexOfLast);
+    
+    const currentPosts = (testBoardList:any) => {           // 
+        const currentPostsArray = testBoardList.slice(indexOfFirst, indexOfLast);
         return currentPostsArray;
       };
-      
+
+    // console.log(getBoardListData);
+    // console.log(getBoardListData.data?.data);
+    
+
     return (
-        <PageStyled>
-            <h1 style={{marginBottom : "40px", fontWeight:"700", fontSize:"20px"}}>문의 게시판</h1>
-            <BoardContainerStyled>
-                <BoardPost post={currentPosts(TestBoardElements)}/>  
-                {/* BoardPost 한 페이지에 있는 UI */}
-                <PaginationBottomUl totalPosts={TestBoardElements.length} postPerPage={boardPostPerPage} pagination={setBoardCurrentPage}/>
-                {/*  */}
-                <CommonYellowButton onClick={MovePage('writing')} width={200} height={50} hover={false} text={'문의글 작성하기'}/>
-            </BoardContainerStyled>
-        </PageStyled>
+        <Suspense fallback={<div>Loading.. 데이터를 가져오는 중</div>}>
+            <PageStyled>
+                <h1 style={{marginBottom : "40px", fontWeight:"700", fontSize:"20px"}}>문의 게시판</h1>
+                <BoardContainerStyled>
+                    <BoardPost post={currentPosts(testBoardList)}/>  
+                    {/* BoardPost 한 페이지에 있는 UI */}
+                    <PaginationBottomUl totalPosts={testBoardList?.length} postPerPage={boardPostPerPage} pagination={setBoardCurrentPage}/>
+                    {/*  */}
+                    <CommonYellowButton onClick={MovePage('writing')} width={200} height={50} hover={false} text={'문의글 작성하기'}/>
+                </BoardContainerStyled>
+            </PageStyled>
+        </Suspense>
     )
 }
 
