@@ -67,7 +67,6 @@ const DivNext = styled.div`
 `;
 
 const ImageSwiper = ({ data }: any) => {
-  console.log(data, "props");
   const settings = {
     className: "slider variable-width",
     dots: false,

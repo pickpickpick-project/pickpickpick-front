@@ -137,13 +137,13 @@ const PostPortfolio = () => {
   const [imgView, setImgView] = useState<string>("");
   const [tag, setTag] = useState<string>("");
   const [tagArr, setTagArr] = useState<string[]>([]);
+  const [tagName, setTagName] = useState("");
   const imgRef = useRef<any>();
   const tagRef = useRef<any>();
 
   const userId = localStorage.getItem("userId") ?? 0;
   const formData = new FormData();
   const portfolioDate = new Date().toString();
-  console.log(portfolioDate);
 
   const queryClient = useQueryClient();
   const { mutate: posting } = useMutation(postPortfolio, {
@@ -185,6 +185,8 @@ const PostPortfolio = () => {
   const addTag = (tag: string) => {
     if (tagArr.includes(tag)) return;
     setTagArr(tagArr => [...tagArr, tag]);
+
+    setTagName("#" + tagArr.join(" #"));
   };
 
   const deleteTag = (e: any) => {
@@ -193,11 +195,13 @@ const PostPortfolio = () => {
   };
 
   const handlePost = () => {
+    console.log(tagName, checkedTypeNum.toString());
     posting({
-      file: formData,
+      files: [],
       portfolioDate,
       portfolioName,
-      portfolioType: "3",
+      portfolioType: checkedTypeNum.toString(),
+      tagName,
       userNum: +userId,
     });
   };

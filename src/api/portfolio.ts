@@ -14,6 +14,16 @@ interface PortfolioData {
      portfolioName: string,
      portfolioType: string,
      portfolioDate: string,
+     portfolioImgList: any,
+     portfolioTags: PortfolioTags[],
+}
+
+interface PortfolioTags {
+    tag: TagInfo,
+}
+interface TagInfo {
+    id: number,
+    tagName: string,
 }
 
 
@@ -29,25 +39,31 @@ export const getPortfolioId = async (id: number) =>{
 }
 
 export async function postPortfolio(params: {
-    file: FormData,
+    files: any,
     portfolioDate: string,
     portfolioName: string,
     portfolioType: string,
+    tagName: string
     userNum: number,
 }){
-    const {file, portfolioDate, portfolioName, portfolioType, userNum} = params;
+    const {files, portfolioDate, portfolioName, portfolioType, tagName, userNum} = params;
     const response = await api.post<Portfolio>(`portfolio/save`,{
-        file,
+        files,
         portfolioDate, 
         portfolioName, 
         portfolioType, 
+        tagName,
         userNum 
     },{
         headers: {
             "Content-Type": "multipart/form-data",
           },
     });
+
+
+    return response.data;
 }
+
 
 export async function getUserPortfolio(userNum: number){
     const response = await  api.get(`portfolio/list/user/${userNum}`);
