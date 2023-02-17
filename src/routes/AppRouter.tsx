@@ -42,7 +42,7 @@ const AppRouter = () => {
         <Route path="board/:id" element={<BoardPage />} />
         <Route path="writing" element={<PostWritingPage />} />
         <Route path="order" element={<OrderPage />} />
-        <Route path="board/post/:id" element={<PostView/>} />
+        <Route path="board/postview/:id" element={<PostView/>} />
       </Routes>
     </BrowserRouter>
   );
