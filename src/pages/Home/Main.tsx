@@ -79,7 +79,7 @@ const Main = () => {
   // const [ref, inView] = useInView();
 
   const { data } = useQuery("getList", getPortfolioList);
-  const List = data?.data;
+  const List = data?.data ?? [];
 
   // const getMainPortfolioImgs = useCallback(async () => {
   //   setLoad(true);

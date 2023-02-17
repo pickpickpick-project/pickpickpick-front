@@ -7,10 +7,11 @@ import CommonYellowButton from "../../components/Common/Button";
 import MovePage from "../../util/navigate";
 import { ReactComponent as Heart } from "../../assets/images/Portfolio/heart.svg";
 import { ReactComponent as HeartFilled } from "../../assets/images/Portfolio/heart-filled.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router";
 import { getPortfolioId } from "../../api/portfolio";
+import { getUserInfo } from "../../api/user";
 
 const PageStyle = styled.div`
   padding: 135px 0px 40px 0px;
@@ -124,10 +125,27 @@ const PageStyle = styled.div`
 `;
 const PortfolioDetail = () => {
   let { id } = useParams();
+  const userId = localStorage.getItem("userId");
   const [isHeart, setIsHeart] = useState<boolean>(false);
+  const [type, setType] = useState("일러스트");
 
-  const { data } = useQuery("getList", () => getPortfolioId(Number(id)));
-  console.log(data);
+  const { data: Info } = useQuery("getList", () => getPortfolioId(Number(id)));
+  const tagInfo = Info?.data.portfolioTags ?? [];
+
+  const { data: User } = useQuery("getList", () => getUserInfo(Number(userId)));
+  console.log(User, "user");
+
+  useEffect(() => {
+    if (Info?.data.portfolioType === 1) {
+      setType("일러스트");
+    } else if (Info?.data.portfolioType === 2) {
+      setType("캐리커쳐");
+    } else if (Info?.data.portfolioType === 3) {
+      setType("웹툰 . 콘티");
+    } else if (Info?.data.portfolioType === 1) {
+      setType("이모티콘");
+    }
+  }, [Info]);
 
   const heartItem = (item: any) => {
     item.stopPropagation();
@@ -137,21 +155,20 @@ const PortfolioDetail = () => {
   return (
     <PageStyle>
       <div className="images-container">
-        <ImageSwiper data={data} />
+        <ImageSwiper data={Info} />
       </div>
       <div className="bottom-section">
         <div className="modal-info">
           <div className="modal-info-top">
-            <div className="modal-info-type">일러스트</div>
-            {/* 날짜 하트로 바꾸기 */}
+            <div className="modal-info-type">{type}</div>
             <div className="item-heart" onClick={item => heartItem(item)}>
               {isHeart ? <HeartFilled /> : <Heart />}
             </div>
           </div>
-          <div className="modal-info-title">{data?.data.portfolioName}</div>
+          <div className="modal-info-title">{Info?.data.portfolioName}</div>
           <div className="modal-info-tags">
-            {tags.map((item, index) => (
-              <ModalTag key={index} tag={item} />
+            {tagInfo.map((item: any) => (
+              <ModalTag key={item.tag.id} tag={item.tag.tagName} />
             ))}
           </div>
         </div>
@@ -161,7 +178,7 @@ const PortfolioDetail = () => {
               <Profile width="45px" height="45px" />
             </div>
             <div className="arist-info">
-              <div className="artist-info-name">작가 이름</div>
+              <div className="artist-info-name"></div>
             </div>
           </div>
           <CommonYellowButton
