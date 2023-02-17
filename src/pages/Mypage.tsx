@@ -1,15 +1,11 @@
 import styled from "styled-components";
 import colors from "../assets/colors";
-import {ReactComponent as Logo} from "../assets/images/Home/profile.svg"
 import MypageProfile from "../components/Mypage/Mypage_profile";
 import CommonCarousel from "../components/Common/Carousel";
 import { CommonText } from "../components/Artist/ArtistStyled";
-import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
-import { getUserPortfolio } from "../api/portfolio";
 import { useQuery } from "react-query";
-
-
+import { getUserPortfolio } from "../api/portfolio";
+import { getWorkList } from "../api/work";
 
 const MypageStyled = styled.div`
     padding: 125px 16px 140px 16px;
@@ -31,22 +27,30 @@ interface test{
 interface props{
     portfolioProps : test[];
 }
-
+ 
 const Mypage = ():React.ReactElement => {
-    const data = useQuery("getList", () => getUserPortfolio(Number(localStorage.getItem('userId'))));
+    const userId = Number(localStorage.getItem('userId'));
     let user_email = localStorage.getItem('email');
+    const getWorkListData = useQuery("getWorkList", () => getWorkList(userId));
+    // console.log(getPortfolioData);
+    // const portfolioData = getPortfolioData?.data.data
+    const getPortfolioData = useQuery("getPortfolioList", () => getUserPortfolio(userId));
+    console.log(getWorkListData.data);
+    
+    
+    
 
     return (
-        data.status === 'loading' ?
-        <div>loading</div> :
+        getPortfolioData.status === 'loading' || getWorkListData.status === 'loading'?
+        <div>loadingloadingloadingloadingloading</div> :
         <MypageStyled>
             <MypageProfile email={user_email}/>
             <CommonText>포트폴리오</CommonText>
-            <CommonCarousel data={data.data.data} category={'portfolio'}/> 
-            {/* <CommonText>판매</CommonText>
-            <CommonCarousel data={portfolioList}/>
-            <CommonText>구매</CommonText>
-            <CommonCarousel data={portfolioList}/> */}
+            <CommonCarousel data={getPortfolioData.data.data} category={'portfolio'}/> 
+            <CommonText>판매</CommonText>
+            <CommonCarousel data={getWorkListData.data} category={'work'}/>
+            {/* <CommonText>구매</CommonText>
+            <CommonCarousel data={portfolioData}/> */}
         </MypageStyled>
     )
 }
