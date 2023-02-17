@@ -125,15 +125,15 @@ const PageStyle = styled.div`
 `;
 const PortfolioDetail = () => {
   let { id } = useParams();
-  const userId = localStorage.getItem("userId");
   const [isHeart, setIsHeart] = useState<boolean>(false);
   const [type, setType] = useState("일러스트");
 
-  const { data: Info } = useQuery("getList", () => getPortfolioId(Number(id)));
+  const { data: Info } = useQuery("getInfo", () => getPortfolioId(Number(id)));
   const tagInfo = Info?.data.portfolioTags ?? [];
 
-  const { data: User } = useQuery("getList", () => getUserInfo(Number(userId)));
-  console.log(User, "user");
+  const { data: User } = useQuery("getUser", () =>
+    getUserInfo(Info?.data.user)
+  );
 
   useEffect(() => {
     if (Info?.data.portfolioType === 1) {
@@ -178,7 +178,7 @@ const PortfolioDetail = () => {
               <Profile width="45px" height="45px" />
             </div>
             <div className="arist-info">
-              <div className="artist-info-name"></div>
+              <div className="artist-info-name">{User?.data.name}</div>
             </div>
           </div>
           <CommonYellowButton

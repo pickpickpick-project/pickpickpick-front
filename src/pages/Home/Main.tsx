@@ -78,8 +78,12 @@ const Main = () => {
   // const page = useRef<number>(1);
   // const [ref, inView] = useInView();
 
-  const { data } = useQuery("getList", getPortfolioList);
-  const List = data?.data ?? [];
+  const { data: List } = useQuery("getList", getPortfolioList);
+  const ListInfo = List?.data ?? [
+    { id: 0, portfolioName: "" },
+    { id: 1, portfolioName: "" },
+  ];
+  console.log(List);
 
   // const getMainPortfolioImgs = useCallback(async () => {
   //   setLoad(true);
@@ -131,9 +135,9 @@ const Main = () => {
         </div>
         <div className="contents-container" id="scrollArea">
           <Masonry columns={3} spacing={2}>
-            {List?.map((item: any) => (
+            {ListInfo?.map((item: any, index: number) => (
               <div
-                key={item.id}
+                key={item.id ?? index}
                 className="content-item"
                 onClick={() => navigate(`/portfolio/${item.id}`)}
               >
