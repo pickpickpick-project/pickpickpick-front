@@ -28,8 +28,33 @@ interface WorkImg {
 }
 
 
-
 export const getWorkId = async (workNum: number) =>{
     const response = await api.get<Work>(`works/${workNum}`);
+    return response.data;
+}
+
+
+// ---------------
+
+
+interface WorkList {
+    workerNum : number,
+    workName : string,
+    workDesc : string,
+    workPrice : number,
+    files : WorkListElementImg[]
+}
+
+interface WorkListElementImg {
+    workImgNum : number,
+    workImgName : string,
+    workImgOriginName : string,
+    workImgSrcPath : string,
+    size : number,
+}
+
+
+export const getWorkList = async (workerNum : number) => {
+    const response = await api.get<WorkList>(`works/users/${workerNum}`);
     return response.data;
 }

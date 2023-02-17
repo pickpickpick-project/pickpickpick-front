@@ -47,7 +47,7 @@ export async function postPortfolio(params: {
             "Content-Type": "multipart/form-data",
           },
     });
-
+}
 
 export async function getUserPortfolio(userNum: number){
     const response = await  api.get(`portfolio/list/user/${userNum}`);
