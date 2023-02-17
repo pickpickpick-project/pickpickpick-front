@@ -32,8 +32,6 @@ const Mypage = ():React.ReactElement => {
     const userId = Number(localStorage.getItem('userId'));
     let user_email = localStorage.getItem('email');
     const getWorkListData = useQuery("getWorkList", () => getWorkList(userId));
-    // console.log(getPortfolioData);
-    // const portfolioData = getPortfolioData?.data.data
     const getPortfolioData = useQuery("getPortfolioList", () => getUserPortfolio(userId));
     console.log(getWorkListData.data);
     
