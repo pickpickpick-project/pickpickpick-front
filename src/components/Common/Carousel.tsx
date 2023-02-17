@@ -67,10 +67,16 @@ interface props{
 
 const CommonCarousel = ({ data, category } : any,) => {
     let page_category:any = {
-        portfolio : 'portfolio',
-        work : 'work',
+        portfolio : {
+            name : 'portfolio',
+            link : 'portfolio'
+        },
+        work : {
+            name : 'work',
+            link : 'product'
+        }
     }
-    const page_type = page_category[category];
+    const page_type = page_category[category].link;
     // const repeat = [1, 2, 3, 4, 5]; // 게시물 개수 test
     const TOTAL_SLIDES = data.length;
     const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -110,10 +116,16 @@ const CommonCarousel = ({ data, category } : any,) => {
                     {/* 게시물의 개수에 따라서  */}
                     <CarouselContainerStyled width={data.length * 300} ref={slideRef}> 
                         {data.map((data:any) => {
-                            const name = `${page_type}Name`
-                            const dataName = data[name];
+                            const name = `${page_category[category].name}Name`
+                            const dataName = data[name];   
+                            let query_id = 0;  
+                            if(page_category[category].name === 'portfolio'){
+                                query_id = data.id;
+                            }else if(page_category[category].name === 'work'){
+                                query_id = data.workNum;
+                            }
                             return(
-                            <CarouselElementContainerStyled onClick={MovePage(`${page_type}/${data.id}`)}>
+                            <CarouselElementContainerStyled onClick={MovePage(`${page_type}/${query_id}`)}>
                                 <CarouselElementImgStyled></CarouselElementImgStyled>
                                 <CarouselTextStyled>{dataName}</CarouselTextStyled>
                             </CarouselElementContainerStyled>
