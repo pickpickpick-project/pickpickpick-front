@@ -8,10 +8,15 @@ import MovePage from "../../util/navigate";
 import { ReactComponent as Heart } from "../../assets/images/Portfolio/heart.svg";
 import { ReactComponent as HeartFilled } from "../../assets/images/Portfolio/heart-filled.svg";
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router";
 import { getPortfolioId } from "../../api/portfolio";
 import { getUserInfo } from "../../api/user";
+import {
+  getFavorites,
+  patchFavorites,
+  postFavorites,
+} from "../../api/favorites";
 
 const PageStyle = styled.div`
   padding: 135px 0px 40px 0px;
@@ -49,6 +54,12 @@ const PageStyle = styled.div`
     border-radius: 50%;
     background: gray;
     margin-right: 20px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
   }
 
   .artist-info {
@@ -125,8 +136,10 @@ const PageStyle = styled.div`
 `;
 const PortfolioDetail = () => {
   let { id } = useParams();
+  const userNum = Number(localStorage.getItem("userId"));
   const [isHeart, setIsHeart] = useState<boolean>(false);
   const [type, setType] = useState("일러스트");
+  const [click, setClick] = useState(false);
 
   const { data: Info } = useQuery("getInfo", () => getPortfolioId(Number(id)));
   const tagInfo = Info?.data.portfolioTags ?? [];
@@ -134,6 +147,70 @@ const PortfolioDetail = () => {
   const { data: User } = useQuery("getUser", () =>
     getUserInfo(Info?.data.user)
   );
+
+  const { data, refetch } = useQuery("getFavorites", () =>
+    getFavorites(userNum)
+  );
+  const favoritesData = data?.data ?? [{}];
+
+  const queryClient = useQueryClient();
+  const { mutate: favorites } = useMutation(postFavorites, {
+    onSuccess: data => {
+      queryClient.invalidateQueries("postFavorites");
+      console.log(data, "좋아요");
+      if (data.msg === "Success") {
+      }
+    },
+    onError: error => {
+      console.log(error, "좋아요에러");
+    },
+  });
+
+  const { mutate: cancleFavorites } = useMutation(patchFavorites, {
+    onSuccess: data => {
+      queryClient.invalidateQueries("patchFavorites");
+      console.log(data, "좋아요취소");
+      if (data.msg === "Success") {
+      }
+    },
+    onError: error => {
+      console.log(error, "좋아요취소에러");
+    },
+  });
+
+  let heartArr: number[] = [];
+  useEffect(() => {
+    favoritesData.map((v: any) => {
+      if (!heartArr.includes(v.portfolioNum)) {
+        heartArr.push(v.portfolioNum);
+      }
+    });
+    getFav();
+  }, [favoritesData]);
+
+  const getFav = () => {
+    if (heartArr.includes(Number(id))) {
+      setIsHeart(true);
+    } else {
+      setIsHeart(false);
+    }
+  };
+
+  useEffect(() => {
+    refetch();
+    if (isHeart && click) {
+      favorites({
+        portfolioNum: Number(id),
+        userNum,
+      });
+    } else if (!isHeart && click) {
+      cancleFavorites({
+        portfolioNum: Number(id),
+        userNum,
+      });
+    }
+    setClick(false);
+  }, [isHeart, click]);
 
   useEffect(() => {
     if (Info?.data.portfolioType === 1) {
@@ -149,6 +226,7 @@ const PortfolioDetail = () => {
 
   const heartItem = (item: any) => {
     item.stopPropagation();
+    setClick(true);
     setIsHeart(!isHeart);
     // setHeartList(heartList => [...heartList, item.portfolioNum])
   };
@@ -168,17 +246,21 @@ const PortfolioDetail = () => {
           <div className="modal-info-title">{Info?.data.portfolioName}</div>
           <div className="modal-info-tags">
             {tagInfo.map((item: any) => (
-              <ModalTag key={item.tag.id} tag={item.tag.tagName} />
+              <ModalTag key={item.tag.tagNum} tag={item.tag.tagName} />
             ))}
           </div>
         </div>
         <div className="right-section">
           <div onClick={MovePage("artist")} className="artist-section">
             <div className="artist-img">
-              <Profile width="45px" height="45px" />
+              {User?.data.imageUrl ? (
+                <img src={User?.data.imageUrl} alt="" />
+              ) : (
+                <Profile width="45px" height="45px" />
+              )}
             </div>
             <div className="arist-info">
-              <div className="artist-info-name">{User?.data.name}</div>
+              <div className="artist-info-name">{User?.data?.name}</div>
             </div>
           </div>
           <CommonYellowButton

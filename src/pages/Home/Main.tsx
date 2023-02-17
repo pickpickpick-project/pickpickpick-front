@@ -9,6 +9,7 @@ import { Key, useCallback, useEffect, useRef, useState } from "react";
 import MainContent from "../../components/Home/MainContent";
 import { getPortfolioList } from "../../api/portfolio";
 import { useQuery } from "react-query";
+import { getFavorites } from "../../api/favorites";
 
 const MainStyle = styled.div`
   padding: 135px 16px 140px 16px;
@@ -71,7 +72,6 @@ const MainStyle = styled.div`
 
 const Main = () => {
   const navigate = useNavigate();
-
   // const [posts, setPosts] = useState<Portfolio>([]);
   // const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   // const [load, setLoad] = useState<boolean>(false);
@@ -79,11 +79,7 @@ const Main = () => {
   // const [ref, inView] = useInView();
 
   const { data: List } = useQuery("getList", getPortfolioList);
-  const ListInfo = List?.data ?? [
-    { id: 0, portfolioName: "" },
-    { id: 1, portfolioName: "" },
-  ];
-  console.log(List);
+  const ListInfo = List?.data ?? [{ id: 0, portfolioName: "" }];
 
   // const getMainPortfolioImgs = useCallback(async () => {
   //   setLoad(true);
@@ -139,7 +135,7 @@ const Main = () => {
               <div
                 key={item.id ?? index}
                 className="content-item"
-                onClick={() => navigate(`/portfolio/${item.id}`)}
+                onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
               >
                 <h1>{item.portfolioName}</h1>
                 <MainContent item={item} />
