@@ -18,6 +18,7 @@ import BoardPage from "../pages/Board/BoardPage";
 import PostWritingPage from "../pages/PostWriting/PostWritingPage";
 import OrderPage from "../pages/order/OrderPage";
 import PostView from "../pages/PostView/PostView";
+import { ProductPostPage } from "../pages/Product/ProductPostPage";
 
 const AppRouter = () => {
   return (
@@ -32,6 +33,7 @@ const AppRouter = () => {
         <Route path="mypage" element={<Mypage />} />
         <Route path="artist/:id" element={<ArtistPage />} />
         <Route path="product/:id" element={<ProductPage />} />
+        <Route path="product/post" element={<ProductPostPage />} />
         <Route path="admin/manage/user" element={<ManageUserPage />} />
         <Route path="admin/manage/product" element={<ManageProductPage />} />
         <Route
