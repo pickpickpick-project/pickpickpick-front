@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { BigText, SmallText } from "../../assets/CommonStyled";
 import { PageStyled } from "../../assets/pageStyle";
 import { useState, useRef } from "react";
-import Images from "../../components/Product/ProductImage";
 import CommonYellowButton from "../../components/Common/Button";
 const ProductPostStyled = styled(PageStyled)``
 
