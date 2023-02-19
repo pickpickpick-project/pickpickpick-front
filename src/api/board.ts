@@ -17,6 +17,9 @@ interface BoardListElement {
 }
 
 export const getBoardList = async (userNumber:number) => {
-    const response = await api.get<BoardList>(`board/${userNumber}/post`);
-    return response.data
+    const response = await api.get<BoardList>(`board/${userNumber}/post`)
+    .then(
+        res => res.data.data
+    )
+    return response
 }
