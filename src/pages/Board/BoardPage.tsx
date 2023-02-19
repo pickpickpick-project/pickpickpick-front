@@ -7,7 +7,7 @@ import PaginationBottomUl from "../../components/Pagination/pageUl";
 import BoardPost from "./BoardPost";
 import CommonYellowButton from "../../components/Common/Button";
 import MovePage from "../../util/navigate";
-import { getBoardList, getTest } from "../../api/board";
+import { getBoardList } from "../../api/board";
 import { useQuery } from "react-query";
 import { useParams } from "react-router";
 import React , { useState, useEffect } from "react";
@@ -35,8 +35,8 @@ const BoardPage = () => {
       };
 
     useEffect(() => {
-        const data = getTest(ArtistId)
-        .then((res) => setBoardData([...res]))
+        getBoardList(ArtistId)
+        .then((res:any) => setBoardData([...res])) 
     }, [])
     // console.log(getBoardListData);
     // console.log(getBoardListData.data?.data);    
