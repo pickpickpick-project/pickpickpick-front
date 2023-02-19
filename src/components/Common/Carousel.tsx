@@ -120,7 +120,7 @@ const CommonCarousel = ({ data, category } : any,) => {
                             const dataName = data[name];   
                             let query_id = 0;  
                             if(page_category[category].name === 'portfolio'){
-                                query_id = data.id;
+                                query_id = data.portfolioNum;
                             }else if(page_category[category].name === 'work'){
                                 query_id = data.workNum;
                             }
