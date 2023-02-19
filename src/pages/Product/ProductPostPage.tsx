@@ -101,7 +101,18 @@ const ProductPostButtonContainer = styled.div`
     justify-content: end;
 `
 
+const ProductPostTextareaStyled = styled.textarea`
+    
+    border: 1px solid #979797;
+
+    &:focus{
+        outline:0;
+        
+    }
+`
+
 export const ProductPostPage = () => {
+    const [ textareaValue, setTextareaValue ] = useState<string>("");
     const [productName, setProductName] = useState<string>("");
     const [productPrice, setProductPrice] = useState<number>();
     const [checkedType, setCheckedType] = useState<string>("illust");
@@ -178,7 +189,7 @@ export const ProductPostPage = () => {
                 />
             </ProductPostBoxStyled>
             <ProductPostBoxStyled>
-                <SmallText>상품 가격</SmallText>
+                <SmallText style={{marginBottom:"20px"}}>상품 가격</SmallText>
                 <ProductPostInputStyled
                     className="input-name"
                     placeholder="상품 가격을 입력하세요."
@@ -187,54 +198,8 @@ export const ProductPostPage = () => {
                 />
             </ProductPostBoxStyled>
             <ProductPostBoxStyled>
-                <SmallText style={{marginBottom:"20px"}}>상품 타입</SmallText>
-                <ProductPostTypeContainerStyled type={checkedType}>
-                    <ProductPostTypeItemStyled onClick={() => onClickRadio("illust", 1)}>
-                        <ProductPostRadioStyled id="illust"></ProductPostRadioStyled>
-                        <ProductPostLabelStyled htmlFor="illust">일러스트</ProductPostLabelStyled>
-                    </ProductPostTypeItemStyled>
-                    <ProductPostTypeItemStyled onClick={() => onClickRadio("caricature", 2)}>
-                        <ProductPostRadioStyled id="caricature"></ProductPostRadioStyled>
-                        <ProductPostLabelStyled htmlFor="caricature">캐리커쳐</ProductPostLabelStyled>
-                    </ProductPostTypeItemStyled>
-                    <ProductPostTypeItemStyled onClick={() => onClickRadio("webtoon", 3)}>
-                        <ProductPostRadioStyled id="webtoon"></ProductPostRadioStyled>
-                        <ProductPostLabelStyled htmlFor="webtoon">웹툰·콘티</ProductPostLabelStyled>
-                    </ProductPostTypeItemStyled>
-                    <ProductPostTypeItemStyled onClick={() => onClickRadio("character", 4)}>
-                        <ProductPostRadioStyled id="character"></ProductPostRadioStyled>
-                        <ProductPostLabelStyled htmlFor="character">캐릭터</ProductPostLabelStyled>
-                    </ProductPostTypeItemStyled>
-                    <ProductPostTypeItemStyled onClick={() => onClickRadio("emoticon", 5)}>
-                        <ProductPostRadioStyled id="emoticon"></ProductPostRadioStyled>
-                        <ProductPostLabelStyled htmlFor="emoticon">이모티콘</ProductPostLabelStyled>
-                    </ProductPostTypeItemStyled>
-                </ProductPostTypeContainerStyled>
-            </ProductPostBoxStyled>
-            <ProductPostBoxStyled>
-                <SmallText style={{marginBottom:"20px"}}>상품 태그</SmallText>
-                <ProductPostTagContainerStyled>
-                    <ProductPostTagContainerStyled>
-                    {tagArr.map((item, index) => (
-                        <div key={index} className="tag" onClick={deleteTag}>
-                        {item}
-                        </div>
-                    ))}
-                    <input
-                        ref={tagRef}
-                        className="input-tag"
-                        placeholder="태그를 입력하고 엔터를 누르세요."
-                        value={tag}
-                        onChange={onChangeTag}
-                        onKeyPress={e => {
-                        if (e.key === "Enter") {
-                            addTag(tag);
-                            setTag("");
-                        }
-                        }}
-                    />
-                    </ProductPostTagContainerStyled>
-                </ProductPostTagContainerStyled>
+                <SmallText style={{marginBottom:"20px"}}>상품 설명</SmallText>
+                <ProductPostTextareaStyled placeholder="상품 설명을 입력하세요" rows={8} cols={50}></ProductPostTextareaStyled>
             </ProductPostBoxStyled>
             <ProductPostBoxStyled>
                 <SmallText style={{marginBottom:"20px"}}>상품 이미지 업로드</SmallText>
