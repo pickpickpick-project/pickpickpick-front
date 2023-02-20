@@ -21,7 +21,6 @@ const KakaoLogin = () => {
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");
   const [excuted, setExcuted] = useState<boolean>(false);
-  console.log(token);
 
   const navigate = useNavigate();
 

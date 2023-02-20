@@ -121,6 +121,25 @@ const items: MenuProps["items"] = [
   {
     key: "4",
     label: (
+      <a href="http://localhost:3000/product/post">
+        <div
+          className="menu-item"
+          style={{
+            fontSize: "15px",
+            width: "120px",
+            padding: "7px 0",
+            textAlign: "center",
+            color: colors.text,
+          }}
+        >
+          상품 등록
+        </div>
+      </a>
+    ),
+  },
+  {
+    key: "5",
+    label: (
       <KakaoLogout />
       // <div
       //   className="menu-item"

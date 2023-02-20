@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import colors from '../../assets/colors';
 import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled, CommonIntroduceBoxStyled } from '../../assets/CommonStyled';
 import { BigText } from '../../assets/CommonStyled';
+import { useQuery } from 'react-query';
+import { getUserInfo } from '../../api/user';
 
 const ProfileStyled = styled.div`
     display : flex;
@@ -22,11 +24,14 @@ interface Email {
 }
 
 const MypageProfile = ({email}:Email) => {
+    
+    const user_name = useQuery("getUserInfo", () => getUserInfo(Number(localStorage.getItem('userId'))))
+    
     return (
         <ProfileStyled>
                 <Logo width="90" height="90"/>
                 <ProfileContainerStyled>
-                    <BigText>{email}</BigText>
+                    <BigText>{user_name.data?.data.name}</BigText>
                         <CommonIntroduceBoxContainerStyled style={{marginTop:"20px"}}>
                             <CommonIntroduceBoxWrapperStyled>
                                 <CommonIntroduceBoxStyled>
