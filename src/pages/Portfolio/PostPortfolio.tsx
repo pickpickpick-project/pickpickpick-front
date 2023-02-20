@@ -1,7 +1,9 @@
-import { useCallback, useRef, useState } from "react";
+import { stringify } from "rc-field-form/es/useWatch";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import { pathToFileURL } from "url";
 import { postPortfolio } from "../../api/portfolio";
 import colors from "../../assets/colors";
 import MovePage from "../../util/navigate";
@@ -127,6 +129,24 @@ const PageStyle = styled.div<{ type: string }>`
     width: 500px;
     margin: 14px 0;
   }
+
+  .input-upload {
+    margin-bottom: 10px;
+    width: 150px;
+    height: 30px;
+    background: ${colors.button};
+    color: #fff;
+    border: 1px solid ${colors.button};
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #file {
+    display: none;
+  }
 `;
 
 const PostPortfolio = () => {
@@ -134,15 +154,15 @@ const PostPortfolio = () => {
   const [checkedType, setCheckedType] = useState<string>("illust");
   const [checkedTypeNum, setCheckedTypeNum] = useState<number>(1);
   const [portfolioName, setPortfolioName] = useState<string>("");
-  const [imgView, setImgView] = useState<string>("");
+  const [imgView, setImgView] = useState([]);
   const [tag, setTag] = useState<string>("");
   const [tagArr, setTagArr] = useState<string[]>([]);
   const [tagName, setTagName] = useState("");
   const imgRef = useRef<any>();
   const tagRef = useRef<any>();
+  const [files, setFiles] = useState<File[]>([]);
 
   const userId = localStorage.getItem("userId") ?? 0;
-  const formData = new FormData();
   const portfolioDate = new Date().toString();
 
   const queryClient = useQueryClient();
@@ -160,13 +180,24 @@ const PostPortfolio = () => {
   });
 
   const onUploadImage = () => {
-    const file = imgRef.current.files[0];
-    formData.append("file", file);
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImgView(reader.result as string);
-    };
+    setFiles([...files, imgRef.current.files[0]]);
+    console.log(imgRef.current.files, "files");
+
+    // let fileURLs = [];
+    // let img;
+    // for (let i = 0; i < files.length; i++) {
+    //   img = files[i];
+    //   const reader = new FileReader();
+    //   reader.onload = () => {
+    //     fileURLs[i] = reader.result;
+    //     setImgView([...imgArr]);
+    //   };
+    //   reader.readAsDataURL(img);
+    // }
+
+    // reader.onloadend = () => {
+    //   setImgView(reader.result as string);
+    // };
   };
 
   const onClickRadio = (type: string, typeNum: number) => {
@@ -195,9 +226,8 @@ const PostPortfolio = () => {
   };
 
   const handlePost = () => {
-    console.log(tagName, checkedTypeNum.toString());
     posting({
-      files: [],
+      files: files,
       portfolioDate,
       portfolioName,
       portfolioType: checkedTypeNum.toString(),
@@ -277,13 +307,26 @@ const PostPortfolio = () => {
       </div>
       <div className="upload">
         <div className="subtitle">포트폴리오 업로드</div>
-        <img className="upload-img" src={imgView} alt="" />
+
+        {imgView.map((img, index) => (
+          <img className="upload-img" src={img} alt="" key={index} />
+        ))}
+        <label htmlFor="file">
+          <div className="input-upload">파일 업로드하기</div>
+        </label>
         <input
           ref={imgRef}
           type="file"
+          id="file"
           className="input-upload"
           onChange={onUploadImage}
+          multiple
         />
+        <ul>
+          {files.map(file => (
+            <li key={file.name}>{file.name}</li>
+          ))}
+        </ul>
       </div>
       <div className="post">
         <div className="post-button" onClick={handlePost}>
