@@ -49,7 +49,7 @@ const BoardPage = () => {
                     {/* BoardPost 한 페이지에 있는 UI */}
                     <PaginationBottomUl totalPosts={boardData?.length} postPerPage={boardPostPerPage} pagination={setBoardCurrentPage}/>
                     {/*  */}
-                    <CommonYellowButton onClick={MovePage('writing')} width={200} height={50} hover={false} text={'문의글 작성하기'}/>
+                    <CommonYellowButton onClick={MovePage(`writing/${ArtistId}`)} width={200} height={50} hover={false} text={'문의글 작성하기'}/>
                 </BoardContainerStyled>
             </PageStyled>
     )
