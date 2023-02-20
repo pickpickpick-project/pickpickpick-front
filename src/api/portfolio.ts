@@ -9,20 +9,23 @@ interface Portfolio {
 }
 
 interface PortfolioData {
-    id: number,
+    portfolioNum: number,
      user: number,
      portfolioName: string,
      portfolioType: string,
      portfolioDate: string,
-     portfolioImgList: any,
+     portfolioImgList: PortfolioImgs[],
      portfolioTags: PortfolioTags[],
+}
+interface PortfolioImgs {
+    portfolioImgNum: number,
 }
 
 interface PortfolioTags {
     tag: TagInfo,
 }
 interface TagInfo {
-    id: number,
+    tagNum: number,
     tagName: string,
 }
 
@@ -33,8 +36,8 @@ export const getPortfolioList = async () =>{
     return response.data;
 }
 
-export const getPortfolioId = async (id: number) =>{
-    const response = await api.get<Portfolio>(`portfolio/${id}`);
+export const getPortfolioId = async (portfolioNum: number) =>{
+    const response = await api.get<Portfolio>(`portfolio/${portfolioNum}`);
     return response.data;
 }
 

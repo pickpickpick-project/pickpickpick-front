@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router";
 import styled from "styled-components";
+import { getUserInfo } from "../../api/user";
 import { getWorkId } from "../../api/work";
 import colors from "../../assets/colors";
 import ProductCarousel from "../../components/Product/ProductCarousel";
@@ -115,6 +116,10 @@ const ProductPage = () => {
   let { id } = useParams();
   const [amount, setAmout] = useState(1);
   const { data } = useQuery("work", () => getWorkId(Number(id)));
+  const { data: User, refetch } = useQuery("getUserIn", () =>
+    getUserInfo(data?.data.workInfo.workerNum ?? 1)
+  );
+
   const [imgView, setImgView] = useState<string>("");
 
   const workInfo = data?.data.workInfo;
@@ -129,6 +134,13 @@ const ProductPage = () => {
       setAmout(amount - 1);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      refetch();
+    }
+  }, [data]);
+
   useEffect(() => {
     const file = data?.data.workInfo.workImages[0];
 
@@ -143,13 +155,13 @@ const ProductPage = () => {
   return (
     <PageStyle>
       <div className="image-section">
-        <ProductCarousel />
+        <ProductCarousel workImg={workImg} />
       </div>
       <div className="purchase-section">
         <div className="name">{workInfo?.workName}</div>
         <div className="priceAndArtist">
           <div className="price">{workInfo?.workPrice}원</div>
-          <div className="artist">김작가</div>
+          <div className="artist">{User?.data.name}</div>
         </div>
 
         <div className="description">{workInfo?.workDesc}</div>

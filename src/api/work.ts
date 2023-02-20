@@ -19,7 +19,7 @@ interface WorkInfo {
       workPrice: number,
       workImages: WorkImg[] | any,
 }
-interface WorkImg {
+export interface WorkImg {
     workImgNum: number,
     workImgName: string,
     workImgOriginName : string,

@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import styled from "styled-components";
 import { ReactComponent as Arrow } from "../../assets/images/Portfolio/arrow-btn.svg";
 import { PortfolioImg } from "../../api/types";
+import { WorkImg } from "../../api/work";
 
 const SwiperStyle = styled.div`
   display: flex;
@@ -64,7 +65,11 @@ const DivNext = styled.div`
   text-align: center;
 `;
 
-const ProductCarousel = () => {
+interface Img {
+  workImg: WorkImg[];
+}
+
+const ProductCarousel = ({ workImg }: Img) => {
   const settings = {
     className: "slider variable-width",
     dots: false,
@@ -84,32 +89,11 @@ const ProductCarousel = () => {
       </DivNext>
     ),
   };
-  const [posts, setPosts] = useState<PortfolioImg[]>([]);
-
-  const getUserPortfolioImgs = useCallback(async () => {
-    try {
-      const { data } = await axios.get<PortfolioImg[]>(
-        `https://api.thecatapi.com/v1/images/?limit=4&order=DESC`,
-        {
-          headers: {
-            "x-api-key": "17d94b92-754f-46eb-99a0-65be65b5d18f",
-          },
-        }
-      );
-      setPosts(prevPosts => [...prevPosts, ...data]);
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
-
-  useEffect(() => {
-    getUserPortfolioImgs();
-  }, []);
 
   return (
     <SwiperStyle>
       <Slider {...settings}>
-        {posts.map((item, idx) => (
+        {workImg?.map((item, idx) => (
           <ImageSwiperItem key={idx} item={item} />
         ))}
       </Slider>

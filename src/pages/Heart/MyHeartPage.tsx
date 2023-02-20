@@ -1,4 +1,7 @@
+import { useQuery } from "react-query";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
+import { getFavorites } from "../../api/favorites";
 import colors from "../../assets/colors";
 import HeartItem from "../../components/Heart/HeartItem";
 
@@ -17,18 +20,26 @@ const PageStyle = styled.div`
 
   .heart-section {
     display: flex;
-    flex-flow: row-wrap;
+    flex-flow: wrap;
     margin: 40px 0;
   }
 `;
 const MyHeartPage = () => {
+  const userId = Number(localStorage.getItem("userId"));
+  const navigate = useNavigate();
+  const { data } = useQuery("getFavorites", () => getFavorites(userId));
+  const itemData = data?.data ?? [{}];
+
   return (
     <PageStyle>
       <div className="title">나의 찜목록</div>
 
       <div className="heart-section">
-        {itemData.map((item, index) => (
-          <div key={index}>
+        {itemData.map((item: any, index: number) => (
+          <div
+            key={index}
+            onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+          >
             <HeartItem item={item} />
           </div>
         ))}
@@ -37,18 +48,4 @@ const MyHeartPage = () => {
   );
 };
 
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-    title: "Fern",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f",
-    title: "Snacks",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-    title: "Mushrooms",
-  },
-];
 export default MyHeartPage;

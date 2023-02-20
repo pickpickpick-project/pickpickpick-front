@@ -8,6 +8,8 @@ import { Dropdown, Button } from "antd";
 import { Navigate, useNavigate } from "react-router";
 import KakaoLogin from "../../pages/Login/KakaoLogin";
 import KakaoLogout from "../../pages/Login/KakaoLogout";
+import { getUserInfo } from "../../api/user";
+import { useQuery } from "react-query";
 
 const HeaderStyle = styled.div`
   position: fixed;
@@ -40,10 +42,17 @@ const HeaderStyle = styled.div`
   }
 
   .profile {
-    height: 50px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     transition: 0.2s all ease-out;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 100%;
+    }
   }
   .profile: hover {
     cursor: pointer;
@@ -152,7 +161,9 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const userId = localStorage.getItem("userId"); //string
+  const userId = Number(localStorage.getItem("userId"));
+
+  const { data: User } = useQuery("getUser", () => getUserInfo(userId));
 
   useEffect(() => {
     if (userId) {
@@ -165,14 +176,24 @@ const Header = () => {
   return (
     <HeaderStyle>
       <div className="header">
-        <Logo onClick={() => navigate("/")} style={{ cursor: "pointer" }} />
+        <Logo
+          onClick={() => {
+            navigate("/");
+            window.location.reload();
+          }}
+          style={{ cursor: "pointer" }}
+        />
         <div className="header-right">
           <div className="login">
             {isLogin ? (
               <>
                 <Dropdown menu={{ items }} overlayStyle={{ zIndex: 11 }}>
                   <div className="profile">
-                    <Profile />
+                    {User?.data.imageUrl ? (
+                      <img src={User?.data.imageUrl} alt="" />
+                    ) : (
+                      <Profile width="45px" height="45px" />
+                    )}
                   </div>
                 </Dropdown>
               </>

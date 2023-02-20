@@ -66,27 +66,28 @@ const DivNext = styled.div`
   text-align: center;
 `;
 
+const settings = {
+  className: "slider variable-width",
+  dots: false,
+  infinite: true,
+  centerMode: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  variableWidth: true,
+  autoplay: true,
+  prevArrow: (
+    <Div>
+      <Arrow style={{ transform: "rotate(180deg)" }} />
+    </Div>
+  ),
+  nextArrow: (
+    <DivNext>
+      <Arrow />
+    </DivNext>
+  ),
+};
+
 const ImageSwiper = ({ data }: any) => {
-  const settings = {
-    className: "slider variable-width",
-    dots: false,
-    infinite: true,
-    centerMode: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    variableWidth: true,
-    autoplay: true,
-    prevArrow: (
-      <Div>
-        <Arrow style={{ transform: "rotate(180deg)" }} />
-      </Div>
-    ),
-    nextArrow: (
-      <DivNext>
-        <Arrow />
-      </DivNext>
-    ),
-  };
   const [posts, setPosts] = useState<PortfolioImg[]>([]);
 
   const getUserPortfolioImgs = useCallback(async () => {
@@ -112,9 +113,9 @@ const ImageSwiper = ({ data }: any) => {
   return (
     <SwiperStyle>
       <Slider {...settings}>
-        {posts.map((item, idx) => (
+        {/* {posts.map((item, idx) => (
           <ImageSwiperItem key={idx} item={item} />
-        ))}
+        ))} */}
       </Slider>
     </SwiperStyle>
   );

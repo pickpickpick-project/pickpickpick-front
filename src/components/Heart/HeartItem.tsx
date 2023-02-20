@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 const ItemStyle = styled.div`
-  width: 25%;
+  width: 100%;
   padding: 0px 12px;
   margin-bottom: 48px;
+  cursor: pointer;
 
   .item-img {
     width: 212px;
@@ -19,18 +20,28 @@ const ItemStyle = styled.div`
   }
 
   .artist {
+    width: 100%;
     padding-top: 16px;
     font-size: 16px;
   }
 `;
+interface Item {
+  item: Favorites;
+}
 
-const HeartItem = ({ item }: any) => {
+interface Favorites {
+  id: number;
+  portfolioName: string;
+  img: string;
+}
+
+const HeartItem = ({ item }: Item) => {
   return (
     <ItemStyle>
       <div className="item-img">
-        <img src={item.img} alt="" />
+        <img src={""} alt="" />
       </div>
-      <div className="artist">{item.title}</div>
+      <div className="artist">{item.portfolioName}</div>
     </ItemStyle>
   );
 };
