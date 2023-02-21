@@ -1,4 +1,3 @@
-import {ReactComponent as Logo} from '../../assets/images/Home/profile.svg';
 import styled from 'styled-components';
 import colors from '../../assets/colors';
 import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled, CommonIntroduceBoxStyled } from '../../assets/CommonStyled';
@@ -19,19 +18,24 @@ const ProfileContainerStyled = styled.div`
     width : 650px;
 `
 
+const ProfileImageStyled = styled.img`
+    border-radius: 10px;
+`   
+
 interface Email {
     email : string|null,
 }
 
+
 const MypageProfile = ({email}:Email) => {
     
-    const user_name = useQuery("getUserInfo", () => getUserInfo(Number(localStorage.getItem('userId'))))
+    const { data : User} = useQuery("getUserInfo", () => getUserInfo(Number(localStorage.getItem('userId'))))
     
     return (
         <ProfileStyled>
-                <Logo width="90" height="90"/>
+                <ProfileImageStyled src={User?.data.imageUrl}width="90" height="90"/>
                 <ProfileContainerStyled>
-                    <BigText>{user_name.data?.data.name}</BigText>
+                    <BigText>{User?.data.name}</BigText>
                         <CommonIntroduceBoxContainerStyled style={{marginTop:"20px"}}>
                             <CommonIntroduceBoxWrapperStyled>
                                 <CommonIntroduceBoxStyled>
