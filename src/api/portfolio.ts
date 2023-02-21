@@ -8,7 +8,7 @@ interface Portfolio {
     data: PortfolioData[] | any, 
 }
 
-interface PortfolioData {
+export interface PortfolioData {
     portfolioNum: number,
      user: number,
      portfolioName: string,
@@ -17,8 +17,11 @@ interface PortfolioData {
      portfolioImgList: PortfolioImgs[],
      portfolioTags: PortfolioTags[],
 }
-interface PortfolioImgs {
+export interface PortfolioImgs {
     portfolioImgNum: number,
+    portfolioImgOriginName : string,
+    portfolioImgName: string,
+    portfolioImgAddr: string,
 }
 
 interface PortfolioTags {

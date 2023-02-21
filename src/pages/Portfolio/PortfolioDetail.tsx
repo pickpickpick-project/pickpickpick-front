@@ -143,9 +143,11 @@ const PortfolioDetail = () => {
 
   const { data: Info } = useQuery("getInfo", () => getPortfolioId(Number(id)));
   const tagInfo = Info?.data.portfolioTags ?? [];
+  const imgInfo = Info?.data.portfolioImgList ?? [];
+  const ArtistId = Info?.data.user ?? 1;
 
-  const { data: User } = useQuery("getUser", () =>
-    getUserInfo(Info?.data.user)
+  const { data: User, refetch: UserRefetch } = useQuery("getUserId", () =>
+    getUserInfo(ArtistId)
   );
   console.log(User);
 
@@ -179,6 +181,11 @@ const PortfolioDetail = () => {
       console.log(error, "좋아요취소에러");
     },
   });
+
+  useEffect(() => {
+    console.log(User?.data.name);
+    UserRefetch();
+  }, [Info?.data.user]);
 
   let heartArr: number[] = [];
   useEffect(() => {
@@ -235,7 +242,7 @@ const PortfolioDetail = () => {
   return (
     <PageStyle>
       <div className="images-container">
-        <ImageSwiper data={Info} />
+        <ImageSwiper data={imgInfo} />
       </div>
       <div className="bottom-section">
         <div className="modal-info">
@@ -277,22 +284,5 @@ const PortfolioDetail = () => {
     </PageStyle>
   );
 };
-const tags = [
-  "로고",
-  "로고제작",
-  "로고디자인",
-  "공공기관로고",
-  "회사로고",
-  "로고",
-  "로고제작",
-  "로고디자인",
-  "공공기관로고",
-  "회사로고",
-  "로고",
-  "로고제작",
-  "로고디자인",
-  "공공기관로고",
-  "회사로고",
-];
 
 export default PortfolioDetail;

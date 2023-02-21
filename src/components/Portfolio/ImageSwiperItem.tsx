@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { PortfolioImg } from "../../api/types";
 import { WorkImg } from "../../api/work";
-import baseURL from "../../api/api";
 
 interface Item {
   item: WorkImg;

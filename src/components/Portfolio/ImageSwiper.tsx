@@ -5,6 +5,9 @@ import styled from "styled-components";
 import { ReactComponent as Arrow } from "../../assets/images/Portfolio/arrow-btn.svg";
 import ImageSwiperItem from "./ImageSwiperItem";
 import { PortfolioImg } from "../../api/types";
+import { useQuery } from "react-query";
+import { getPortfolioId, PortfolioData } from "../../api/portfolio";
+import { useParams } from "react-router";
 
 const SwiperStyle = styled.div`
   display: flex;
@@ -87,35 +90,17 @@ const settings = {
   ),
 };
 
-const ImageSwiper = ({ data }: any) => {
-  const [posts, setPosts] = useState<PortfolioImg[]>([]);
-
-  const getUserPortfolioImgs = useCallback(async () => {
-    try {
-      const { data } = await axios.get<PortfolioImg[]>(
-        `https://api.thecatapi.com/v1/images/?limit=4&order=DESC`,
-        {
-          headers: {
-            "x-api-key": "17d94b92-754f-46eb-99a0-65be65b5d18f",
-          },
-        }
-      );
-      setPosts(prevPosts => [...prevPosts, ...data]);
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
-
-  useEffect(() => {
-    getUserPortfolioImgs();
-  }, []);
-
+const ImageSwiper = (imgArr: any) => {
+  const baseURL =
+    "http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/";
   return (
     <SwiperStyle>
       <Slider {...settings}>
-        {/* {posts.map((item, idx) => (
-          <ImageSwiperItem key={idx} item={item} />
-        ))} */}
+        {imgArr.data?.map((item: any, index: number) => (
+          <div className="item-img" key={index}>
+            <img src={baseURL + item.portfolioImgAddr} alt="" />
+          </div>
+        ))}
       </Slider>
     </SwiperStyle>
   );
