@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { ReactComponent as ArtistImg } from "../../assets/images/Home/profile.svg"
 import { useQuery } from "react-query";
 import colors from "../../assets/colors";
 import ArtistIntroduce from "../../components/Artist/Introduce";
@@ -7,6 +6,12 @@ import CommonYellowButton from "../../components/Common/Button";
 import { CommonText } from "../../components/Artist/ArtistStyled";
 import CommonCarousel from "../../components/Common/Carousel";
 import MovePage from "../../util/navigate";
+import { useParams } from "react-router";
+import { getUserInfo } from "../../api/user";
+import { getUserPortfolio } from "../../api/portfolio";
+import { getWorkList } from "../../api/work";
+
+
 const ArtistBannerContainerStyled = styled.div`
     width : 1140px;
     height : 120px;
@@ -43,24 +48,38 @@ const ArtistBannerButtonWrapperStyled = styled.div`
     justify-content: flex-end;
 `
 
-const ArtistPage = () => {
+const ArtistImageStyled = styled.img`
+    border-radius: 15px;
+`
 
+const ArtistPage = () => {
+    const params = useParams();
+    // const userId = Number(params.id);
+    
+    const { data : User} = useQuery("getUser", () => getUserInfo(userId));
+    const userId = Number(localStorage.getItem('userId')); // localStorage에서 userId가져와야 렌더링 에러 없음
+    const getPortfolioData = useQuery("getPortfolioList", () => getUserPortfolio(userId));
+    const getWorkListData = useQuery("getWorkList", () => getWorkList(userId));
+    console.log(getWorkListData);
+    
     return(
+        // getPortfolioData.status === 'loading' || getWorkListData.status === 'loading'?
+        // <div>loadingloadingloadingloadingloading</div> :
         <ArtistStyled>
             <ArtistBannerContainerStyled>
-                <ArtistImg width="100" height="100"/>
+                <ArtistImageStyled src={User?.data.imageUrl} width="100" height="100"/>
                 <ArtistBannerElementContainerStyled>
-                    <ArtistBannerTitleStyled>Title</ArtistBannerTitleStyled>
+                    <ArtistBannerTitleStyled>{User?.data.name}</ArtistBannerTitleStyled>
                     <ArtistBannerButtonWrapperStyled>
-                        <CommonYellowButton onClick={MovePage('board')} width={269} height={52} text={"문의하기"} hover={false}/>
+                        <CommonYellowButton onClick={MovePage(`board/${User?.data.id}`)} width={269} height={52} text={"문의하기"} hover={false}/>
                     </ArtistBannerButtonWrapperStyled>
                 </ArtistBannerElementContainerStyled>
             </ArtistBannerContainerStyled>
             <ArtistIntroduce/>
             <CommonText>포트폴리오</CommonText>
-            <CommonCarousel data={[]}></CommonCarousel>
-            {/* <CommonText>서비스</CommonText>
-            <CommonCarousel data={[]}></CommonCarousel> */}
+            <CommonCarousel data={getPortfolioData.data.data} category={'portfolio'}></CommonCarousel>
+            <CommonText>판매</CommonText>
+            <CommonCarousel data={getWorkListData.data} category={'work'}/>
         </ArtistStyled>
     )
 }
