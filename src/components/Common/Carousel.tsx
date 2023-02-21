@@ -19,8 +19,8 @@ export const ArrowStyled = styled.span<{left?:number, right?:number}>`
     }
 `
 
-export const CarouselStyled = styled.div`
-    width : 900px; // 900px
+export const CarouselStyled = styled.div<{width:number}>`
+    width : ${(props) => props.width || 900}px; // 900px
     margin : 0 0 50px 0;
     position : relative;
 `
@@ -35,6 +35,7 @@ export const CarouselContainerStyled = styled.div<{width:number}>`
 
 export const CarouselElementContainerStyled = styled.div`
     width : 284px;
+    height : 100%;
     margin-right : 10px;
     display: flex;
     flex-direction: column;
@@ -111,7 +112,7 @@ const CommonCarousel = ({ data, category } : any,) => {
       }, [currentSlide]);
 
     return (
-        <CarouselStyled>
+        <CarouselStyled width={900}>
             {arrowFlag === true ? 
                 <>
                     <ArrowStyled left={-35}>

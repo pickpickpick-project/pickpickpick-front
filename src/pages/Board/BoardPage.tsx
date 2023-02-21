@@ -4,7 +4,7 @@ import {CommonIntroduceBoxStyled } from "../../assets/CommonStyled";
 import { inquiryBoardCurrentPage, inquiryBoardPostPerPage } from "../../recoil";
 import { useRecoilState } from "recoil";
 import PaginationBottomUl from "../../components/Pagination/pageUl";
-import BoardPost from "./BoardPost";
+import BoardPost from "./BoardList";
 import CommonYellowButton from "../../components/Common/Button";
 import MovePage from "../../util/navigate";
 import { getBoardList } from "../../api/board";
@@ -37,9 +37,7 @@ const BoardPage = () => {
     useEffect(() => {
         getBoardList(ArtistId)
         .then((res:any) => setBoardData([...res])) 
-    }, [])
-    // console.log(getBoardListData);
-    // console.log(getBoardListData.data?.data);    
+    }, []) 
 
     return (
             <PageStyled>

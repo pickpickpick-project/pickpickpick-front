@@ -15,9 +15,9 @@ import ManageProductPage from "../pages/Admin/ManagerProductPage";
 import ManagePortfolioPage from "../pages/Admin/ManagerPortfolioPage";
 import ManagePaymentPage from "../pages/Admin/ManagePaymentPage";
 import BoardPage from "../pages/Board/BoardPage";
-import PostWritingPage from "../pages/PostWriting/PostWritingPage";
+import PostWritingPage from "../pages/Board/BoardWriting";
 import OrderPage from "../pages/order/OrderPage";
-import PostView from "../pages/PostView/PostView";
+import PostView from "../pages/Board/BoardView";
 import { ProductPostPage } from "../pages/Product/ProductPostPage";
 
 const AppRouter = () => {
