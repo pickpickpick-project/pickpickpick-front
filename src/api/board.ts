@@ -24,6 +24,50 @@ export const getBoardList = async (userNumber:number) => {
     return response
 }
 
+//------------------------------------------
+
+
+interface BoardPostingInfo{
+    result : boolean,
+    msg : string,
+    code : string,
+    errorMsg : string,
+    data : BoardPostingInfoData[] | any // ?
+}
+
+
+interface BoardPostingInfoData{
+    postNum: number,
+    userNum: number,
+    userName: string,
+    postTitle: string,
+    postContent: string,
+    postPwd: string,
+    comments: BoardComment[],
+    postImgs: BoardPostingImg[]
+}
+
+interface BoardComment{
+        commentNum: number,
+        commentContent: string,
+        userNum: number,
+        userNick: string,
+        postNum: number,
+}
+
+interface BoardPostingImg{
+    postImgNum: number,
+    origFileName: string,
+    postImgName: string,
+    filePath: string,
+    postImgSize: number,
+}
+
+export const getPostData = async(postNum:number) => {
+    const response = await api.get<BoardPostingInfo>(`post/${postNum}`);
+    return response.data;
+}
+
 
 //------------------------------------------
 
