@@ -141,17 +141,6 @@ const ProductPage = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    const file = data?.data.workInfo.workImages[0];
-
-    const reader = new FileReader();
-    const newBlob = new Blob([new Uint8Array(file)]);
-    console.log(newBlob);
-    reader.readAsDataURL(newBlob);
-    reader.onloadend = () => {
-      setImgView(reader.result as string);
-    };
-  }, [data]);
   return (
     <PageStyle>
       <div className="image-section">

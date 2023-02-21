@@ -137,7 +137,6 @@ const Main = () => {
                 className="content-item"
                 onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
               >
-                <h1>{item.portfolioName}</h1>
                 <MainContent item={item} />
               </div>
             ))}

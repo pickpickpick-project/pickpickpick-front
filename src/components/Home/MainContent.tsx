@@ -25,16 +25,29 @@ const ContentStyle = styled.div`
   }
 `;
 
+const NoImage = styled.div<{ wd: number }>`
+  width: ${props => props.wd}px;
+  height: 700px;
+  background-color: lightgray;
+  text-align: center;
+`;
+
 interface Item {
   item: Portfolio;
 }
 interface Portfolio {
   portfolioNum: number;
   portfolioName: string;
+  portfolioImgList: Imgs[];
+}
+interface Imgs {
+  portfolioImgAddr: string;
 }
 
 const MainContent = ({ item }: Item) => {
-  const url = `https://images.unsplash.com/photo-1593134257782-e89567b7718a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cHVwcHl8ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60`;
+  const width = window.innerWidth;
+  const baseURL =
+    "http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/";
   const userNum = Number(localStorage.getItem("userId"));
 
   const [isHeart, setIsHeart] = useState<boolean>(false);
@@ -113,18 +126,26 @@ const MainContent = ({ item }: Item) => {
       <div className="item-heart" onClick={it => heartItem(it)}>
         {isHeart ? <HeartFilled /> : <Heart />}
       </div>
-      <img
-        src={`${url}?w=162&auto=format`}
-        srcSet={`${url}?w=162&auto=format&dpr=2 2x`}
-        alt={item.portfolioName}
-        loading="lazy"
-        style={{
-          borderBottomLeftRadius: 4,
-          borderBottomRightRadius: 4,
-          display: "block",
-          width: "100%",
-        }}
-      />
+      {item.portfolioImgList && item.portfolioImgList.length > 0 ? (
+        <img
+          src={`${
+            baseURL + item.portfolioImgList[0]?.portfolioImgAddr ?? ""
+          }?w=162&auto=format`}
+          srcSet={`${
+            baseURL + item.portfolioImgList[0]?.portfolioImgAddr ?? ""
+          }?w=162&auto=format&dpr=2 2x`}
+          alt={item.portfolioName}
+          loading="lazy"
+          style={{
+            borderBottomLeftRadius: 4,
+            borderBottomRightRadius: 4,
+            display: "block",
+            width: "100%",
+          }}
+        />
+      ) : (
+        <NoImage wd={(width - 80) / 3}>이미지가 없습니다.</NoImage>
+      )}
     </ContentStyle>
   );
 };
