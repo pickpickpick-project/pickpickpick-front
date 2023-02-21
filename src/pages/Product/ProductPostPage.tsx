@@ -54,12 +54,10 @@ const ProductPostRadioStyled = styled.div`
         border-radius: 50%;
         border: 1px solid #979797;
         margin-right: 5px;
-
-        
 `
 
 const ProductPostLabelStyled = styled.label`
-
+    
 `
 export const ProductPostImageContainer = styled.div`
     width : 300px;
@@ -87,24 +85,21 @@ export const ProductPostTextareaStyled = styled.textarea`
     }
 `
 
+const ProductPostImageStyled = styled.div`
+    display: flex;
+`
+
 export const ProductPostPage = () => {
     const [ textareaValue, setTextareaValue ] = useState<string>("");
     const [productName, setProductName] = useState<string>("");
     const [productPrice, setProductPrice] = useState<number>(0);
-    const [postImages, setPostImages] = useState([]); // 서버로 보낼 이미지 데이터
-    const [detailImages, setDetailImages] = useState<any>([]); // 프리뷰 보여줄 이미지 데이터
     const [showImages, setShowImages] = useState([]);
     const [ sendImages, setSendImages ] = useState<any>([]);
-    const [test, setTest] = useState<any>([]);
-    const [sendTes, setSendTest] = useState<any>([]);
+    const [ files, setFiles] = useState<File[]>([]);
     const userId = Number(localStorage.getItem('userId'));
     let fileURLs:any = [];
     let file;
 
-
-    const submitProductInfo = () => {
-    
-    }
 
     const textareaOnChange = (e:any) => {
         setTextareaValue(e.target.value);
@@ -112,8 +107,8 @@ export const ProductPostPage = () => {
 
     const handleAddImages = (event:any) => {
         const imageLists = event.target.files;
-        setTest(imageLists[0]);
-    
+        setFiles([...imageLists]);
+        console.log(files);
     
         let imageUrlLists:any = [];
         
@@ -157,36 +152,16 @@ export const ProductPostPage = () => {
     });
 
     const onClickPostHandler = () => {
-        // console.log(sendImages, textareaValue, productName, productPrice, userId);
-        console.log(test);
-        const formData:any = new FormData();
-        formData.append('files', test);
 
         posting({
-            files : formData,
+            files : files,
             workDesc : textareaValue,
             workName : productName,
             workPrice : productPrice,
             workerNum : userId,
             }
         )
-
-
-        for (let key of formData?.keys()) {
-            console.log(key);
-          }
-          
-          // FormData의 value 확인
-          for (let value of formData?.values()) {
-            console.log(value);
-          }
-        
     }
-
-    useEffect(() => {
-        
-    }, [sendImages])
-
 
     return(
         <ProductPostStyled>
@@ -215,11 +190,13 @@ export const ProductPostPage = () => {
             </ProductPostBoxStyled>
             <ProductPostBoxStyled>
                 <SmallText style={{marginBottom:"20px"}}>상품 이미지 업로드</SmallText>
-                    {showImages.map((image, id) => (
-                        <ProductPostImageContainer key={id}>
-                            <img src={image} alt={`${image}-${id}`} />
-                        </ProductPostImageContainer>
-                    ))}
+                    <ProductPostImageStyled>
+                        {showImages.map((image, id) => (
+                            <ProductPostImageContainer key={id}>
+                                <img src={image} alt={`${image}-${id}`} />
+                            </ProductPostImageContainer>
+                        ))}
+                    </ProductPostImageStyled>
                     <input type="file" id="input-file" multiple onChange={handleAddImages}/>
             </ProductPostBoxStyled>
             <ProductPostButtonContainer>
