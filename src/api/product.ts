@@ -11,8 +11,6 @@ interface ProductPost{
 
 export const handleSubmitProduct = async ( params : ProductPost) => {
     const {files,  workDesc, workName, workPrice, workerNum } = params;
-    console.log(files);
-    
     const response = await api.post<ProductPost>('works', {
         files,
         workDesc,
