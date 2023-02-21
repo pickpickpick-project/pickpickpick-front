@@ -52,8 +52,6 @@ const Mypage = ():React.ReactElement => {
     for(let i=0; i<portfolioListCount; i++){
         portfolioArray.push(getPortfolioData.data.data[i])
     }
-
-    console.log(portfolioArray);
     
     return (
         getPortfolioData.status === 'loading' || getProductListData.status === 'loading'?
