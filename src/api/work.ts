@@ -36,6 +36,9 @@ export const getWorkId = async (workNum: number) =>{
 
 // ---------------
 
+interface WorkListTest extends Array<WorkList>{     // 배열로 받아준다.
+    data : WorkList[];
+}
 
 interface WorkList {
     workerNum : number,
@@ -55,6 +58,6 @@ interface WorkListElementImg {
 
 
 export const getWorkList = async (workerNum : number) => {
-    const response = await api.get<WorkList>(`works/users/${workerNum}`);
+    const response = await api.get<WorkListTest>(`works/users/${workerNum}`);
     return response.data;
 }

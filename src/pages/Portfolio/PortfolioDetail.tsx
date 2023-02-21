@@ -147,6 +147,8 @@ const PortfolioDetail = () => {
   const { data: User } = useQuery("getUser", () =>
     getUserInfo(Info?.data.user)
   );
+  console.log(User);
+
 
   const { data, refetch } = useQuery("getFavorites", () =>
     getFavorites(userNum)
@@ -251,7 +253,7 @@ const PortfolioDetail = () => {
           </div>
         </div>
         <div className="right-section">
-          <div onClick={MovePage("artist")} className="artist-section">
+          <div onClick={MovePage(`artist/${User?.data.id}`)} className="artist-section">
             <div className="artist-img">
               {User?.data.imageUrl ? (
                 <img src={User?.data.imageUrl} alt="" />
@@ -264,7 +266,7 @@ const PortfolioDetail = () => {
             </div>
           </div>
           <CommonYellowButton
-            onClick={MovePage("board")}
+            onClick={MovePage(`board/${User?.data.id}`)}
             text={"작가에게 문의하기"}
             width={269}
             height={52}

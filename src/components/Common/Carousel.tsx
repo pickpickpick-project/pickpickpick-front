@@ -5,8 +5,8 @@ import {ReactComponent as ArrowRight} from "../../assets/images/Mypage/arrow-rig
 import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled } from "../../assets/CommonStyled";
 import MovePage from "../../util/navigate";
 
-const ArrowStyled = styled.span<{left?:number, right?:number}>`
-    position : absolute;
+export const ArrowStyled = styled.span<{left?:number, right?:number}>`
+    position : absolute; 
     top : 50%;
     left :  ${(props) => props.left}px;
     right : ${(props) => props.right}px;
@@ -19,13 +19,13 @@ const ArrowStyled = styled.span<{left?:number, right?:number}>`
     }
 `
 
-const CarouselStyled = styled.div`
+export const CarouselStyled = styled.div`
     width : 900px; // 900px
     margin : 0 0 50px 0;
     position : relative;
 `
 
-const CarouselContainerStyled = styled.div<{width:number}>`
+export const CarouselContainerStyled = styled.div<{width:number}>`
     width : ${(props) => props.width || 900}px;
     height : 200px;
     position: relative;
@@ -33,7 +33,7 @@ const CarouselContainerStyled = styled.div<{width:number}>`
     flex-direction: row;
 `
 
-const CarouselElementContainerStyled = styled.div`
+export const CarouselElementContainerStyled = styled.div`
     width : 284px;
     margin-right : 10px;
     display: flex;
@@ -41,8 +41,7 @@ const CarouselElementContainerStyled = styled.div`
     justify-content: center;
 `
 
-const CarouselElementImgStyled = styled.div`
-    background-color: black;
+export const CarouselElementImgStyled = styled.img`
     height : 60%;
     width : 60%;
     margin : 0 auto;
@@ -66,17 +65,22 @@ interface props{
 }
 
 const CommonCarousel = ({ data, category } : any,) => {
+    
+    const [ arrowFlag, setArrowFlag ] = useState(true);
     let page_category:any = {
         portfolio : {
             name : 'portfolio',
-            link : 'portfolio'
+            link : 'portfolio',
+            img : 'portfolioImgList'
         },
         work : {
             name : 'work',
-            link : 'product'
+            link : 'product',
+            img : 'files'
         }
     }
     const page_type = page_category[category].link;
+    const page_img = page_category[category].img
     // const repeat = [1, 2, 3, 4, 5]; // 게시물 개수 test
     const TOTAL_SLIDES = data.length;
     const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -99,23 +103,44 @@ const CommonCarousel = ({ data, category } : any,) => {
     }
 
     useEffect(() => {
+        if(data.length <= 3){
+            setArrowFlag(false);
+        }
         slideRef.current!.style.transition = "all 0.5s ease-in-out";
-        slideRef.current!.style.transform = `translateX(${currentSlide*300}px)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
+        slideRef.current!.style.transform = `translateX(${currentSlide*300}px)`;
       }, [currentSlide]);
 
     return (
         <CarouselStyled>
-            <ArrowStyled left={-35}>
-                <ArrowLeft onClick={onClickArrowLeft}></ArrowLeft>
-            </ArrowStyled>
-            <ArrowStyled right={-35}>
-                <ArrowRight onClick={onClickArrowRight}></ArrowRight>
-            </ArrowStyled>
+            {arrowFlag === true ? 
+                <>
+                    <ArrowStyled left={-35}>
+                        <ArrowLeft onClick={onClickArrowLeft}></ArrowLeft>
+                    </ArrowStyled>
+                    <ArrowStyled right={-35}>
+                        <ArrowRight onClick={onClickArrowRight}></ArrowRight>
+                    </ArrowStyled> 
+                </> 
+                : 
+                null
+            }
             <CommonIntroduceBoxContainerStyled style={{overflow:'hidden'}}>
                 <CommonIntroduceBoxWrapperStyled>
                     {/* 게시물의 개수에 따라서  */}
                     <CarouselContainerStyled width={data.length * 300} ref={slideRef}> 
                         {data.map((data:any) => {
+                            let imgSrc;
+                            
+                            switch (category){
+                                
+                                case 'portfolio':
+                                    imgSrc = data[page_img].length === 0 ? 'https://i.ibb.co/t8C6xSr/Portfolio.png' : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${data[page_img][0].portfolioImgAddr}`
+                                    break
+                                case 'work':
+                                    imgSrc = data[page_img].length === 0 ? 'https://i.ibb.co/t8C6xSr/Portfolio.png' : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${data[page_img][0].workImgSrcPath}`
+                                    break
+                            }
+                            
                             const name = `${page_category[category].name}Name`
                             const dataName = data[name];   
                             let query_id = 0;  
@@ -126,7 +151,7 @@ const CommonCarousel = ({ data, category } : any,) => {
                             }
                             return(
                             <CarouselElementContainerStyled onClick={MovePage(`${page_type}/${query_id}`)}>
-                                <CarouselElementImgStyled></CarouselElementImgStyled>
+                                <CarouselElementImgStyled src={imgSrc}></CarouselElementImgStyled>
                                 <CarouselTextStyled>{dataName}</CarouselTextStyled>
                             </CarouselElementContainerStyled>
                         )})}
