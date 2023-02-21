@@ -6,8 +6,9 @@ import { useState, useRef, useEffect } from "react";
 import CommonYellowButton from "../../components/Common/Button";
 import { useMutation, useQueryClient } from "react-query";
 import { handleSubmitProduct } from "../../api/product";
+
 import MovePage from "../../util/navigate";
-import axios from "axios";
+
 const ProductPostStyled = styled(PageStyled)``
 
 export const ProductPostBoxStyled = styled.div`
@@ -18,8 +19,8 @@ export const ProductPostBoxStyled = styled.div`
     margin-bottom : 24px;
 `
 
-const ProductPostInputStyled = styled.input`
-    width: 500px;
+export const ProductPostInputStyled = styled.input`
+    width: 70%;
     height: 30px;
     padding: 7px 14px;
     border: none;
@@ -85,7 +86,7 @@ export const ProductPostTextareaStyled = styled.textarea`
     }
 `
 
-const ProductPostImageStyled = styled.div`
+export const ProductPostImageStyled = styled.div`
     display: flex;
 `
 
@@ -144,7 +145,6 @@ export const ProductPostPage = () => {
     const { mutate : posting } = useMutation(handleSubmitProduct, {
         onSuccess : data => {
             queryClient.invalidateQueries("handleSubmitProduct");
-            console.log(data);
         },
         onError : (error) => {
             console.log(error);
