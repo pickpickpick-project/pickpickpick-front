@@ -59,12 +59,7 @@ const ArtistPage = () => {
     
     const { data : User} = useQuery("getUser", () => getUserInfo(artistId));
     const getPortfolioData = useQuery("getPortfolioList", () => getUserPortfolio(artistId));
-    const getWorkListData = useQuery("getWorkList", () => getWorkList(artistId));
-    // console.log(getWorkListData.data);
-    // console.log(getPortfolioData.data.data);
-    console.log(User?.data);
-    console.log(artistId);
-    
+    const getWorkListData = useQuery("getWorkList", () => getWorkList(artistId));    
     
         return(
             
