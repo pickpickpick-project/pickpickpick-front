@@ -110,7 +110,7 @@ const PostView = () => {
     })
 
     const onSubmitComment = () => {
-        
+        setTextareaValue('');
         posting({
             postNum : Number(param.id),
             commentContent : textareaValue,
