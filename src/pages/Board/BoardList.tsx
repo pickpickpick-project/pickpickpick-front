@@ -31,7 +31,6 @@ const BoardPostStyled = styled.div`
 `
 
 const BoardPost = (posts:any) => {
-    console.log(posts);
     return(
         <div>
             <BoardPostContainerStyled>

@@ -61,7 +61,7 @@ const CommonImgCarousel = ({ data } : any,) => {
                         {data.map((data:any) => {
                             const imgSrc = `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${data.filePath}`
                             return(
-                            <CarouselElementContainerStyled>
+                            <CarouselElementContainerStyled key={imgSrc}>
                                 <CarouselElementImgStyled src={imgSrc}/>
                             </CarouselElementContainerStyled>
                         )})}

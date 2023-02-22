@@ -2,20 +2,22 @@ import styled from "styled-components"
 import { PageStyled } from "../../assets/pageStyle"
 import { BigText, SmallText } from "../../assets/CommonStyled"
 import { ReactComponent as CommentSVG } from "../../assets/images/post/comment.svg";
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor } from '@toast-ui/react-editor';
 import Comment from "../../components/Comment/Comment";
 import { useParams } from "react-router";
 import { useState, useEffect, Suspense } from "react";
 import { getPostData } from "../../api/board";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getUserInfo } from "../../api/user";
 import CommonImgCarousel from "../../components/Common/ImageCarousel";
-
+import { ProductPostBoxStyled, ProductPostTextareaStyled } from "../Product/ProductPostPage";
+import CommonYellowButton from "../../components/Common/Button";
+import { getCommentList, handleSubmitComment } from "../../api/comment";
 
 
 const PostViewStyled = styled(PageStyled)`
     padding : 135px 16px 100px 16px;
+
+    
 `
 
 const PostViewContainerStyled = styled.div`
@@ -67,6 +69,12 @@ const PostViewCommentContainerStyled = styled.div`
     height : 500px;
     border-top : 0.0625rem solid rgb(231, 231, 231);
     padding : 135px 16px 100px 16px;
+
+    .button-wrapper{
+        display: flex;
+        justify-content: end;
+        margin-top : 30px;
+    }
 `
 const PostViewCommentWrapperStyled = styled.div`
     display : flex;
@@ -76,22 +84,47 @@ const PostViewCommentWrapperStyled = styled.div`
     margin : 0 auto;
 `
 
-
-
 const PostView = () => {
 
-    const param = useParams();
+    
     const [ postImg, setPostImg ] = useState<any>([]);
+    const [ textareaValue, setTextareaValue ] = useState<string>('');
+    
+    const param = useParams();
     const boardNum = Number(param.id);
     
     const userId = Number(localStorage.getItem('userId'));
-    const { data : getPostInfo } = useQuery("PostInfo", () => getPostData(boardNum!))
-    const { data : getUser } = useQuery("getUser", () => getUserInfo(userId))
-    
+    const { data : getPostInfo } = useQuery("PostInfo", () => getPostData(boardNum!));
+    const { data : getUser } = useQuery("getUser", () => getUserInfo(userId));
+    const { data : getComment } = useQuery("getComment", () => getCommentList(boardNum));    
+    const queryClient = useQueryClient();
+    const { mutate : posting } = useMutation(handleSubmitComment, {
+        onSuccess : data => {
+            queryClient.invalidateQueries("getComment");   // 캐시 무효화 갱신된 데이터 불러올 수 있다.
+            console.log(data);
+            
+        },
+        onError : data => {
+            console.log(data);
+        }
+    })
+
+    const onSubmitComment = () => {
+        setTextareaValue('');
+        posting({
+            postNum : Number(param.id),
+            commentContent : textareaValue,
+            userNum : userId,
+        })
+    }
+
+    const textareaOnChange = (e:any) => {
+        setTextareaValue(e.target.value);
+    }
     // useQuery로 불러오기 전에 렌더링이 되는 것 같다. 데이터 불러오고 렌더링 완료되어야 하는데. 
     // 문제 직면.
     
-    if(getPostInfo===undefined || getUser === undefined){
+    if(getPostInfo===undefined || getUser === undefined || getComment === undefined){
         return(
             <div>loadingloadingloadingloading</div>
         )
@@ -116,23 +149,22 @@ const PostView = () => {
                     </PostViewWritingContainerStyled>
                     <div className="comment-container">
                         <CommentSVG/>
-                        <SmallText>0</SmallText>
+                        <SmallText>{getComment.data.length}</SmallText>
                     </div>
                 </PostViewContainerStyled>
             </PostViewStyled>
             <PostViewCommentContainerStyled>
-                <Comment/>
-                <Comment/>
+                {getComment.data.map((comment) =>
+                    <Comment props={comment}/>
+                )}
                 <PostViewCommentWrapperStyled>
-                    <BigText>댓글</BigText>
-                    <Editor 
-                        placeholder="마크다운 문법을 활용하여 댓글을 입력해 보세요"
-                        previewStyle="tab"
-                        height="250px"
-                        initialEditType="markdown"
-                        useCommandShortcut={true}
-                        toolbarItems={[]}
-                    />
+                    <ProductPostBoxStyled>
+                        <SmallText style={{marginBottom:"20px"}}>댓글</SmallText>
+                        <ProductPostTextareaStyled placeholder="댓글을 입력하세요" rows={8} cols={50} value={textareaValue} onChange={textareaOnChange}></ProductPostTextareaStyled>
+                        <div className="button-wrapper">
+                            <CommonYellowButton width={150} height={50} hover={false} text={"등록"} onClick={() => {onSubmitComment()}}/>
+                        </div>
+                    </ProductPostBoxStyled>
                 </PostViewCommentWrapperStyled>
             </PostViewCommentContainerStyled>
         </>

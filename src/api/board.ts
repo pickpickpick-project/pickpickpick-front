@@ -82,7 +82,7 @@ interface BoardPost{
 
 export const handleSubmitBoard = async( params : BoardPost ) => {   // 작가별 문의게시판에 게시물 등록
     const { postBoardNum, files, postContent, postPwd, postTitle, userNum } = params;
-    const response = await api.post<BoardPost>(`board/${postBoardNum}/post`, {
+    const response = await api.post<BoardList>(`board/${postBoardNum}/post`, {
         postBoardNum, 
         files, 
         postContent, 

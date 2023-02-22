@@ -8,7 +8,7 @@ import { SmallText } from "../../assets/CommonStyled";
 import { useMutation, useQueryClient } from "react-query";
 import { handleSubmitBoard } from "../../api/board";
 import { usePagination } from "@mui/lab";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 const PostWritingPageStyle = styled(PageStyled)`
     .button-wrapper{
         display: flex;
@@ -48,10 +48,10 @@ const PostWritingPage = () => {
     const [ password, setPassword ] = useState<string>(''); // 비밀번호
     const userId = Number(localStorage.getItem('userId'));  // 유저 id 
     const param = useParams();
+    const navigate = useNavigate();
     useEffect(() => {
         setArtistNum(Number(param.id));
     }, [])
-    console.log(artistNum);
     
     let fileURLs:any = [];
     let file;
@@ -97,7 +97,10 @@ const PostWritingPage = () => {
     const { mutate : posting } = useMutation(handleSubmitBoard, {
         onSuccess : data => {
             queryClient.invalidateQueries("handleSubmitBoard");
-            console.log(data);
+            if(data.msg === "Success"){
+                navigate(`/board/${param.id}`);
+            }
+            
         },
         onError : data => {
             console.log(data);
@@ -106,7 +109,6 @@ const PostWritingPage = () => {
     })
 
     const onSubmit = () => {
-        console.log(artistNum, imgFiles, content, password, title, userId)
         posting({
             postBoardNum : artistNum!,
             files : imgFiles,
@@ -115,6 +117,7 @@ const PostWritingPage = () => {
             postTitle : title,
             userNum : userId,
         })
+        
     }
     return(
         <PostWritingPageStyle>
