@@ -64,3 +64,26 @@ export const handleSubmitComment = async(params : CommentPost) => {
     })
     return response.data;
 }
+
+
+
+////////////////
+
+
+interface CommentDeleteResponse{
+    result: boolean,
+    msg: string,
+    code: string,
+    errorMsg: string,
+    data: null,
+}
+
+
+export const handleDeleteComment = async(commentNum:number) => {
+    const response = await api.delete<CommentDeleteResponse>(`api/comment/${commentNum}`,
+    {
+        headers: {
+            "Content-Type": "application/json",
+          },
+    })
+}
