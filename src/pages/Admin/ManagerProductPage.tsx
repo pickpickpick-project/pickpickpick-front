@@ -1,6 +1,9 @@
+import { useQuery } from "react-query";
 import styled from "styled-components";
+import { getAdminProduct } from "../../api/admin";
 import colors from "../../assets/colors";
 import AdminContainer from "../../components/Admin/AdminContainer";
+import { Table } from "./ManageUserPage";
 
 const PageStyle = styled.div`
   padding: 135px 16px 140px 16px;
@@ -19,11 +22,34 @@ const PageStyle = styled.div`
 `;
 
 const ManageProductPage = () => {
+  const { data: AdminProduct } = useQuery("adminProduct", getAdminProduct);
+  const userArr = AdminProduct?.data ?? [];
   return (
     <PageStyle>
       <div className="container">
         <AdminContainer now={"product"} />
-        <div>관리자페이지 유저</div>
+        <Table>
+          <table>
+            <thead>
+              <tr>
+                <th>상품아이디</th>
+                <th>상품이름</th>
+                <th>상품가격</th>
+                <th>상품설명</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userArr.map((item: any) => (
+                <tr key={item.id}>
+                  <td>{item.workNum}</td>
+                  <td>{item.workName}</td>
+                  <td>{item.workPrice}</td>
+                  <td>{item.workDesc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Table>
       </div>
     </PageStyle>
   );
