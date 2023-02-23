@@ -160,11 +160,9 @@ const items: MenuProps["items"] = [
 const Header = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const navigate = useNavigate();
-
   const userId = Number(localStorage.getItem("userId"));
-
   const { data: User } = useQuery("getUser", () => getUserInfo(userId));
-
+  const ImgURL = User?.data.imageUrl[0] === 'h' ? User?.data.imageUrl : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${User?.data.imageUrl}`
   useEffect(() => {
     if (userId) {
       setIsLogin(true);
@@ -190,7 +188,7 @@ const Header = () => {
                 <Dropdown menu={{ items }} overlayStyle={{ zIndex: 11 }}>
                   <div className="profile">
                     {User?.data.imageUrl ? (
-                      <img src={User?.data.imageUrl} alt="" />
+                      <img src={ImgURL} alt="" />
                     ) : (
                       <Profile width="45px" height="45px" />
                     )}
