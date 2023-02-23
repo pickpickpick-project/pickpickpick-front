@@ -7,18 +7,38 @@ const ArtistIntroduceStyled = styled.div`
     margin-top : 50px;
 `
 
-const ArtistIntroduce = () => {
+interface User {
+    result: boolean,
+    msg: string,
+    code: string,
+    errorMsg: string,
+    data: UserData, 
+}
+
+interface UserData {
+    id: number,
+    name: string,
+    email: string,
+    nickName: string,
+    phone: string,
+    intro: string,
+    imageUrl: string,
+    role: string,
+    emailVerified: any, //수정필요
+    provider: string,
+    providerId: number,
+}
+
+const ArtistIntroduce = ({userData} : {userData : UserData}) => {
+    console.log(userData);
+    
     return(
         <ArtistIntroduceStyled>
             <CommonText>소개</CommonText>
             <CommonIntroduceBoxContainerStyled width={700} style={{marginTop:`30px`}}>
-                <CommonIntroduceBoxWrapperStyled>
-                    <CommonIntroduceBoxStyled>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Eius, officia, alias consequatur eveniet reprehenderit facilis
-                        laborum exercitationem dignissimos aut iusto tempore nostrum aliquam harum? 
-                        Qui natus error facilis rerum illo, cumque sed assumenda eum a? Commodi repellendus 
-                        possimus ex vel consequatur? Odio itaque, natus vel numquam ducimus sed soluta dolores!
+                <CommonIntroduceBoxWrapperStyled style={{width:"100%", height:"100px"}}>
+                    <CommonIntroduceBoxStyled style={{width:"95%", height:"80%"}}>
+                        {userData.intro}
                     </CommonIntroduceBoxStyled>
                 </CommonIntroduceBoxWrapperStyled>
             </CommonIntroduceBoxContainerStyled>
