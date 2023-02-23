@@ -1,4 +1,6 @@
+import { useQuery } from "react-query";
 import styled from "styled-components";
+import { getAdminUser } from "../../api/admin";
 import colors from "../../assets/colors";
 import AdminContainer from "../../components/Admin/AdminContainer";
 
@@ -18,12 +20,61 @@ const PageStyle = styled.div`
   }
 `;
 
+export const Table = styled.div`
+  width: 80%;
+  overflow-y: scroll;
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  padding: 40px 0;
+
+  thead {
+    font-weight: 700;
+  }
+
+  th,
+  td {
+    border: 1px solid black;
+    padding: 20px;
+  }
+
+  tbody {
+    height: 100px;
+    overflow-y: scroll;
+  }
+`;
+
 const ManageUserPage = () => {
+  const { data: AdminUser } = useQuery("adminUser", getAdminUser);
+  const userArr = AdminUser?.data ?? [];
   return (
     <PageStyle>
       <div className="container">
         <AdminContainer now={"user"} />
-        <div>관리자페이지 유저</div>
+        <Table>
+          <table>
+            <thead>
+              <tr>
+                <th>회원아이디</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>닉네임</th>
+                <th>전화번호</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userArr.map((item: any) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.email}</td>
+                  <td>{item.nickname}</td>
+                  <td>{item.phone}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Table>
       </div>
     </PageStyle>
   );
