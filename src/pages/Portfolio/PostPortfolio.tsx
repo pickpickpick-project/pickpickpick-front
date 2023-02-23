@@ -181,7 +181,6 @@ const PostPortfolio = () => {
 
   const onUploadImage = () => {
     setFiles([...files, imgRef.current.files[0]]);
-    console.log(imgRef.current.files, "files");
 
     // let fileURLs = [];
     // let img;

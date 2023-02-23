@@ -43,7 +43,7 @@ const AppRouter = () => {
         <Route path="admin/manage/payment" element={<ManagePaymentPage />} />
         <Route path="board/:id" element={<BoardPage />} />
         <Route path="writing/:id" element={<PostWritingPage />} />
-        <Route path="order" element={<OrderPage />} />
+        <Route path="order/:id" element={<OrderPage />} />
         <Route path="board/postview/:id" element={<PostView/>} />
       </Routes>
     </BrowserRouter>
