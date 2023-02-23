@@ -5,7 +5,6 @@ import ArtistIntroduce from "../../components/Artist/Introduce";
 import CommonYellowButton from "../../components/Common/Button";
 import { CommonText } from "../../components/Artist/ArtistStyled";
 import CommonCarousel from "../../components/Common/Carousel";
-import MovePage from "../../util/navigate";
 import { useNavigate, useParams } from "react-router";
 import { getUserInfo } from "../../api/user";
 import { getUserPortfolio } from "../../api/portfolio";
@@ -56,8 +55,10 @@ const ArtistPage = () => {
     const params = useParams();
     const navigate = useNavigate();
     const artistId = Number(params.id);
+    console.log(artistId);
     
-    const { data : User} = useQuery("getUser", () => getUserInfo(artistId));
+    const { data : User} = useQuery("getUserArtist", () => getUserInfo(artistId));
+    console.log(User);
     const getPortfolioData = useQuery("getPortfolioList", () => getUserPortfolio(artistId));
     const getWorkListData = useQuery("getWorkList", () => getWorkList(artistId));    
     const ImgURL = User?.data.imageUrl[0] === 'h' ? User?.data.imageUrl : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${User?.data.imageUrl}`
