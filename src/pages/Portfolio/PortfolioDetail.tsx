@@ -163,9 +163,6 @@ const PortfolioDetail = () => {
         enabled : !!artistId,
     }
   );
-  console.log(User);
-  console.log(artistId);
-  console.log(Info);
   
   const ImgURL = User?.data.imageUrl[0] === 'h' ? User?.data.imageUrl : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${User?.data.imageUrl}`
 
@@ -237,16 +234,20 @@ const PortfolioDetail = () => {
     }
     setClick(false);
   }, [isHeart, click]);
-
+  
+  
   useEffect(() => {
+    console.log(Info);
     if (Info?.data.portfolioType === 1) {
       setType("일러스트");
     } else if (Info?.data.portfolioType === 2) {
       setType("캐리커쳐");
     } else if (Info?.data.portfolioType === 3) {
       setType("웹툰 . 콘티");
-    } else if (Info?.data.portfolioType === 1) {
-      setType("이모티콘");
+    } else if (Info?.data.portfolioType === 4) {
+      setType("캐릭터");
+    } else if (Info?.data.portfolioType === 5) {
+        setType("이모티콘");
     }
   }, [Info]);
 
