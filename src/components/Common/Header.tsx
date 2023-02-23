@@ -6,10 +6,14 @@ import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg"
 import type { MenuProps } from "antd";
 import { Dropdown, Button } from "antd";
 import { Navigate, useNavigate } from "react-router";
-import KakaoLogin from "../../pages/Login/KakaoLogin";
 import KakaoLogout from "../../pages/Login/KakaoLogout";
 import { getUserInfo } from "../../api/user";
 import { useQuery } from "react-query";
+
+import LoginModal from "../../pages/Login/LoginModal";
+import KakaoLogin from "../../pages/Login/KakaoLogin";
+import NaverLogin from "../../pages/Login/NaverLogin";
+import GoogleLogin from "../../pages/Login/GoogleLogin";
 
 const HeaderStyle = styled.div`
   position: fixed;
@@ -28,17 +32,18 @@ const HeaderStyle = styled.div`
     align-items: center;
   }
 
+  .login-container {
+    display: flex;
+  }
   .login-button {
-    width: 150px;
+    width: 100px;
     cursor: pointer;
-
+    margin: 0 auto;
+    margin-bottom: 10px;
     img {
       width: 100%;
+      //   object-fit: cover;
     }
-  }
-
-  .login-button:active {
-    transform: scale(0.98);
   }
 
   .profile {
@@ -57,6 +62,21 @@ const HeaderStyle = styled.div`
   .profile: hover {
     cursor: pointer;
     filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+  }
+
+  .login {
+    position: relative;
+    padding-left: 40px;
+  }
+
+  .admin {
+    font-size: 10px;
+    margin-top: 2px;
+    color: gray;
+    text-decoration: underline;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
   }
 `;
 
@@ -159,6 +179,7 @@ const items: MenuProps["items"] = [
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const userId = Number(localStorage.getItem("userId"));
   const { data: User } = useQuery("getUser", () => getUserInfo(userId));
@@ -196,15 +217,36 @@ const Header = () => {
                 </Dropdown>
               </>
             ) : (
-              <>
+              <div className="login-container">
                 <div className="login-button">
                   <KakaoLogin />
                 </div>
-              </>
+                <div className="login-button">
+                  <NaverLogin />
+                </div>
+                <div className="login-button">
+                  <GoogleLogin />
+                </div>
+              </div>
+              // <div
+              //   className="login-container"
+              //   onClick={() => {
+              //     setIsOpen(true);
+              //   }}
+              // >
+              //   로그인하기
+              // </div>
             )}
+            <div
+              className="admin"
+              onClick={() => navigate("/admin/manage/user")}
+            >
+              관리자페이지
+            </div>
           </div>
         </div>
       </div>
+      {/* <LoginModal isOpen={isOpen} setIsOpen={setIsOpen} /> */}
     </HeaderStyle>
   );
 };

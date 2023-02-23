@@ -1,10 +1,21 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import Kakao from "../../assets/images/Home/kakao.png";
+import Naver from "../../assets/images/Home/naver.png";
 
-const KakaoLogin = () => {
-  const KAKAO_AUTH_URL = `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth2/redirect`;
+interface UserInfo {
+  aud: string;
+  auth_time: number;
+  email: string;
+  exp: number;
+  iat: number;
+  iss: string;
+  nickname: string;
+  sub: string;
+}
+
+const NaverLogin = () => {
+  const NAVER_AUTH_URL = `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth2/redirect`;
   const loaction = useLocation();
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");
@@ -12,7 +23,8 @@ const KakaoLogin = () => {
 
   const navigate = useNavigate();
 
-  const getKakaoToken = useCallback(async () => {
+  const getNaverToken = useCallback(async () => {
+    console.log("여기1");
     try {
       await axios
         .get(
@@ -26,26 +38,30 @@ const KakaoLogin = () => {
         .then(res => {
           setExcuted(true);
           localStorage.setItem("userId", res.data.data.userNum);
-
           navigate("/");
         });
-    } catch (err) {}
+    } catch (err) {
+      console.log(err, "네이버 에러");
+    }
   }, []);
 
-  const handleLoginKakao = () => {
-    window.location.href = KAKAO_AUTH_URL;
+  const handleLoginNaver = () => {
+    console.log("naver");
+    window.location.href = NAVER_AUTH_URL;
   };
 
   useEffect(() => {
+    console.log("여기2");
     if (!loaction.search || excuted) return;
-    getKakaoToken();
+    getNaverToken();
+    console.log("여기3");
   }, []);
 
   return (
-    <div onClick={handleLoginKakao}>
-      <img src={Kakao} alt="kakao" />
+    <div onClick={handleLoginNaver}>
+      <img src={Naver} alt="naver" />
     </div>
   );
 };
 
-export default KakaoLogin;
+export default NaverLogin;

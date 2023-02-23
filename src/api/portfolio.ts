@@ -80,3 +80,9 @@ export async function getPortfolioInfo(portfolioNumber:number){
     const response = await api.get(`portfolio/${portfolioNumber}`);
     return response.data.data
 }
+
+export const deletePortfolio = async (params: {portfolioNm: number}) =>{
+    const {portfolioNm} = params;
+    const response = await api.delete<Portfolio>(`portfolio/${portfolioNm}`);
+    return response.data;
+}

@@ -25,3 +25,9 @@ export const handleSubmitProduct = async ( params : ProductPost) => {
 
     return response.data
 }
+
+export const deleteProduct = async (params: {workNum: number}) =>{
+    const {workNum} = params;
+    const response = await api.delete(`works/${workNum}`);
+    return response.data;
+}
