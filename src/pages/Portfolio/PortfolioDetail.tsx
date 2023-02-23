@@ -4,12 +4,11 @@ import ImageSwiper from "../../components/Portfolio/ImageSwiper";
 import { ReactComponent as Profile } from "../../assets/images/Home/profile.svg";
 import ModalTag from "../../components/Portfolio/ModalTag";
 import CommonYellowButton from "../../components/Common/Button";
-import MovePage from "../../util/navigate";
 import { ReactComponent as Heart } from "../../assets/images/Portfolio/heart.svg";
 import { ReactComponent as HeartFilled } from "../../assets/images/Portfolio/heart-filled.svg";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { getPortfolioId } from "../../api/portfolio";
 import { getUserInfo } from "../../api/user";
 import {
@@ -140,17 +139,35 @@ const PortfolioDetail = () => {
   const [isHeart, setIsHeart] = useState<boolean>(false);
   const [type, setType] = useState("일러스트");
   const [click, setClick] = useState(false);
-
-  const { data: Info } = useQuery("getInfo", () => getPortfolioId(Number(id)));
+  const [ artistId, setArtistId ] = useState(0);
+    const navigate = useNavigate();
+  const { data: Info } = useQuery("getInfo", () => 
+  getPortfolioId(Number(id)),
+  {
+    onSuccess : (data) => {
+        console.log(data)
+        setArtistId(data.data.user)
+    }
+  },
+  
+  );
   const tagInfo = Info?.data.portfolioTags ?? [];
   const imgInfo = Info?.data.portfolioImgList ?? [];
-  const ArtistId = Info?.data.user ?? 1;
-
-  const { data: User, refetch: UserRefetch } = useQuery("getUserId", () =>
-    getUserInfo(ArtistId)
+  const ArtistId = Info?.data.user;
+  
+  
+  const { data: User } = useQuery(
+    "getUserId",
+    () => getUserInfo(ArtistId),
+    {
+        enabled : !!artistId,
+    }
   );
   console.log(User);
-
+  console.log(artistId);
+  console.log(Info);
+  
+  const ImgURL = User?.data.imageUrl[0] === 'h' ? User?.data.imageUrl : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${User?.data.imageUrl}`
 
   const { data, refetch } = useQuery("getFavorites", () =>
     getFavorites(userNum)
@@ -182,10 +199,10 @@ const PortfolioDetail = () => {
     },
   });
 
-  useEffect(() => {
-    console.log(User?.data.name);
-    UserRefetch();
-  }, [Info?.data.user]);
+//   useEffect(() => {
+//     console.log(User?.data.name);
+//     UserRefetch();
+//   }, [Info?.data.user]);
 
   let heartArr: number[] = [];
   useEffect(() => {
@@ -239,48 +256,57 @@ const PortfolioDetail = () => {
     setIsHeart(!isHeart);
     // setHeartList(heartList => [...heartList, item.portfolioNum])
   };
+
   return (
+        
     <PageStyle>
-      <div className="images-container">
-        <ImageSwiper data={imgInfo} />
-      </div>
-      <div className="bottom-section">
-        <div className="modal-info">
-          <div className="modal-info-top">
-            <div className="modal-info-type">{type}</div>
-            <div className="item-heart" onClick={item => heartItem(item)}>
-              {isHeart ? <HeartFilled /> : <Heart />}
-            </div>
-          </div>
-          <div className="modal-info-title">{Info?.data.portfolioName}</div>
-          <div className="modal-info-tags">
-            {tagInfo.map((item: any) => (
-              <ModalTag key={item.tag.tagNum} tag={item.tag.tagName} />
-            ))}
-          </div>
-        </div>
-        <div className="right-section">
-          <div onClick={MovePage(`artist/${User?.data.id}`)} className="artist-section">
-            <div className="artist-img">
-              {User?.data.imageUrl ? (
-                <img src={User?.data.imageUrl} alt="" />
-              ) : (
-                <Profile width="45px" height="45px" />
-              )}
-            </div>
-            <div className="arist-info">
-              <div className="artist-info-name">{User?.data?.name}</div>
-            </div>
-          </div>
-          <CommonYellowButton
-            onClick={MovePage(`board/${User?.data.id}`)}
-            text={"작가에게 문의하기"}
-            width={269}
-            height={52}
-            hover={true}
-          />
-        </div>
-      </div>
+        {
+            User === undefined || Info === undefined ? 
+            <div>Loading</div> 
+            :
+            <>
+                <div className="images-container">
+                    <ImageSwiper data={imgInfo} />
+                </div>
+                <div className="bottom-section">
+                    <div className="modal-info">
+                    <div className="modal-info-top">
+                        <div className="modal-info-type">{type}</div>
+                        <div className="item-heart" onClick={item => heartItem(item)}>
+                        {isHeart ? <HeartFilled /> : <Heart />}
+                        </div>
+                    </div>
+                    <div className="modal-info-title">{Info?.data.portfolioName}</div>
+                    <div className="modal-info-tags">
+                        {tagInfo.map((item: any) => (
+                        <ModalTag key={item.tag.tagNum} tag={item.tag.tagName} />
+                        ))}
+                    </div>
+                    </div>
+                    <div className="right-section">
+                    <div onClick={() => {navigate(`/artist/${artistId}`)}} className="artist-section">
+                        <div className="artist-img">
+                        {User?.data.imageUrl ? (
+                            <img src={ImgURL} alt="" />
+                        ) : (
+                            <Profile width="45px" height="45px" />
+                        )}
+                        </div>
+                        <div className="arist-info">
+                        <div className="artist-info-name">{User?.data?.name}</div>
+                        </div>
+                    </div>
+                    <CommonYellowButton
+                        onClick={() => {navigate(`/board/${artistId}`)}}
+                        text={"작가에게 문의하기"}
+                        width={269}
+                        height={52}
+                        hover={true}
+                    />
+                    </div>
+                </div>
+            </>
+        }   
     </PageStyle>
   );
 };

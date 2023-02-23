@@ -60,7 +60,7 @@ const ArtistPage = () => {
     const { data : User} = useQuery("getUser", () => getUserInfo(artistId));
     const getPortfolioData = useQuery("getPortfolioList", () => getUserPortfolio(artistId));
     const getWorkListData = useQuery("getWorkList", () => getWorkList(artistId));    
-    
+    const ImgURL = User?.data.imageUrl[0] === 'h' ? User?.data.imageUrl : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${User?.data.imageUrl}`
         return(
             
             <ArtistStyled>
@@ -71,7 +71,7 @@ const ArtistPage = () => {
                     :
                     <>
                         <ArtistBannerContainerStyled>
-                            <ArtistImageStyled src={User?.data.imageUrl} width="100" height="100"/>
+                            <ArtistImageStyled src={ImgURL} width="100" height="100"/>
                             <ArtistBannerElementContainerStyled>
                                 <ArtistBannerTitleStyled>{User?.data.name}</ArtistBannerTitleStyled>
                                 <ArtistBannerButtonWrapperStyled>
@@ -85,7 +85,7 @@ const ArtistPage = () => {
                                 </ArtistBannerButtonWrapperStyled>
                             </ArtistBannerElementContainerStyled>
                         </ArtistBannerContainerStyled>
-                        <ArtistIntroduce/>
+                        <ArtistIntroduce userData={User?.data}/>
                         <CommonText>포트폴리오</CommonText>
                         <CommonCarousel data={getPortfolioData.data.data} category={'portfolio'}></CommonCarousel>
                         <CommonText>판매</CommonText>
