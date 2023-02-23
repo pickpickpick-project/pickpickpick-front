@@ -1,10 +1,22 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import Kakao from "../../assets/images/Home/kakao.png";
+import Google from "../../assets/images/Home/google.png";
+import jwt_decode from "jwt-decode";
 
-const KakaoLogin = () => {
-  const KAKAO_AUTH_URL = `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth2/redirect`;
+interface UserInfo {
+  aud: string;
+  auth_time: number;
+  email: string;
+  exp: number;
+  iat: number;
+  iss: string;
+  nickname: string;
+  sub: string;
+}
+
+const GoogleLogin = () => {
+  const KAKAO_AUTH_URL = `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth2/redirect`;
   const loaction = useLocation();
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");
@@ -12,7 +24,7 @@ const KakaoLogin = () => {
 
   const navigate = useNavigate();
 
-  const getKakaoToken = useCallback(async () => {
+  const getGoogleToken = useCallback(async () => {
     try {
       await axios
         .get(
@@ -26,26 +38,26 @@ const KakaoLogin = () => {
         .then(res => {
           setExcuted(true);
           localStorage.setItem("userId", res.data.data.userNum);
-
+          console.log(res.data.data.userNum);
           navigate("/");
         });
     } catch (err) {}
   }, []);
 
-  const handleLoginKakao = () => {
+  const handleLoginGoogle = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
   useEffect(() => {
     if (!loaction.search || excuted) return;
-    getKakaoToken();
+    getGoogleToken();
   }, []);
 
   return (
-    <div onClick={handleLoginKakao}>
-      <img src={Kakao} alt="kakao" />
+    <div onClick={handleLoginGoogle}>
+      <img src={Google} alt="google" />
     </div>
   );
 };
 
-export default KakaoLogin;
+export default GoogleLogin;

@@ -64,7 +64,7 @@ const MainContent = ({ item }: Item) => {
     favoritesData.map((v: any) => {
       heartArr.push(v.portfolioNum);
     });
-  }, []);
+  }, [favoritesData]);
 
   const queryClient = useQueryClient();
   const { mutate: favorites } = useMutation(postFavorites, {
