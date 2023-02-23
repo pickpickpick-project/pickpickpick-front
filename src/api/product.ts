@@ -59,6 +59,7 @@ interface ProductImages{
 export const getProductData = async(workNum:number) => {    
     const response = await api.get<ProductResponse>(`works/${workNum}`);
     return response.data;
+}
 
 export const deleteProduct = async (params: {workNum: number}) =>{
     const {workNum} = params;
