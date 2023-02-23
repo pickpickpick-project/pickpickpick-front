@@ -1,17 +1,20 @@
 import styled from 'styled-components';
-import colors from '../../assets/colors';
 import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled, CommonIntroduceBoxStyled } from '../../assets/CommonStyled';
 import { BigText } from '../../assets/CommonStyled';
 import { useQuery } from 'react-query';
+import { useState } from 'react';
 import { getUserInfo } from '../../api/user';
-
+import colors from '../../assets/colors';
 const ProfileStyled = styled.div`
     display : flex;
     flex-direction: row;
     width : 100%;
     justify-content: space-around;
     align-items: center;
+`
 
+const ProfileIntroductContainer = styled(CommonIntroduceBoxWrapperStyled)`
+    display : flex;
 `
 
 const ProfileContainerStyled = styled.div`
@@ -22,6 +25,36 @@ const ProfileImageStyled = styled.img`
     border-radius: 10px;
 `   
 
+const ProfileIntroduceEditBtnStyled = styled.button`
+    width : 50px;
+    height : 20px;
+    margin-left : 15px;
+    border : none;
+    background-color: white;
+    box-shadow: 6px 8px 14px rgb(0 0 0 / 8%);
+    border-radius: 5px;
+    cursor: pointer;
+`
+
+const ProfileIntroduceBoxStyled = styled(CommonIntroduceBoxStyled)`
+    width : 90%;
+    height : 100px;
+`
+
+const ProfileIntroduceInputStyled = styled.textarea`
+    width : 90%;
+    height : 100px;
+    background-color: white;
+    padding : 16px;
+    box-shadow: 6px 8px 14px rgb(0 0 0 / 8%);
+    border-radius: 12px;
+    color : ${colors.text};
+    border : none;
+    &:focus{
+        outline : none;
+    }
+`
+
 interface Email {
     email : string|null,
 }
@@ -29,7 +62,18 @@ interface Email {
 
 const MypageProfile = ({email}:Email) => {
     
-    const { data : User} = useQuery("getUserInfo", () => getUserInfo(Number(localStorage.getItem('userId'))))
+    const { data : User} = useQuery("getUserInfo", () => getUserInfo(Number(localStorage.getItem('userId'))));
+    const [ introduceText, setIntroduceText ] = useState('소개 글을 입력해 주세요');
+    const onChangeInput = (e:any) => {
+        setIntroduceText(e.target.value);
+    }
+    const [ introduceBoxValid, setIntroduceBoxValid ] = useState(true);
+    const [ btnState, setBtnState ] = useState(true);
+    const onClickBtn = () => {
+        setIntroduceBoxValid(!introduceBoxValid)
+        setBtnState(!introduceBoxValid);
+    }
+
     
     return (
         <ProfileStyled>
@@ -37,15 +81,18 @@ const MypageProfile = ({email}:Email) => {
                 <ProfileContainerStyled>
                     <BigText>{User?.data.name}</BigText>
                         <CommonIntroduceBoxContainerStyled style={{marginTop:"20px"}}>
-                            <CommonIntroduceBoxWrapperStyled>
-                                <CommonIntroduceBoxStyled>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                                    Eius, officia, alias consequatur eveniet reprehenderit facilis
-                                    laborum exercitationem dignissimos aut iusto tempore nostrum aliquam harum? 
-                                    Qui natus error facilis rerum illo, cumque sed assumenda eum a? Commodi repellendus 
-                                    possimus ex vel consequatur? Odio itaque, natus vel numquam ducimus sed soluta dolores!
-                                </CommonIntroduceBoxStyled>
-                            </CommonIntroduceBoxWrapperStyled>
+                            <ProfileIntroductContainer>
+                                {introduceBoxValid === true ? 
+                                <ProfileIntroduceBoxStyled>{introduceText}</ProfileIntroduceBoxStyled>
+                                :
+                                <ProfileIntroduceInputStyled value={introduceText} onChange={onChangeInput}/>
+                            }
+                                <ProfileIntroduceEditBtnStyled onClick={onClickBtn}>
+                                    {
+                                        btnState === true ? 'edit' : 'submit'
+                                    }
+                                </ProfileIntroduceEditBtnStyled>
+                            </ProfileIntroductContainer>
                         </CommonIntroduceBoxContainerStyled>
                 </ProfileContainerStyled>        
         </ProfileStyled>
