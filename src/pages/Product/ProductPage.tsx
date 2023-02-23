@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import styled from "styled-components";
 import { getUserInfo } from "../../api/user";
 import { getWorkId } from "../../api/work";
@@ -114,6 +114,7 @@ const PageStyle = styled.div`
 
 const ProductPage = () => {
   let { id } = useParams();
+  const navigate = useNavigate();
   const [amount, setAmout] = useState(1);
   const { data } = useQuery("work", () => getWorkId(Number(id)));
   const { data: User, refetch } = useQuery("getUserIn", () =>
@@ -165,7 +166,7 @@ const ProductPage = () => {
               +
             </span>
           </div>
-          <button className="purchase-button">구매하기</button>
+          <button className="purchase-button" onClick={() => navigate(`/order/${id}`, { state : amount})}>구매하기</button>
         </div>
       </div>
     </PageStyle>
