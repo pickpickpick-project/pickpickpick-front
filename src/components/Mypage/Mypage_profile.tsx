@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled, CommonIntroduceBoxStyled } from '../../assets/CommonStyled';
 import { BigText } from '../../assets/CommonStyled';
-import { useQuery } from 'react-query';
-import { useState } from 'react';
+import { useQueryClient, useMutation, useQuery } from 'react-query';
+import { useEffect, useState } from 'react';
 import { getUserInfo } from '../../api/user';
 import colors from '../../assets/colors';
+import { updateUserInfo } from '../../api/user';
 const ProfileStyled = styled.div`
     display : flex;
     flex-direction: row;
@@ -63,21 +64,52 @@ interface Email {
 const MypageProfile = ({email}:Email) => {
     
     const { data : User} = useQuery("getUserInfo", () => getUserInfo(Number(localStorage.getItem('userId'))));
+    
+    
     const [ introduceText, setIntroduceText ] = useState('소개 글을 입력해 주세요');
-    const onChangeInput = (e:any) => {
-        setIntroduceText(e.target.value);
-    }
     const [ introduceBoxValid, setIntroduceBoxValid ] = useState(true);
     const [ btnState, setBtnState ] = useState(true);
+    
+    const ImgURL = User?.data.imageUrl[0] === 'h' ? User?.data.imageUrl : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${User?.data.imageUrl}`
+
+    const queryClient = useQueryClient();
+    const { mutate : updateInfo } = useMutation( updateUserInfo, {
+        onSuccess : data => {
+            queryClient.invalidateQueries("getUserInfo");
+            console.log(data);
+        },
+
+        onError : data => {
+            console.log(data);
+            
+        }
+    } )
+
     const onClickBtn = () => {
         setIntroduceBoxValid(!introduceBoxValid)
+        console.log(User);
+        if(!introduceBoxValid){
+            updateInfo({
+                userNum : Number(User?.data.id!),
+                userIntro : introduceText,
+                userNick : User?.data.nickName!,
+                userPhone : User?.data.phone!,
+            })
+        }
         setBtnState(!introduceBoxValid);
     }
 
+    const onChangeInput = (e:any) => {
+        setIntroduceText(e.target.value);
+    }
+
+    useEffect(() => {
+        setIntroduceText(User?.data.intro!);
+    }, [User?.data.intro])   
     
     return (
         <ProfileStyled>
-                <ProfileImageStyled src={User?.data.imageUrl}width="90" height="90"/>
+                <ProfileImageStyled src={ImgURL} width="90" height="90"/>
                 <ProfileContainerStyled>
                     <BigText>{User?.data.name}</BigText>
                         <CommonIntroduceBoxContainerStyled style={{marginTop:"20px"}}>
