@@ -1,6 +1,7 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { getAdminProduct } from "../../api/admin";
+import { deleteProduct } from "../../api/product";
 import colors from "../../assets/colors";
 import AdminContainer from "../../components/Admin/AdminContainer";
 import { Table } from "./ManageUserPage";
@@ -24,6 +25,25 @@ const PageStyle = styled.div`
 const ManageProductPage = () => {
   const { data: AdminProduct } = useQuery("adminProduct", getAdminProduct);
   const userArr = AdminProduct?.data ?? [];
+
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(deleteProduct, {
+    onSuccess: data => {
+      queryClient.invalidateQueries("deleteUser");
+      console.log(data, "유저삭제");
+      if (data.msg === "Success") {
+        window.location.reload();
+      }
+    },
+    onError: error => {
+      console.log(error, "유저삭제에러");
+    },
+  });
+  const handleDeleteProduct = (id: number) => {
+    mutate({
+      workNum: id,
+    });
+  };
   return (
     <PageStyle>
       <div className="container">
@@ -36,6 +56,7 @@ const ManageProductPage = () => {
                 <th>상품이름</th>
                 <th>상품가격</th>
                 <th>상품설명</th>
+                <th>삭제</th>
               </tr>
             </thead>
             <tbody>
@@ -45,6 +66,12 @@ const ManageProductPage = () => {
                   <td>{item.workName}</td>
                   <td>{item.workPrice}</td>
                   <td>{item.workDesc}</td>
+                  <td
+                    className="delete"
+                    onClick={() => handleDeleteProduct(item.workNum)}
+                  >
+                    삭제
+                  </td>
                 </tr>
               ))}
             </tbody>

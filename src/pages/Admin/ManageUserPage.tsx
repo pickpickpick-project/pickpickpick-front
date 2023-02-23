@@ -1,6 +1,7 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
 import { getAdminUser } from "../../api/admin";
+import { deleteUser } from "../../api/user";
 import colors from "../../assets/colors";
 import AdminContainer from "../../components/Admin/AdminContainer";
 
@@ -42,11 +43,38 @@ export const Table = styled.div`
     height: 100px;
     overflow-y: scroll;
   }
+
+  .delete {
+    font-weight: 700;
+    background-color: ${colors.button};
+    cursor: pointer;
+  }
 `;
 
 const ManageUserPage = () => {
   const { data: AdminUser } = useQuery("adminUser", getAdminUser);
   const userArr = AdminUser?.data ?? [];
+
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(deleteUser, {
+    onSuccess: data => {
+      queryClient.invalidateQueries("deleteUser");
+      console.log(data, "유저삭제");
+      if (data.msg === "Success") {
+        window.location.reload();
+      }
+    },
+    onError: error => {
+      console.log(error, "유저삭제에러");
+    },
+  });
+
+  const handleDeleteUser = (id: number) => {
+    mutate({
+      userNum: id,
+    });
+  };
+
   return (
     <PageStyle>
       <div className="container">
@@ -60,6 +88,7 @@ const ManageUserPage = () => {
                 <th>이메일</th>
                 <th>닉네임</th>
                 <th>전화번호</th>
+                <th>삭제</th>
               </tr>
             </thead>
             <tbody>
@@ -70,6 +99,14 @@ const ManageUserPage = () => {
                   <td>{item.email}</td>
                   <td>{item.nickname}</td>
                   <td>{item.phone}</td>
+                  <td
+                    className="delete"
+                    onClick={() => {
+                      handleDeleteUser(item.id);
+                    }}
+                  >
+                    삭제
+                  </td>
                 </tr>
               ))}
             </tbody>

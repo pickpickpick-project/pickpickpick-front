@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { PortfolioImgs } from "../../api/portfolio";
 
 const ItemStyle = styled.div`
   width: 100%;
@@ -32,14 +33,24 @@ interface Item {
 interface Favorites {
   id: number;
   portfolioName: string;
-  img: string;
+  portfolioImgList: PortfolioImgs[];
 }
 
 const HeartItem = ({ item }: Item) => {
+  const baseURL =
+    "http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/";
   return (
     <ItemStyle>
       <div className="item-img">
-        <img src={""} alt="" />
+        {item.portfolioImgList !== undefined &&
+        item.portfolioImgList.length > 0 ? (
+          <img
+            src={baseURL + item.portfolioImgList[0]?.portfolioImgAddr}
+            alt=""
+          />
+        ) : (
+          <h1>이미지가 없습니다.</h1>
+        )}
       </div>
       <div className="artist">{item.portfolioName}</div>
     </ItemStyle>

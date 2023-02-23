@@ -27,9 +27,6 @@ export const handleSubmitProduct = async ( params : ProductPost) => {
 }
 
 
-//////////////////////////////
-
-
 interface ProductResponse{
         result: boolean,
         msg: string,
@@ -59,9 +56,13 @@ interface ProductImages{
         size: number,
 }
 
-export const getProductData = async(workNum:number) => {
-    // console.log(workNum);
-    
+export const getProductData = async(workNum:number) => {    
     const response = await api.get<ProductResponse>(`works/${workNum}`);
+    return response.data;
+
+export const deleteProduct = async (params: {workNum: number}) =>{
+    const {workNum} = params;
+    const response = await api.delete(`works/${workNum}`);
+
     return response.data;
 }

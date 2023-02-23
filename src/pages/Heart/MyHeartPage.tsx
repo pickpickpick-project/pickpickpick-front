@@ -29,13 +29,14 @@ const MyHeartPage = () => {
   const navigate = useNavigate();
   const { data } = useQuery("getFavorites", () => getFavorites(userId));
   const itemData = data?.data ?? [{}];
+  console.log(itemData);
 
   return (
     <PageStyle>
       <div className="title">나의 찜목록</div>
 
       <div className="heart-section">
-        {itemData.map((item: any, index: number) => (
+        {itemData?.map((item: any, index: number) => (
           <div
             key={index}
             onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
