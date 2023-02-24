@@ -30,8 +30,6 @@ interface UserData {
 }
 
 const ArtistIntroduce = ({userData} : {userData : UserData}) => {
-    console.log(userData);
-    
     return(
         <ArtistIntroduceStyled>
             <CommonText>소개</CommonText>
