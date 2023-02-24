@@ -19,6 +19,8 @@ import PostWritingPage from "../pages/Board/BoardWriting";
 import OrderPage from "../pages/order/OrderPage";
 import PostView from "../pages/Board/BoardView";
 import { ProductPostPage } from "../pages/Product/ProductPostPage";
+import NaverRedirect from "../pages/Login/NaverRedirect";
+import AdminSignIn from "../pages/Admin/AdminSignIn";
 
 const AppRouter = () => {
   return (
@@ -34,6 +36,7 @@ const AppRouter = () => {
         <Route path="artist/:id" element={<ArtistPage />} />
         <Route path="product/:id" element={<ProductPage />} />
         <Route path="product/post" element={<ProductPostPage />} />
+        <Route path="admin/signin" element={<AdminSignIn />} />
         <Route path="admin/manage/user" element={<ManageUserPage />} />
         <Route path="admin/manage/product" element={<ManageProductPage />} />
         <Route
@@ -43,8 +46,15 @@ const AppRouter = () => {
         <Route path="admin/manage/payment" element={<ManagePaymentPage />} />
         <Route path="board/:id" element={<BoardPage />} />
         <Route path="writing/:id" element={<PostWritingPage />} />
+
+        <Route path="order" element={<OrderPage />} />
+        <Route path="board/postview/:id" element={<PostView />} />
+        {/* @ts-ignore */}
+        <Route path="/authnaver" element={<NaverRedirect />} />
+
         <Route path="order/:id" element={<OrderPage />} />
         <Route path="board/postview/:id" element={<PostView/>} />
+
       </Routes>
     </BrowserRouter>
   );
