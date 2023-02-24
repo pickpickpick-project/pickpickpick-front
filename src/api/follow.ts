@@ -7,19 +7,25 @@ interface FollowResponse{
     msg: string,
     code: string,
     errorMsg: string,
-    data: {},
+    data: any,
 }
 
 // 팔로우 하는 사람 : 현재 user
 // 팔로우 당하는 사람 : 작가페이지 user
 
-export const handleFollow = async(userId:number, artistId:number) => {
-    const response = await api.post<FollowResponse>(`user/follow`, {
+export const handleFollow = async(params:{
+    userId:number,
+    artistId:number
+    }) => {
+    // const { userId, artistId } = params;
+    const { userId, artistId } = params;
+    
+    const response = await api.post<FollowResponse>(`user/follow/`, {
         followerNum : userId,
         followingNum : artistId,
     },{
         headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },   
     })
 
@@ -33,16 +39,17 @@ interface FollowCancleResponse{
     msg: string,
     code: string,
     errorMsg: string,
-    data: {},
+    data: any,
 }
 
-export const handleFollowCancle = async(userId : number, artistId : number) => {
-    const response = await api.patch<FollowCancleResponse>('user/follow/cancle', {
-        followNum : userId,
+export const handleFollowCancel = async(params : {userId : number, artistId : number}) => {
+    const { userId, artistId } = params;
+    const response = await api.patch<FollowCancleResponse>('user/follow/cancel', {
+        followerNum : userId,   
         followingNum : artistId,
     }, {
         headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },   
     })
     return response.data;
@@ -55,7 +62,7 @@ interface FollowListResponse{
     msg: string,
     code: string,
     errorMsg: string,
-    data: FollowListData,
+    data: FollowListData[],
 }
 
 interface FollowListData{
@@ -84,3 +91,5 @@ export const getFollowingList = async(userId : number) => {
     const response = await api.get<FollowListResponse>(`user/following/${userId}`);
     return response.data;
 }
+
+
