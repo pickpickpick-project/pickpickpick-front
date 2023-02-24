@@ -183,7 +183,10 @@ const Header = () => {
   const navigate = useNavigate();
   const userId = Number(localStorage.getItem("userId"));
   const { data: User } = useQuery("getUser", () => getUserInfo(userId));
-  const ImgURL = User?.data.imageUrl[0] === 'h' ? User?.data.imageUrl : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${User?.data.imageUrl}`
+  const ImgURL =
+    User?.data.imageUrl[0] === "h"
+      ? User?.data.imageUrl
+      : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${User?.data.imageUrl}`;
   useEffect(() => {
     if (userId) {
       setIsLogin(true);
@@ -237,10 +240,7 @@ const Header = () => {
               //   로그인하기
               // </div>
             )}
-            <div
-              className="admin"
-              onClick={() => navigate("/admin/manage/user")}
-            >
+            <div className="admin" onClick={() => navigate("/admin/signin")}>
               관리자페이지
             </div>
           </div>

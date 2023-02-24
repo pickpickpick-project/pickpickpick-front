@@ -3,15 +3,16 @@ import colors from "../../assets/colors";
 import MovePage from "../../util/navigate";
 
 const ContainerStyle = styled.div<{ now: string }>`
-  border-right: 2px solid black;
+  border-right: 1px solid black;
 
   .page-button {
     border-bottom: 1px solid black;
-    padding: 40px;
+    padding: 40px 0;
     font-size: 24px;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
+    width: 200px;
   }
 
   .${props => props.now} {

@@ -1,16 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { endDateState, startDateState } from "../../recoil/calendar";
 
-const Calendar = () => {
+const Calendar = ({ handleDate }: any) => {
   const [startDate, setStartDate] = useState<any>(new Date());
   const [endDate, setEndDate] = useState<any>(new Date());
+  const [, setEndDateState] = useRecoilState(endDateState);
+  const [, setStartDateState] = useRecoilState(startDateState);
 
+  useEffect(() => {
+    setStartDateState(
+      startDate
+        .toLocaleDateString()
+        .slice(0, -1)
+        .split(". ")
+        .map((v: any) => v.padStart(2, "0"))
+        .join("-")
+    );
+    setEndDateState(
+      endDate
+        .toLocaleDateString()
+        .slice(0, -1)
+        .split(". ")
+        .map((v: any) => v.padStart(2, "0"))
+        .join("-")
+    );
+  }, [startDate, endDate]);
   return (
     <CalendarSection>
       <CalendarBox>
-        <h4>시작일 : </h4>
         <DatePickerStyle
           dateFormat="yyyy년 MM월 dd일"
           selected={startDate}
@@ -18,11 +39,9 @@ const Calendar = () => {
           selectsStart
           startDate={startDate}
           endDate={endDate}
-          minDate={new Date()}
         />
       </CalendarBox>
       <CalendarBox>
-        <h4>종료일 : </h4>
         <DatePickerStyle
           dateFormat="yyyy년 MM월 dd일"
           selected={endDate}
@@ -33,6 +52,7 @@ const Calendar = () => {
           minDate={startDate}
         />
       </CalendarBox>
+      <button onClick={handleDate}>확인</button>
     </CalendarSection>
   );
 };
@@ -41,15 +61,16 @@ export default Calendar;
 
 const CalendarSection = styled.div`
   display: flex;
-  height: 100px;
+  height: 50px;
   padding-left: 20px;
+  button {
+    margin-top: 1.6rem;
+  }
 `;
 
 const CalendarBox = styled.div`
   display: flex;
-  h4 {
-    width: 100px;
-  }
+  margin-right: 10px;
 `;
 
 const DatePickerStyle = styled(DatePicker)`

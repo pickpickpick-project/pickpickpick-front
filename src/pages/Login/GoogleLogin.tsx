@@ -3,6 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import Google from "../../assets/images/Home/google.png";
 import jwt_decode from "jwt-decode";
+import { useRecoilState } from "recoil";
+import { snsState } from "../../recoil/login";
 
 interface UserInfo {
   aud: string;
@@ -20,7 +22,8 @@ const GoogleLogin = () => {
   const loaction = useLocation();
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");
-  const [excuted, setExcuted] = useState<boolean>(false);
+  const [excuted3, setExcuted3] = useState<boolean>(false);
+  const sns = localStorage.getItem("sns");
 
   const navigate = useNavigate();
 
@@ -36,7 +39,7 @@ const GoogleLogin = () => {
           }
         )
         .then(res => {
-          setExcuted(true);
+          setExcuted3(true);
           localStorage.setItem("userId", res.data.data.userNum);
           console.log(res.data.data.userNum);
           navigate("/");
@@ -45,13 +48,16 @@ const GoogleLogin = () => {
   }, []);
 
   const handleLoginGoogle = () => {
+    localStorage.setItem("sns", "google");
     window.location.href = KAKAO_AUTH_URL;
   };
 
   useEffect(() => {
-    if (!loaction.search || excuted) return;
-    getGoogleToken();
-  }, []);
+    if (!loaction.search || excuted3) return;
+    if (sns === "google") {
+      getGoogleToken();
+    }
+  }, [sns]);
 
   return (
     <div onClick={handleLoginGoogle}>
