@@ -87,3 +87,42 @@ export const handleDeleteComment = async(commentNum:number) => {
           },
     })
 }
+
+
+
+/////
+
+
+interface CommentEditResponse{
+    result: boolean,
+    msg: string,
+    code: string,
+    errorMsg: string,
+    data: CommentEditData,
+}
+
+interface CommentEditData{
+    commentNum: number,
+    commentContent: string,
+    userNum: number,
+    userNick: string,
+    postNum: number,
+}
+
+interface CommentEditParams{
+    commentNum : number,
+    commentContent : string
+}
+
+export const handleEditComment = async(params:CommentEditParams) => {
+    const { commentNum, commentContent } = params
+    const response = await api.put<CommentEditResponse>(`api/comment/${commentNum}`, {
+        commentContent
+    }, {
+        headers : {
+            "Content-Type": "application/json",
+        }
+    })
+
+    return response.data;
+}

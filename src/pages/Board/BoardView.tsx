@@ -3,7 +3,7 @@ import { PageStyled } from "../../assets/pageStyle"
 import { BigText, SmallText } from "../../assets/CommonStyled"
 import { ReactComponent as CommentSVG } from "../../assets/images/post/comment.svg";
 import Comment from "../../components/Comment/Comment";
-import { useParams } from "react-router";
+import { useParams, useNavigate, useLocation } from "react-router";
 import { useState, useEffect, Suspense } from "react";
 import { getPostData } from "../../api/board";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -12,11 +12,10 @@ import CommonImgCarousel from "../../components/Common/ImageCarousel";
 import { ProductPostBoxStyled, ProductPostTextareaStyled } from "../Product/ProductPostPage";
 import CommonYellowButton from "../../components/Common/Button";
 import { getCommentList, handleSubmitComment } from "../../api/comment";
-
+import BoardMenu from "../../components/Board/button";
 
 const PostViewStyled = styled(PageStyled)`
     padding : 135px 16px 100px 16px;
-
     
 `
 
@@ -52,6 +51,7 @@ const PostViewInfoContainerStyled = styled.div`
 
     .post-info{
         margin-left : 15px;
+        margin-right : auto;
     }
 `
 
@@ -85,24 +85,23 @@ const PostViewCommentWrapperStyled = styled.div`
 `
 
 const PostView = () => {
-
     
     const [ postImg, setPostImg ] = useState<any>([]);
     const [ textareaValue, setTextareaValue ] = useState<string>('');
     
+    const navigate = useNavigate();
     const param = useParams();
     const boardNum = Number(param.id);
-    
+    const {state} = useLocation();
     const userId = Number(localStorage.getItem('userId'));
     const { data : getPostInfo } = useQuery("PostInfo", () => getPostData(boardNum!));
     const { data : getUser } = useQuery("getUser", () => getUserInfo(userId));
-    const { data : getComment } = useQuery("getComment", () => getCommentList(boardNum));    
+    const { data : getComment } = useQuery("getComment", () => getCommentList(boardNum));   
     const queryClient = useQueryClient();
     const { mutate : posting } = useMutation(handleSubmitComment, {
         onSuccess : data => {
             queryClient.invalidateQueries("getComment");   // 캐시 무효화 갱신된 데이터 불러올 수 있다.
             console.log(data);
-            
         },
         onError : data => {
             console.log(data);
@@ -121,6 +120,10 @@ const PostView = () => {
     const textareaOnChange = (e:any) => {
         setTextareaValue(e.target.value);
     }
+
+    const onClickPostEdit = () => {
+
+    }
     // useQuery로 불러오기 전에 렌더링이 되는 것 같다. 데이터 불러오고 렌더링 완료되어야 하는데. 
     // 문제 직면.
     
@@ -130,7 +133,22 @@ const PostView = () => {
         )
     }
 
+    const propsData ={
+        boardNum : state.boardNum,
+        postTitle : getPostInfo.data.postTitle,
+        postContent : getPostInfo.data.postContent,
+        postNum : getPostInfo.data.postNum,
+    }
+
     return(
+
+        // <button className="edit" onClick={() => navigate(`/writing/${getPostInfo.data.postNum}`, {
+        //     state : {
+        //         title : getPostInfo.data.postTitle,
+        //         postContent : getPostInfo.data.postContent,
+        //         postNum : getPostInfo.data.postNum,
+        //     }
+        // })}>edit</button> 
         <> 
             <PostViewStyled>
                 <PostViewContainerStyled>
@@ -140,8 +158,20 @@ const PostView = () => {
                         <div className="post-info">
                             <p className="post-user-name">{getPostInfo!.data.userName}</p>
                         </div>
+                        
+                        {
+                            getPostInfo.data.userNum === userId ?
+                            <BoardMenu props={propsData}/>
+                            :
+                            null
+                        }
                     </PostViewInfoContainerStyled>
-                    <CommonImgCarousel data={[...getPostInfo.data.postImgs]}></CommonImgCarousel>
+                    {
+                        getPostInfo?.data.postImgs.length === 0 ? 
+                        null
+                        :
+                        <CommonImgCarousel data={[...getPostInfo.data.postImgs]}></CommonImgCarousel>
+                    }
                     <PostViewWritingContainerStyled>
                         <p>
                             {getPostInfo!.data.postContent}

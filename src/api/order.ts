@@ -13,7 +13,6 @@ interface OrderResponseData{
 }
 
 interface OrderParams{
-    merchantUid : string,
     orderCount : number,
     orderPrice : number,
     userNum : number,
@@ -21,13 +20,14 @@ interface OrderParams{
 }
 
 export const postOrder = async(params : OrderParams) => {
-    const { merchantUid, orderCount, orderPrice, userNum, workNum } = params;
-    const response = await api.post<OrderResponse>('/orders', {
-        merchantUid,
+    const { orderCount, orderPrice, userNum, workNum } = params;
+    console.log(params);
+    
+    const response = await api.post<OrderResponse>('orders', {
         orderCount,
         orderPrice,
         userNum,
-        workNum,
+        workNum
     })
     return response.data
 }
