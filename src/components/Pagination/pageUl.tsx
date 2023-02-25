@@ -20,11 +20,14 @@ const PageLi = styled.li`
     height : 40px;
     line-height : 40px;
     text-align : center;
-    background-color: antiquewhite;
     border-radius: 50%;
     cursor: pointer;
     margin-right : 15px;    // last-child 제외하는 방법을 모르겠음.
 `;
+
+const SelectPageLiStyled = styled(PageLi)`
+    background-color: antiquewhite;
+`
     
 
 const PageSpan = styled.span`
@@ -37,14 +40,24 @@ const PaginationBottomUl = ({pagination, totalPosts, postPerPage}:any) => {
     for(let i=1; i <= Math.ceil(totalPosts / postPerPage); i++){
         pageNumbers.push(i);
     }
+    
+    const [boardCurrentPage, setBoardCurrentPage] = useRecoilState<number>(inquiryBoardCurrentPage);
+    console.log(boardCurrentPage);
+    
     return(
             <PageUl>
                 <ArrowLeft style={{marginRight:"15px", cursor:"pointer"}}/>
                 {pageNumbers.map((number) => (  // type 공부 후에 타입 지정하기.
                     <PageLi key={number} onClick={() => pagination(number)}>
+                        {boardCurrentPage === number ? 
+                        <SelectPageLiStyled>{number}</SelectPageLiStyled> 
+                        :
                         <PageSpan>{number}</PageSpan>
+                    }
+                        
+                        
                     </PageLi>
-                ))}
+                ))} 
                 <ArrowRight style={{cursor:"pointer"}}/>
             </PageUl>
     )

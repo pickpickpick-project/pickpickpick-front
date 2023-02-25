@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { CommonIntroduceBoxStyled } from "../../assets/CommonStyled";
 import MovePage from "../../util/navigate";
@@ -20,6 +21,7 @@ const BoardPostContainerStyled = styled.ul`
 
 `
 
+
 const BoardPostStyled = styled.div`
     display: flex;
     &::before{
@@ -31,11 +33,13 @@ const BoardPostStyled = styled.div`
 `
 
 const BoardPost = (posts:any) => {
+
+    const navigate = useNavigate()
     return(
         <div>
             <BoardPostContainerStyled>
                 {posts.post.map((e:any) => 
-                    <BoardPostWrapperStyled onClick={MovePage(`board/postview/${e.postNum}`)}>
+                    <BoardPostWrapperStyled onClick={() => navigate(`/board/postview/${e.postNum}`)}>
                         <BoardPostStyled>{e.postTitle}</BoardPostStyled>
                     </BoardPostWrapperStyled>
                 )}

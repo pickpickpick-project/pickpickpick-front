@@ -150,7 +150,7 @@ const ProductPage = () => {
       <div className="purchase-section">
         <div className="name">{workInfo?.workName}</div>
         <div className="priceAndArtist">
-          <div className="price">{workInfo?.workPrice}원</div>
+          <div className="price">{(workInfo?.workPrice!) * amount}원</div>
           <div className="artist">{User?.data.name}</div>
         </div>
 
