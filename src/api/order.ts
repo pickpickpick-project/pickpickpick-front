@@ -31,3 +31,65 @@ export const postOrder = async(params : OrderParams) => {
     })
     return response.data
 }
+
+///
+
+
+interface PaymentVerifyResponse{
+    result: boolean,
+    msg: string,
+    code: string,
+    errorMsg: string,
+    data: PaymentVerifyData
+}
+
+interface PaymentVerifyData{
+        payment: PaymentData
+}
+
+interface PaymentData{
+    paymentNum: number,
+    merchantUid: string,
+    pg: string,
+    paymentCount: number,
+    paymentPrice: number,
+    payMethod: string,
+    paymentDate: string,
+    paymentStatus: string
+}
+
+interface PaymentParams{
+    imp_uid : string,
+    merchantUid : string,
+}
+
+export const paymentVerify = async(params:PaymentParams) => {
+    const { imp_uid, merchantUid } = params
+    const response = await api.post<PaymentVerifyResponse>('payment/verify',{
+        imp_uid,
+        merchantUid,
+    });
+    return response.data;
+}
+
+
+////////////
+
+
+interface OrderStatusResponse{
+    result: boolean,
+    msg: string,
+    code: string,
+    errorMsg: string,
+    data: {}
+}
+
+interface OrderStatusParams{
+    merchantUid : string,
+    orderStatus : string,
+}
+
+export const getOrderStatus = async(params:OrderStatusParams) => {
+    const response = await api.get<OrderStatusResponse>('orders/status/',{params});
+    return response.data;
+}
