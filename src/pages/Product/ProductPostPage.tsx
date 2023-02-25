@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import CommonYellowButton from "../../components/Common/Button";
 import { useMutation, useQueryClient } from "react-query";
 import { handleSubmitProduct } from "../../api/product";
+import { useNavigate } from "react-router";
 
 import MovePage from "../../util/navigate";
 
@@ -91,6 +92,7 @@ export const ProductPostImageStyled = styled.div`
 `
 
 export const ProductPostPage = () => {
+    const navigate = useNavigate();
     const [ textareaValue, setTextareaValue ] = useState<string>("");
     const [productName, setProductName] = useState<string>("");
     const [productPrice, setProductPrice] = useState<number>(0);
@@ -145,6 +147,7 @@ export const ProductPostPage = () => {
     const { mutate : posting } = useMutation(handleSubmitProduct, {
         onSuccess : data => {
             queryClient.invalidateQueries("handleSubmitProduct");
+            navigate('/');
         },
         onError : (error) => {
             console.log(error);
