@@ -4,6 +4,10 @@ import {ReactComponent as ArrowLeft} from "../../assets/images/Mypage/arrow-left
 import {ReactComponent as ArrowRight} from "../../assets/images/Mypage/arrow-right.svg";
 import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled } from "../../assets/CommonStyled";
 import MovePage from "../../util/navigate";
+import BoardMenu from "../Board/button";
+import ProductMenu from "../Product/button";
+import { useNavigate } from "react-router";
+
 
 export const ArrowStyled = styled.span<{left?:number, right?:number}>`
     position : absolute; 
@@ -40,6 +44,7 @@ export const CarouselElementContainerStyled = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 `
 
 export const CarouselElementImgStyled = styled.img`
@@ -66,7 +71,7 @@ interface props{
 }
 
 const CommonCarousel = ({ data, category } : any,) => {
-
+    const navigate = useNavigate();
     const [ arrowFlag, setArrowFlag ] = useState(true);
     let page_category:any = {
         portfolio : {
@@ -130,6 +135,8 @@ const CommonCarousel = ({ data, category } : any,) => {
                     {/* 게시물의 개수에 따라서  */}
                     <CarouselContainerStyled width={data.length * 300} ref={slideRef}> 
                         {data.map((data:any) => {
+                            console.log(data);
+                            
                             const key = `${category}Num`
                             let imgSrc;
                             
@@ -153,9 +160,14 @@ const CommonCarousel = ({ data, category } : any,) => {
                                 query_id = data.workNum;
                             }
                             return(
-                            <CarouselElementContainerStyled key={data[key]} onClick={MovePage(`${page_type}/${query_id}`)}>
-                                <CarouselElementImgStyled src={imgSrc}></CarouselElementImgStyled>
+                            <CarouselElementContainerStyled key={data[key]} >
+                                <CarouselElementImgStyled onClick={() => navigate(`/${page_type}/${query_id}`)} src={imgSrc}></CarouselElementImgStyled>
                                 <CarouselTextStyled>{dataName}</CarouselTextStyled>
+                                {
+                                    page_category[category].name === 'work' ?
+                                    <ProductMenu productData={data}/> :
+                                    null
+                                }
                             </CarouselElementContainerStyled>
                         )})}
                     </CarouselContainerStyled>
