@@ -6,8 +6,9 @@ import CommonYellowButton from "../../components/Common/Button";
 import { useMutation, useQuery } from "react-query";
 import { getProductData } from "../../api/product";
 import { RequestPayResponse, RequestPayParams } from "../../api/import";
-import { postOrder } from "../../api/order";
+import { postOrder, paymentVerify, getOrderStatus } from "../../api/order";
 import { getUserInfo } from "../../api/user";
+import { useEffect, useState } from 'react';
 const OrderPageStyle = styled(PageStyled)`
 
     .OrderButtonWrapper{
@@ -64,13 +65,20 @@ const OrderPriceContainer = styled.div`
 `
 
 
+interface OrderStatusParams{
+    merchantUid : string,
+    orderStatus : string,
+}
+
 const OrderPage = () => {
 
     const { state } = useLocation();
     const { id } = useParams();
     const { data : productInfo } = useQuery('getProduct', () => getProductData(Number(id)));
     const { data : User } = useQuery("getUser", () => getUserInfo(Number(localStorage.getItem('userId'))));
-    
+    let merchantUid : string = ''   // useState -> 값을 즉시 변동 못해서 전역 변수로 설정함. 리팩토링 필요
+    let imp_uid : string = '';
+    let orderStatus : string = '';
     const product = productInfo?.data.workInfo
     const product_img = product?.workImages.length! > 0 ? `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${product?.workImages[0].workImgSrcPath}` : 'https://ibb.co/2hz8Jgr'
     
@@ -78,11 +86,35 @@ const OrderPage = () => {
     const { mutate : handlePostOrder } = useMutation(postOrder, {   // 상품등록 api
         onSuccess : data => {
             console.log(data);
+            merchantUid = data.data.merchant_uid;
+            console.log(merchantUid, data.data.merchant_uid);
             console.log('상품등록api');
         },
         onError : data => {
             console.log(data);
         },
+    })
+    
+    const { data : getOrder} = useQuery(['getOrderStatus', orderStatus], () => getOrderStatus(     //  orders/status/
+        {
+            orderStatus,
+            merchantUid
+        }
+    ), {
+        enabled : !!orderStatus
+    })
+
+    console.log(getOrder, orderStatus);
+
+    const { mutate : handlePaymentVerify } = useMutation(paymentVerify, {
+        onSuccess : data => {
+            console.log(data);
+            orderStatus = data.data.payment.paymentStatus;  // 결제 상태 "COMPLETE" or "CANCEL"
+            
+        },
+        onError : data => {
+            console.log(data);
+        }
     })
 
     const onClickPayment = () => {
@@ -93,8 +125,7 @@ const OrderPage = () => {
         
 
 
-        handlePostOrder({
-            merchantUid : '',
+        handlePostOrder({   // 상품 주문 API
             orderCount : state,
             orderPrice : Number(product?.workPrice),
             userNum : Number(localStorage.getItem('userId')),
@@ -105,7 +136,7 @@ const OrderPage = () => {
         const data: RequestPayParams = {
           pg: "html5_inicis", // PG사 : https://portone.gitbook.io/docs/sdk/javascript-sdk/payrq#undefined-1 참고
           pay_method: "card", // 결제수단
-          merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+          merchant_uid: merchantUid, // 주문번호
           amount: Number(product?.workPrice! * state), // 결제금액
           name: product?.workName, // 주문명
           buyer_name: User?.data.name, // 구매자 이름
@@ -114,7 +145,8 @@ const OrderPage = () => {
           buyer_addr: "", // 구매자 주소
           buyer_postcode: "", // 구매자 우편번호
         };
-    
+        console.log(data);
+        
         /* 4. 결제 창 호출하기 */
         IMP.request_pay(data, callback);
       };
@@ -124,12 +156,21 @@ const OrderPage = () => {
         const { success, error_msg } = response;
     
         if (success) {
-          alert("결제 성공");
+          console.log(response);
+          imp_uid = response.imp_uid!;
+            
+          handlePaymentVerify({     // payment/verify API
+            merchantUid,
+            imp_uid,
+          })
+
         } else {
           alert(`결제 실패: ${error_msg}`);
+          orderStatus = "CANCEL";
+
         }
       }
-    
+
     return (
         
         <OrderPageStyle>
