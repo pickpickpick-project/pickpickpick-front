@@ -97,3 +97,56 @@ export const handleSubmitBoard = async( params : BoardPost ) => {   // 작가별
 
     return response.data;
 }
+
+
+////////////////////
+
+interface BoardPostEditResponse{
+    result : boolean,
+    msg : string,
+    code : string,
+    errorMsg : string,
+    data : BoardPostEditData
+}
+
+interface BoardPostEditData{
+    postNum : number
+}
+
+interface BoardPostEditParams{
+    postNum : number,
+    files : [],
+    postContent : string,
+    postTitle : string,
+}
+
+export const handlePostEdit = async(params : BoardPostEditParams) => {
+    const { postNum, files, postContent, postTitle } = params
+    const response = await api.post<BoardPostEditResponse>(`post/${postNum}`, {
+        files,
+        postContent,
+        postTitle,
+    },{
+        headers: {
+            "Content-Type": "multipart/form-data",
+          },
+    })
+    return response.data
+}
+
+
+/////////
+
+
+interface BoardPostRemoveResponse{
+    result : boolean,
+    msg : string,
+    code : string,
+    errorMsg : string,
+    data : null,
+}
+
+export const removeBoardPost = async(postNum:number) => {
+    const response = await api.delete<BoardPostRemoveResponse>(`post/${postNum}`);
+    return response.data;
+}
