@@ -50,7 +50,6 @@ const Follow = ({artistId} : {artistId : number}) => {
     const [ followerList, setFollowerList ] = useState<any>([]);
     const [ followingList, setFollowingList ] = useState<any>([]);
     const [ followListFlag, setFollowListFlag ] = useState(false);
-    const [ showFollowContainer, setShowFollowContainer ] = useState(true);
     
     const userId = Number(localStorage.getItem('userId'))
 
@@ -135,14 +134,6 @@ const Follow = ({artistId} : {artistId : number}) => {
 
     },[followingList])
 
-    useEffect(() => {
-        if(artistId === Number(localStorage.getItem('userId'))){
-            setShowFollowContainer(false)
-        }else{
-            setShowFollowContainer(true)
-        }
-    })
-
     return(
         <FollowContainerStyled>
             { modalOpen === true ? 
@@ -172,19 +163,15 @@ const Follow = ({artistId} : {artistId : number}) => {
                 <h3>팔로잉</h3>
                 <h1>{getFollowing?.data.length}</h1>
             </FollowNumberContainerStyled>
-            {
-                showFollowContainer === true ?
-                <FollowNumberContainerStyled>
-                    {
-                    follow === false ? 
-                    <FollowButtonStyled onClick={onClickFollowBtn}>팔로우</FollowButtonStyled>
-                    :
-                    <FollowButtonStyled onClick={onClickFollowBtn}>팔로우 취소</FollowButtonStyled>
-                    }   
-                </FollowNumberContainerStyled>
+            <FollowNumberContainerStyled>
+                {
+                follow === false ? 
+                <FollowButtonStyled onClick={onClickFollowBtn}>팔로우</FollowButtonStyled>
                 :
-                null
-            }
+                <FollowButtonStyled onClick={onClickFollowBtn}>팔로우 취소</FollowButtonStyled>
+                }   
+            </FollowNumberContainerStyled>
+            
         </FollowContainerStyled>
     )
 }
