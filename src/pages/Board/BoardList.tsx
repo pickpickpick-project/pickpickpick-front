@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { CommonIntroduceBoxStyled } from "../../assets/CommonStyled";
 import MovePage from "../../util/navigate";
-
+import { useParams } from "react-router";
 
 const BoardPostWrapperStyled = styled(CommonIntroduceBoxStyled)`
     width : 600px;
@@ -33,13 +33,18 @@ const BoardPostStyled = styled.div`
 `
 
 const BoardPost = (posts:any) => {
-
+    const params = useParams();
+    const boardNum = Number(params.id);
     const navigate = useNavigate()
     return(
         <div>
             <BoardPostContainerStyled>
                 {posts.post.map((e:any) => 
-                    <BoardPostWrapperStyled onClick={() => navigate(`/board/postview/${e.postNum}`)}>
+                    <BoardPostWrapperStyled onClick={() => navigate(`/board/postview/${e.postNum}`, {
+                        state : {
+                            boardNum
+                        }
+                    })}>
                         <BoardPostStyled>{e.postTitle}</BoardPostStyled>
                     </BoardPostWrapperStyled>
                 )}

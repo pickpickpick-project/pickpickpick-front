@@ -6,9 +6,9 @@ import { ProductPostBoxStyled, ProductPostTextareaStyled, ProductPostImageContai
 import CommonYellowButton from "../../components/Common/Button";
 import { SmallText } from "../../assets/CommonStyled";
 import { useMutation, useQueryClient } from "react-query";
-import { handleSubmitBoard } from "../../api/board";
+import { handleSubmitBoard, handlePostEdit } from "../../api/board";
 import { usePagination } from "@mui/lab";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, useLocation } from "react-router";
 const PostWritingPageStyle = styled(PageStyled)`
     .button-wrapper{
         display: flex;
@@ -27,6 +27,7 @@ const PostTitleInputWrapper = styled.div`
     margin : 30px 0;
     display : flex;
     input{
+        width : 100%;
         border: none;
         font-size : 32px;
         &:focus {
@@ -49,8 +50,18 @@ const PostWritingPage = () => {
     const userId = Number(localStorage.getItem('userId'));  // 유저 id 
     const param = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
+    console.log(location);
+    
     useEffect(() => {
         setArtistNum(Number(param.id));
+    }, [])
+
+    useEffect(() => {
+        if(location.state !== null){
+            setTitle(location.state.title);
+            setContent(location.state.postContent)
+        }
     }, [])
     
     let fileURLs:any = [];
@@ -108,6 +119,15 @@ const PostWritingPage = () => {
         }
     })
 
+    const { mutate : edit } = useMutation(handlePostEdit, {
+        onSuccess : data => {
+            navigate(`/board/${location.state.boardNum}`)
+        },
+        onError : data => {
+            console.log(data);
+        }
+    }) 
+
     const onSubmit = () => {
         posting({
             postBoardNum : artistNum!,
@@ -117,7 +137,17 @@ const PostWritingPage = () => {
             postTitle : title,
             userNum : userId,
         })
+    }
+
+    const onEdit = () => {
+        console.log("onEdit함수 진입");
         
+        edit({
+            postNum : location.state.postNum,
+            files : [],
+            postContent : content!,
+            postTitle : title,
+        })
     }
     return(
         <PostWritingPageStyle>
@@ -140,13 +170,23 @@ const PostWritingPage = () => {
                     <input type="file" id="input-file" multiple onChange={handleAddImages}/>
             </ProductPostBoxStyled>
             <div className="password-input-container">
+            {
+                location.state === null ? 
                 <ProductPostBoxStyled style={{width:'15%'}}>
-                    <SmallText>비밀번호</SmallText>
-                    <ProductPostInputStyled value={password} onChange={onChangePassword}/>
-                </ProductPostBoxStyled>
+                            <SmallText>비밀번호</SmallText>
+                            <ProductPostInputStyled value={password} onChange={onChangePassword}/>                             
+                </ProductPostBoxStyled> :
+                null
+            }   
             </div>
             <div className="button-wrapper">
-                <CommonYellowButton width={200} height={50} hover={false} text={"제출하기"} onClick={() => {onSubmit()}}/>
+                {
+                    location.state === null ? 
+                    <CommonYellowButton width={200} height={50} hover={false} text={"제출하기"} onClick={() => {onSubmit()}}/> :
+                    <CommonYellowButton width={200} height={50} hover={false} text={"수정하기"} onClick={() => {onEdit()}}/>
+                }
+                
+
             </div>
         </PostWritingPageStyle>
     )
