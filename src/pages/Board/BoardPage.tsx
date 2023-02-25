@@ -9,7 +9,7 @@ import CommonYellowButton from "../../components/Common/Button";
 import MovePage from "../../util/navigate";
 import { getBoardList } from "../../api/board";
 import { useQuery } from "react-query";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import React , { useState, useEffect } from "react";
 
 
@@ -22,7 +22,7 @@ const BoardPage = () => {
     const [boardCurrentPage, setBoardCurrentPage] = useRecoilState<number>(inquiryBoardCurrentPage);    // 현재 페이지
     const [boardPostPerPage, setBoardPostPerPage] = useRecoilState<number>(inquiryBoardPostPerPage);    // 한 페이지당 게시물 개수
     const [boardData, setBoardData] = useState<any>([]);
-    
+    const navigate = useNavigate();
     const param = useParams();
     const ArtistId = Number(param.id);
 
@@ -47,7 +47,7 @@ const BoardPage = () => {
                     {/* BoardPost 한 페이지에 있는 UI */}
                     <PaginationBottomUl totalPosts={boardData?.length} postPerPage={boardPostPerPage} pagination={setBoardCurrentPage}/>
                     {/*  */}
-                    <CommonYellowButton onClick={MovePage(`writing/${ArtistId}`)} width={200} height={50} hover={false} text={'문의글 작성하기'}/>
+                    <CommonYellowButton onClick={() => navigate(`/writing/${ArtistId}`)} width={200} height={50} hover={false} text={'문의글 작성하기'}/>
                 </BoardContainerStyled>
             </PageStyled>
     )
