@@ -225,6 +225,7 @@ const PostPortfolio = () => {
   };
 
   const handlePost = () => {
+    console.log(tagName);   // tagName 바로 적용 안됨 리팩토링 필요
     posting({
       files: files,
       portfolioDate,
