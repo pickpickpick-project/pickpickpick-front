@@ -215,14 +215,16 @@ const PostPortfolio = () => {
   const addTag = (tag: string) => {
     if (tagArr.includes(tag)) return;
     setTagArr(tagArr => [...tagArr, tag]);
-
-    setTagName("#" + tagArr.join(" #"));
   };
 
   const deleteTag = (e: any) => {
     const newTagArr = tagArr.filter(v => v !== e.target.outerText);
     setTagArr(newTagArr);
   };
+
+  useEffect(() => {
+    setTagName("#" + tagArr.join(" #"));
+  }, [tagArr]);
 
   const handlePost = () => {
     posting({
