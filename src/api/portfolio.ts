@@ -86,3 +86,15 @@ export const deletePortfolio = async (params: {portfolioNm: number}) =>{
     const response = await api.delete<Portfolio>(`portfolio/${portfolioNm}`);
     return response.data;
 }
+
+interface GetTagPortfolioParam{
+    tags : string
+}
+
+
+export const getTagPortfolio = async(params:GetTagPortfolioParam) => {
+    const response = await api.get('portfolio/list/tags', {
+        params
+    });
+    return response.data;
+}
