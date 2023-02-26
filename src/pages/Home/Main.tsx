@@ -80,6 +80,7 @@ const Main = () => {
 
   const { data: List } = useQuery("getList", getPortfolioList);
   const ListInfo = List?.data ?? [{ id: 0, portfolioName: "" }];
+  const [ type, setType ] = useState<number>(0);
 
   // const getMainPortfolioImgs = useCallback(async () => {
   //   setLoad(true);
@@ -107,39 +108,109 @@ const Main = () => {
   //     getMainPortfolioImgs();
   //   }
   // }, [getMainPortfolioImgs, hasNextPage, inView, load]);
-
+    console.log(type);
+    
   return (
+
     // <MainStyle isLoad={load}>
     <MainStyle>
       <section className="main">
         <div className="tags">
-          <button className="tag" onClick={() => navigate("/1")}>
+        <button className="tag" onClick={() => setType(0)}>
+            전체보기
+          </button>
+          <button className="tag" onClick={() => setType(1)}>
             #일러스트
           </button>
-          <button className="tag" onClick={() => navigate("/2")}>
+          <button className="tag" onClick={() => setType(2)}>
             #캐리커쳐
           </button>
-          <button className="tag" onClick={() => navigate("/3")}>
+          <button className="tag" onClick={() => setType(3)}>
             #웹툰·콘티
           </button>
-          <button className="tag" onClick={() => navigate("/4")}>
+          <button className="tag" onClick={() => setType(4)}>
             #캐릭터
           </button>
-          <button className="tag" onClick={() => navigate("/5")}>
+          <button className="tag" onClick={() => setType(5)}>
             #이모티콘
           </button>
         </div>
         <div className="contents-container" id="scrollArea">
           <Masonry columns={3} spacing={2}>
-            {ListInfo?.map((item: any, index: number) => (
-              <div
-                key={item.id ?? index}
-                className="content-item"
-                onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
-              >
-                <MainContent item={item} />
-              </div>
-            ))}
+            {
+                type === 0 ? // 전체
+                ListInfo?.map((item: any, index: number) => (
+                    <div
+                      key={item.id ?? index}
+                      className="content-item"
+                      onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+                    >
+                      <MainContent item={item} />
+                    </div>
+                  )) 
+                  :
+                    type === 1 ?
+                    ListInfo?.map((item: any, index: number) => 
+                        item.portfolioType === 1 ?  // 타입 1인 것만
+                        (
+                        <div
+                            key={item.id ?? index}
+                            className="content-item"
+                            onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+                        >
+                            <MainContent item={item} />
+                        </div>
+                        ) 
+                        : 
+                        null) 
+                    :
+                        type === 2 ?
+                        ListInfo?.map((item: any, index: number) => 
+                            item.portfolioType === 2 ?  // 타입 1인 것만
+                            (
+                            <div
+                                key={item.id ?? index}
+                                className="content-item"
+                                onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+                            >
+                                <MainContent item={item} />
+                            </div>
+                            ) 
+                            : 
+                            null) 
+                        :
+                            type === 3 ?
+                            ListInfo?.map((item: any, index: number) => 
+                                item.portfolioType === 3 ?  // 타입 1인 것만
+                                (
+                                <div
+                                    key={item.id ?? index}
+                                    className="content-item"
+                                    onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+                                >
+                                    <MainContent item={item} />
+                                </div>
+                                ) 
+                                : 
+                                null) 
+                            :
+                                type === 4 ?
+                                ListInfo?.map((item: any, index: number) => 
+                                    item.portfolioType === 4 ?  // 타입 1인 것만
+                                    (
+                                    <div
+                                        key={item.id ?? index}
+                                        className="content-item"
+                                        onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+                                    >
+                                        <MainContent item={item} />
+                                    </div>
+                                    ) 
+                                    : 
+                                    null) 
+                                :   null
+            }
+            
           </Masonry>
           {/* <div className="load" ref={ref}>
             {load && <CircularProgress color="inherit" />}
