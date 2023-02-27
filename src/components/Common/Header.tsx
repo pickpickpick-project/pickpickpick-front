@@ -34,12 +34,20 @@ const HeaderStyle = styled.div`
 
   .login-container {
     display: flex;
+    align-items: center;
+    h1 {
+      margin-bottom: 5px;
+      margin-right: 10px;
+      color: gray;
+      font-weight: 700;
+    }
   }
   .login-button {
-    width: 100px;
+    width: 40px;
     cursor: pointer;
     margin: 0 auto;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    margin-left: 10px;
     img {
       width: 100%;
       //   object-fit: cover;
@@ -221,12 +229,13 @@ const Header = () => {
               </>
             ) : (
               <div className="login-container">
+                <h1>로그인</h1>
                 <div className="login-button">
                   <KakaoLogin />
                 </div>
-                <div className="login-button">
+                {/* <div className="login-button">
                   <NaverLogin />
-                </div>
+                </div> */}
                 <div className="login-button">
                   <GoogleLogin />
                 </div>
