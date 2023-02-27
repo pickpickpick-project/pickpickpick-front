@@ -6,6 +6,7 @@ import { CommonIntroduceBoxContainerStyled, CommonIntroduceBoxWrapperStyled } fr
 import MovePage from "../../util/navigate";
 import BoardMenu from "../Board/button";
 import ProductMenu from "../Product/button";
+import PortfolioMenu from "../Portfolio/button";
 import { useNavigate } from "react-router";
 
 
@@ -135,6 +136,7 @@ const CommonCarousel = ({ data, category } : any,) => {
                     {/* 게시물의 개수에 따라서  */}
                     <CarouselContainerStyled width={data.length * 300} ref={slideRef}> 
                         {data.map((data:any) => {
+                            console.log(data);
                             const key = `${category}Num`
                             let imgSrc;
                             
@@ -164,7 +166,7 @@ const CommonCarousel = ({ data, category } : any,) => {
                                 {
                                     page_category[category].name === 'work' ?
                                     <ProductMenu productData={data}/> :
-                                    null
+                                    <PortfolioMenu portfolio={data}/>
                                 }
                             </CarouselElementContainerStyled>
                         )})}
