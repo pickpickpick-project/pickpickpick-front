@@ -16,8 +16,6 @@ interface Props{
 
 
 export default function BoardMenu({props}:{props:Props}) {
-    console.log(props);
-    
     const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

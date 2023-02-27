@@ -24,7 +24,6 @@ interface ProductData{
   }
 
 export default function ProductMenu({productData}:{productData : ProductData}) {
-    console.log(productData);
     const queryClient = useQueryClient();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

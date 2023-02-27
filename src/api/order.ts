@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import api from "./api";
 
 interface OrderResponse{
@@ -65,6 +66,8 @@ interface PaymentParams{
 
 export const paymentVerify = async(params:PaymentParams) => {
     const { imp_uid, merchantUid } = params
+    console.log(params);
+    
     const response = await api.post<PaymentVerifyResponse>('payment/verify',{
         imp_uid,
         merchantUid,
@@ -72,8 +75,8 @@ export const paymentVerify = async(params:PaymentParams) => {
     return response.data;
 }
 
-
 ////////////
+
 
 
 interface OrderStatusResponse{
@@ -90,6 +93,36 @@ interface OrderStatusParams{
 }
 
 export const getOrderStatus = async(params:OrderStatusParams) => {
+    console.log(params);
     const response = await api.get<OrderStatusResponse>('orders/status/',{params});
     return response.data;
 }
+
+
+
+////////////////////////////////////////////////
+
+
+export const getOrderList = async(userNum : number) => {
+    const response = await api.get(`orders/user/${userNum}`);
+    return response.data;
+}
+
+
+////////////
+
+interface PaymentCancel{
+    merchant_uid : string,
+    cancel_request_amount : number,
+}
+
+export const handlePaymentCancel = async(params : PaymentCancel) => {
+    const { merchant_uid, cancel_request_amount } = params;
+    const response = await api.post('payment/cancel', {
+        merchant_uid,
+        cancel_request_amount,
+    })
+    return response.data;
+}
+
+
