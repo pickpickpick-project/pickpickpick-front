@@ -184,9 +184,12 @@ const Mypage = ():React.ReactElement => {
                 </tbody>
                 </table>
             </Table>
-              <Paging>
-                <Pagination count={count} page={page} onChange={handlePage}/>
-              </Paging>
+            {
+                ordertArr.length === 0 ? null :
+                    <Paging>
+                        <Pagination count={count} page={page} onChange={handlePage}/>
+                    </Paging>
+            }
             {/* <CommonText>구매</CommonText>
             <CommonCarousel data={portfolioData}/> */}
         </MypageStyled>
