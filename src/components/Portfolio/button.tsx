@@ -3,31 +3,36 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useMutation, useQueryClient } from 'react-query';
-import { deleteProduct } from '../../api/product';
-import { useNavigate } from 'react-router';
+import { deletePortfolio } from '../../api/portfolio';
 
 
-interface ProductData{ 
-    files : ProductImgs[],
-    workDesc : string,
-    workName : string, 
-    workNum : number,
-    workPrice : number,
-    workerNum : number,
-  }
 
-  interface ProductImgs{
-    size : number,
-    workImgName : string,
-    workImgNum : number,
-    workImgOriginName : string,
-    workImgSrcPath : string,
-  }
+interface PortfolioData {
+    portfolioNum: number,
+     user: number,
+     portfolioName: string,
+     portfolioType: string,
+     portfolioDate: string,
+     portfolioImgList: PortfolioImgs[],
+     portfolioTags: PortfolioTags[],
+}
+interface PortfolioImgs {
+    portfolioImgNum: number,
+    portfolioImgOriginName : string,
+    portfolioImgName: string,
+    portfolioImgAddr: string,
+}
 
-export default function ProductMenu({productData}:{productData : ProductData}) {
-    console.log(productData);
-    
-    const navigate = useNavigate();
+interface PortfolioTags {
+    tag: TagInfo,
+}
+interface TagInfo {
+    tagNum: number,
+    tagName: string,
+}
+
+
+export default function PortfolioMenu({portfolio}:{portfolio : PortfolioData}) {
     const queryClient = useQueryClient();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -40,10 +45,10 @@ export default function ProductMenu({productData}:{productData : ProductData}) {
     setAnchorEl(null);
   };
 
-  const { mutate : delProduct } = useMutation(deleteProduct, {
+  const { mutate : delProduct } = useMutation(deletePortfolio, {
     onSuccess : data => {
         console.log(data);
-        queryClient.invalidateQueries("getWorkList");
+        queryClient.invalidateQueries("getPortfolioList");
     },
     onError : data => {
         console.log(data);
@@ -51,19 +56,7 @@ export default function ProductMenu({productData}:{productData : ProductData}) {
   })
 
   const onDelete = () => {
-    delProduct({workNum : productData.workNum})
-  }
-
-  const onEdit = () =>  {
-    navigate('/product/post',{
-        state : {
-            workDesc : productData.workDesc,
-            workName : productData.workName, 
-            workNum : productData.workNum, 
-            workPrice : productData.workPrice, 
-            workerNum : productData.workerNum, 
-        }
-    })
+    delProduct({portfolioNm : portfolio.portfolioNum})
   }
 
 
@@ -87,7 +80,6 @@ export default function ProductMenu({productData}:{productData : ProductData}) {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={() => onEdit()}>Edit</MenuItem>
         <MenuItem onClick={() => onDelete()}>Remove</MenuItem>
       </Menu>
     </div>

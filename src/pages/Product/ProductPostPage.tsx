@@ -5,8 +5,8 @@ import { PageStyled } from "../../assets/pageStyle";
 import { useState, useRef, useEffect } from "react";
 import CommonYellowButton from "../../components/Common/Button";
 import { useMutation, useQueryClient } from "react-query";
-import { handleSubmitProduct } from "../../api/product";
-import { useNavigate } from "react-router";
+import { handleSubmitProduct, editProduct } from "../../api/product";
+import { useNavigate, useLocation } from "react-router";
 
 import MovePage from "../../util/navigate";
 
@@ -92,6 +92,7 @@ export const ProductPostImageStyled = styled.div`
 `
 
 export const ProductPostPage = () => {
+    const location = useLocation();
     const navigate = useNavigate();
     const [ textareaValue, setTextareaValue ] = useState<string>("");
     const [productName, setProductName] = useState<string>("");
@@ -102,6 +103,14 @@ export const ProductPostPage = () => {
     const userId = Number(localStorage.getItem('userId'));
     let fileURLs:any = [];
     let file;
+
+    useEffect(() => {
+        if(location.state !== null){
+            setProductPrice(location.state.workPrice);
+            setProductName(location.state.workName);
+            setTextareaValue(location.state.workDesc);
+        }
+    }, [])
 
 
     const textareaOnChange = (e:any) => {
@@ -146,8 +155,18 @@ export const ProductPostPage = () => {
     const queryClient = useQueryClient();
     const { mutate : posting } = useMutation(handleSubmitProduct, {
         onSuccess : data => {
-            queryClient.invalidateQueries("handleSubmitProduct");
-            navigate('/');
+            queryClient.invalidateQueries("getWorkList");
+            navigate('/mypage');
+        },
+        onError : (error) => {
+            console.log(error);
+        }
+    });
+
+    const { mutate : edit } = useMutation(editProduct, {
+        onSuccess : data => {
+            queryClient.invalidateQueries("getWorkList");
+            navigate('/mypage');
         },
         onError : (error) => {
             console.log(error);
@@ -155,7 +174,6 @@ export const ProductPostPage = () => {
     });
 
     const onClickPostHandler = () => {
-
         posting({
             files : files,
             workDesc : textareaValue,
@@ -166,6 +184,17 @@ export const ProductPostPage = () => {
         )
     }
 
+    const onClickEditHandler = () => {
+        edit({
+            files : files,
+            workDesc : textareaValue,
+            workName : productName,
+            workPrice : productPrice,
+            workerNum : userId,
+            workNum : location.state.workNum
+        })
+    }
+    console.log(location);
     return(
         <ProductPostStyled>
             <BigText style={{marginBottom:"30px"}}>상품 등록하기</BigText>
@@ -203,7 +232,12 @@ export const ProductPostPage = () => {
                     <input type="file" id="input-file" multiple onChange={handleAddImages}/>
             </ProductPostBoxStyled>
             <ProductPostButtonContainer>
-                <CommonYellowButton text={"등록하기"} width={200} height={50} hover={false} onClick={()=>{onClickPostHandler()}}/>
+                {
+                    location.state === null ?
+                    <CommonYellowButton text={"등록하기"} width={200} height={50} hover={false} onClick={()=>{onClickPostHandler()}}/> :
+                    <CommonYellowButton text={"수정하기"} width={200} height={50} hover={false} onClick={()=>{onClickEditHandler()}}/>
+                }
+                
             </ProductPostButtonContainer>
         </ProductPostStyled>
     )

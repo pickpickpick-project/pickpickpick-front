@@ -67,3 +67,32 @@ export const deleteProduct = async (params: {workNum: number}) =>{
 
     return response.data;
 }
+
+
+
+interface ProductEdit{
+    files : any,
+    workDesc : string,
+    workName : string,
+    workPrice : number,
+    workerNum : number,
+    workNum : number,
+}
+
+export const editProduct = async(params:ProductEdit) => {
+    console.log(params);
+    const { files, workDesc, workName, workPrice, workerNum, workNum } = params;
+    const response = await api.post('works/edit', {
+        files,
+        workDesc,
+        workName, 
+        workPrice, 
+        workerNum, 
+        workNum,
+    },{
+        headers: {
+            "Content-Type": "multipart/form-data",
+          },
+    })
+    return response.data;
+}
