@@ -92,12 +92,19 @@ const MainContent = ({ item }: Item) => {
   });
 
   useEffect(() => {
-    if (heartArr.includes(item.portfolioNum)) {
+    getFav();
+  }, []);
+
+  const getFav = () => {
+    if (
+      heartArr.includes(item.portfolioNum) &&
+      item.portfolioNum !== undefined
+    ) {
       setIsHeart(true);
     } else {
       setIsHeart(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     refetch();
@@ -120,7 +127,7 @@ const MainContent = ({ item }: Item) => {
     setClick(true);
     setIsHeart(!isHeart);
   };
-
+  console.log(item);
   return (
     <ContentStyle>
       <div className="item-heart" onClick={it => heartItem(it)}>

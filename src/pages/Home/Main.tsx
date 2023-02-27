@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import colors from "../../assets/colors";
@@ -6,13 +5,23 @@ import Masonry from "@mui/lab/Masonry";
 import { useInView } from "react-intersection-observer";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Key, useCallback, useEffect, useRef, useState, ChangeEvent, KeyboardEvent } from "react";
+import {
+  Key,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  ChangeEvent,
+  KeyboardEvent,
+} from "react";
 import MainContent from "../../components/Home/MainContent";
-import { getPortfolioList, getTagPortfolio, PortfolioData } from "../../api/portfolio";
+import {
+  getPortfolioList,
+  getTagPortfolio,
+  PortfolioData,
+} from "../../api/portfolio";
 import { useQuery } from "react-query";
 import { getFavorites } from "../../api/favorites";
-
-
 
 const MainStyle = styled.div`
   padding: 135px 16px 140px 16px;
@@ -71,23 +80,20 @@ const MainStyle = styled.div`
   }
 `;
 
-
 const TagInputWrapper = styled.div`
-    width : 100%;
-    height : 50px;
-    display : flex;
-    justify-content: center;
-    margin : 10px;
-`
- 
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+`;
+
 const TagInput = styled.input`
-    border : 1px solid yellow;
-    &:focus{
-        outline : 1px solid yellow;
-    }
-`
-
-
+  border: 1px solid yellow;
+  &:focus {
+    outline: 1px solid yellow;
+  }
+`;
 
 const Main = () => {
   const navigate = useNavigate();
@@ -99,30 +105,31 @@ const Main = () => {
 
   const { data: List } = useQuery("getList", getPortfolioList);
   const ListInfo = List?.data ?? [{ id: 0, portfolioName: "" }];
-  const [ type, setType ] = useState<number>(0);
-  const [ tagValue, setTagValue ] = useState<string>('');
-  const [ completeTag, setCompleteTag ] = useState<string>('');
-  const [ searchFlag, setSearchFlag ] = useState<boolean>(false);
+  const [type, setType] = useState<number>(0);
+  const [tagValue, setTagValue] = useState<string>("");
+  const [completeTag, setCompleteTag] = useState<string>("");
+  const [searchFlag, setSearchFlag] = useState<boolean>(false);
 
-  const { data : getTag } = useQuery(['getTagPortfolio', completeTag], () => getTagPortfolio({tags : completeTag}),{
-        enabled : !!completeTag // 태그 입력받으면 useQuery 실행
-  })
-  console.log(getTag);
-  
+  const { data: getTag } = useQuery(
+    ["getTagPortfolio", completeTag],
+    () => getTagPortfolio({ tags: completeTag }),
+    {
+      enabled: !!completeTag, // 태그 입력받으면 useQuery 실행
+    }
+  );
 
-  const onChangeTextValue = (e:React.ChangeEvent<HTMLInputElement>) => {
-        setTagValue(e.target.value);
-        console.log(tagValue);
-  }
+  const onChangeTextValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTagValue(e.target.value);
+    console.log(tagValue);
+  };
 
   const handleOnKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-        setCompleteTag(tagValue)
-        console.log('enter', completeTag);
-        setSearchFlag(true);
+      setCompleteTag(tagValue);
+      console.log("enter", completeTag);
+      setSearchFlag(true);
     }
   };
-
 
   // const getMainPortfolioImgs = useCallback(async () => {
   //   setLoad(true);
@@ -150,132 +157,121 @@ const Main = () => {
   //     getMainPortfolioImgs();
   //   }
   // }, [getMainPortfolioImgs, hasNextPage, inView, load]);
-    console.log(type);
 
-    const onClickType = (type:number) => {
-        setType(type);
-        setSearchFlag(false);
-        setCompleteTag('')
-        setTagValue('')
-    }
-    
+  const onClickType = (type: number) => {
+    setType(type);
+    setSearchFlag(false);
+    setCompleteTag("");
+    setTagValue("");
+  };
+
   return (
-
     // <MainStyle isLoad={load}>
     <MainStyle>
       <section className="main">
         <div className="tags">
-            <button className="tag" onClick={() => onClickType(0)}>
-                전체보기
-            </button>
-            <button className="tag" onClick={() => onClickType(1)}>
-                #일러스트
-            </button>
-            <button className="tag" onClick={() => onClickType(2)}>
-                #캐리커쳐
-            </button>
-            <button className="tag" onClick={() => onClickType(3)}>
-                #웹툰·콘티
-            </button>
-            <button className="tag" onClick={() => onClickType(4)}>
-                #캐릭터
-            </button>
-            <button className="tag" onClick={() => onClickType(5)}>
-                #이모티콘
-            </button>
+          <button className="tag" onClick={() => onClickType(0)}>
+            전체보기
+          </button>
+          <button className="tag" onClick={() => onClickType(1)}>
+            #일러스트
+          </button>
+          <button className="tag" onClick={() => onClickType(2)}>
+            #캐리커쳐
+          </button>
+          <button className="tag" onClick={() => onClickType(3)}>
+            #웹툰·콘티
+          </button>
+          <button className="tag" onClick={() => onClickType(4)}>
+            #캐릭터
+          </button>
+          <button className="tag" onClick={() => onClickType(5)}>
+            #이모티콘
+          </button>
         </div>
         <TagInputWrapper>
-            <TagInput placeholder="태그를 입력해주세요" value={tagValue} onChange={onChangeTextValue} onKeyPress={handleOnKeyPress}/>
+          <TagInput
+            placeholder="태그를 입력해주세요"
+            value={tagValue}
+            onChange={onChangeTextValue}
+            onKeyPress={handleOnKeyPress}
+          />
         </TagInputWrapper>
         <div className="contents-container" id="scrollArea">
           <Masonry columns={3} spacing={2}>
-            {
-                searchFlag === true ?    // 태그 검색할 경우
-                        getTag === undefined ? <div>loading</div>   // 태그 정보를 불러오기 전
-                        :
-                        getTag.data.map((data:any, index:number) => (
-                            <div
-                            key={data.portfolioNum ?? index}
-                            className="content-item"
-                            onClick={() => navigate(`/portfolio/${data.portfolioNum}`)}
-                            >
-                            <MainContent item={data} />
-                            </div>
-                        ))
-                    :
-                type === 0 ? // 전체
-                ListInfo?.map((item: any, index: number) => (
-                    <div
-                      key={item.id ?? index}
-                      className="content-item"
-                      onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
-                    >
-                      <MainContent item={item} />
-                    </div>
-                  )) 
-                  :
-                    type === 1 ?
-                    ListInfo?.map((item: any, index: number) => 
-                        item.portfolioType === 1 ?  // 타입 1인 것만
-                        (
-                        <div
-                            key={item.id ?? index}
-                            className="content-item"
-                            onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
-                        >
-                            <MainContent item={item} />
-                        </div>
-                        ) 
-                        : 
-                        null) 
-                    :
-                        type === 2 ?
-                        ListInfo?.map((item: any, index: number) => 
-                            item.portfolioType === 2 ?  // 타입 1인 것만
-                            (
-                            <div
-                                key={item.id ?? index}
-                                className="content-item"
-                                onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
-                            >
-                                <MainContent item={item} />
-                            </div>
-                            ) 
-                            : 
-                            null) 
-                        :
-                            type === 3 ?
-                            ListInfo?.map((item: any, index: number) => 
-                                item.portfolioType === 3 ?  // 타입 1인 것만
-                                (
-                                <div
-                                    key={item.id ?? index}
-                                    className="content-item"
-                                    onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
-                                >
-                                    <MainContent item={item} />
-                                </div>
-                                ) 
-                                : 
-                                null) 
-                            :
-                                type === 4 ?
-                                ListInfo?.map((item: any, index: number) => 
-                                    item.portfolioType === 4 ?  // 타입 1인 것만
-                                    (
-                                    <div
-                                        key={item.id ?? index}
-                                        className="content-item"
-                                        onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
-                                    >
-                                        <MainContent item={item} />
-                                    </div>
-                                    ) 
-                                    : 
-                                    null) 
-                                :   null
-            }
-            
+            {searchFlag === true ? ( // 태그 검색할 경우
+              getTag === undefined ? (
+                <div>loading</div> // 태그 정보를 불러오기 전
+              ) : (
+                getTag.data.map((data: any, index: number) => (
+                  <div
+                    key={data.portfolioNum ?? index}
+                    className="content-item"
+                    onClick={() => navigate(`/portfolio/${data.portfolioNum}`)}
+                  >
+                    <MainContent item={data} />
+                  </div>
+                ))
+              )
+            ) : type === 0 ? ( // 전체
+              ListInfo?.map((item: any, index: number) => (
+                <div
+                  key={item.id ?? index}
+                  className="content-item"
+                  onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+                >
+                  <MainContent item={item} />
+                </div>
+              ))
+            ) : type === 1 ? (
+              ListInfo?.map((item: any, index: number) =>
+                item.portfolioType === 1 ? ( // 타입 1인 것만
+                  <div
+                    key={item.id ?? index}
+                    className="content-item"
+                    onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+                  >
+                    <MainContent item={item} />
+                  </div>
+                ) : null
+              )
+            ) : type === 2 ? (
+              ListInfo?.map((item: any, index: number) =>
+                item.portfolioType === 2 ? ( // 타입 1인 것만
+                  <div
+                    key={item.id ?? index}
+                    className="content-item"
+                    onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+                  >
+                    <MainContent item={item} />
+                  </div>
+                ) : null
+              )
+            ) : type === 3 ? (
+              ListInfo?.map((item: any, index: number) =>
+                item.portfolioType === 3 ? ( // 타입 1인 것만
+                  <div
+                    key={item.id ?? index}
+                    className="content-item"
+                    onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+                  >
+                    <MainContent item={item} />
+                  </div>
+                ) : null
+              )
+            ) : type === 4 ? (
+              ListInfo?.map((item: any, index: number) =>
+                item.portfolioType === 4 ? ( // 타입 1인 것만
+                  <div
+                    key={item.id ?? index}
+                    className="content-item"
+                    onClick={() => navigate(`/portfolio/${item.portfolioNum}`)}
+                  >
+                    <MainContent item={item} />
+                  </div>
+                ) : null
+              )
+            ) : null}
           </Masonry>
           {/* <div className="load" ref={ref}>
             {load && <CircularProgress color="inherit" />}
