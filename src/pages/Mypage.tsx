@@ -114,11 +114,21 @@ const Mypage = ():React.ReactElement => {
     const onClickOrderStatusCancel = (item:any) => {
         cancelPrice.current = item.orderPrice;
         merchantUid.current = item.merchantUid;
+        orderStatus.current = "CANCEL";
+
+        axios.get('http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/orders/status/',{
+            params:{
+                merchantUid:merchantUid.current,
+                orderStatus:orderStatus.current,
+            }
+            })
+            .then((res) => refetch())
+            .catch((res) => console.log(res));
         
-        cancel({
-            merchant_uid:merchantUid.current,
-            cancel_request_amount:cancelPrice.current,
-        })
+        // cancel({
+        //     merchantUid:merchantUid.current,
+        //     cancel_request_amount:cancelPrice.current,
+        // })
     }
 
     const handlePage = (event: React.ChangeEvent<unknown>, value: number) => {
