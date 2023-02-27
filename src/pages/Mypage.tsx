@@ -54,10 +54,11 @@ const Mypage = ():React.ReactElement => {
     const { data : User } = useQuery("getUser", () => getUserInfo(userId));
     const { data : OrderList, refetch } = useQuery(["getOrder", orderStatus.current], () => getOrderList(userId));
     console.log(OrderList);
-    
-    const count = Math.ceil(OrderList.data.data.length / 4);
+    const ordertArr = OrderList?.data.data ?? [];
+    console.log(ordertArr);
+    const count = Math.ceil(ordertArr.length / 4);
     const  [ page, setPage ] = useState(1);
-    const [ pageItems, setPageItems ] = useState(OrderList.data.data.slice(0, 4));
+    const [ pageItems, setPageItems ] = useState(ordertArr.slice(0, 4));
     console.log(OrderList);
     
     const productListCount = getProductListData.data?.length;
@@ -122,12 +123,12 @@ const Mypage = ():React.ReactElement => {
 
     const handlePage = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
-        setPageItems(OrderList.data.data.slice(4 * (value - 1), 4 * value));
+        setPageItems(ordertArr.slice(4 * (value - 1), 4 * value));
       };
 
       useEffect(() => {
-        setPageItems(OrderList.data.data.slice(0, 4));
-      }, [OrderList.data.data]);
+        setPageItems(ordertArr?.slice(0, 4));
+      }, [ordertArr]);
 
     useEffect(() => {
     }, [merchantUid.current])
@@ -159,7 +160,7 @@ const Mypage = ():React.ReactElement => {
                 </thead>
 
                 <tbody>
-                  {OrderList !== undefined ?
+                  {ordertArr !== undefined ?
                     pageItems.map((item: any, index: number) => (
                         <tr key={index}>
                         <td>{item.orderNum}</td>
