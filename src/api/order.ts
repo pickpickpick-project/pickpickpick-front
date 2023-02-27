@@ -112,14 +112,14 @@ export const getOrderList = async(userNum : number) => {
 ////////////
 
 interface PaymentCancel{
-    merchant_uid : string,
+    merchantUid : string,
     cancel_request_amount : number,
 }
 
 export const handlePaymentCancel = async(params : PaymentCancel) => {
-    const { merchant_uid, cancel_request_amount } = params;
+    const { merchantUid, cancel_request_amount } = params;
     const response = await api.post('payment/cancel', {
-        merchant_uid,
+        merchantUid,
         cancel_request_amount,
     })
     return response.data;
