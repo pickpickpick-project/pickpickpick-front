@@ -24,7 +24,7 @@ export const postOrder = async(params : OrderParams) => {
     const { orderCount, orderPrice, userNum, workNum } = params;
     console.log(params);
     
-    const response = await api.post<OrderResponse>('orders', {
+    const response = await api.post('orders', {
         orderCount,
         orderPrice,
         userNum,
@@ -113,16 +113,16 @@ export const getOrderList = async(userNum : number) => {
 
 interface PaymentCancel{
     merchantUid : string,
-    cancel_request_amount : number,
+    cancelRequestAmount : number,
 }
 
 export const handlePaymentCancel = async(params : PaymentCancel) => {
-    const { merchantUid, cancel_request_amount } = params;
+    const { merchantUid, cancelRequestAmount } = params;
+    console.log(merchantUid,cancelRequestAmount )
     const response = await api.post('payment/cancel', {
         merchantUid,
-        cancel_request_amount,
+        cancelRequestAmount,
     })
     return response.data;
 }
-
 

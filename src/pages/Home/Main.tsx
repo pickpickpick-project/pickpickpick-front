@@ -185,7 +185,7 @@ const Main = () => {
             </button>
         </div>
         <TagInputWrapper>
-            <TagInput placeholder="태그를 입력해주세요" value={tagValue} onChange={onChangeTextValue} onKeyPress={handleOnKeyPress}/>
+            <TagInput placeholder="태그를 입력 후 엔터" value={tagValue} onChange={onChangeTextValue} onKeyPress={handleOnKeyPress}/>
         </TagInputWrapper>
         <div className="contents-container" id="scrollArea">
           <Masonry columns={3} spacing={2}>

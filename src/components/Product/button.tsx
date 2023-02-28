@@ -25,7 +25,6 @@ interface ProductData{
   }
 
 export default function ProductMenu({productData}:{productData : ProductData}) {
-    console.log(productData);
     
     const navigate = useNavigate();
     const queryClient = useQueryClient();
@@ -42,7 +41,6 @@ export default function ProductMenu({productData}:{productData : ProductData}) {
 
   const { mutate : delProduct } = useMutation(deleteProduct, {
     onSuccess : data => {
-        console.log(data);
         queryClient.invalidateQueries("getWorkList");
     },
     onError : data => {

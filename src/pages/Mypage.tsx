@@ -53,13 +53,10 @@ const Mypage = ():React.ReactElement => {
     const getPortfolioData = useQuery("getPortfolioList", () => getUserPortfolio(userId));    
     const { data : User } = useQuery("getUser", () => getUserInfo(userId));
     const { data : OrderList, refetch } = useQuery(["getOrder", orderStatus.current], () => getOrderList(userId));
-    console.log(OrderList);
     const ordertArr = OrderList?.data.data ?? [];
-    console.log(ordertArr);
     const count = Math.ceil(ordertArr.length / 4);
     const  [ page, setPage ] = useState(1);
     const [ pageItems, setPageItems ] = useState(ordertArr.slice(0, 4));
-    console.log(OrderList);
     
     const productListCount = getProductListData.data?.length;
     const portfolioListCount = getPortfolioData.data?.data.length;
@@ -77,7 +74,6 @@ const Mypage = ():React.ReactElement => {
 
     const { mutate : cancel } = useMutation(handlePaymentCancel, {
         onSuccess : data => {
-            console.log(data);
             orderStatus.current = "CANCEL";
 
             axios.get('http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/orders/status/',{
@@ -88,7 +84,6 @@ const Mypage = ():React.ReactElement => {
             })
             .then((res) => {
                 refetch()
-                console.log(res);
             })
             .catch((res) => console.log(res));
         },
@@ -98,6 +93,7 @@ const Mypage = ():React.ReactElement => {
     })
 
     const onClickOrderStatusComplete = (item:any) => {
+        console.log(item);
         orderStatus.current = "COMPLETE";
         merchantUid.current = item.merchantUid;
 
@@ -112,23 +108,24 @@ const Mypage = ():React.ReactElement => {
     }
 
     const onClickOrderStatusCancel = (item:any) => {
+        console.log(item);
         cancelPrice.current = item.orderPrice;
         merchantUid.current = item.merchantUid;
         orderStatus.current = "CANCEL";
 
-        axios.get('http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/orders/status/',{
-            params:{
-                merchantUid:merchantUid.current,
-                orderStatus:orderStatus.current,
-            }
-            })
-            .then((res) => refetch())
-            .catch((res) => console.log(res));
+        // axios.get('http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/orders/status/',{
+        //     params:{
+        //         merchantUid:merchantUid.current,
+        //         orderStatus:orderStatus.current,
+        //     }
+        //     })
+        //     .then((res) => refetch())
+        //     .catch((res) => console.log(res));
         
-        // cancel({
-        //     merchantUid:merchantUid.current,
-        //     cancel_request_amount:cancelPrice.current,
-        // })
+        cancel({
+            merchantUid:merchantUid.current,
+            cancelRequestAmount:cancelPrice.current,
+        })
     }
 
     const handlePage = (event: React.ChangeEvent<unknown>, value: number) => {
