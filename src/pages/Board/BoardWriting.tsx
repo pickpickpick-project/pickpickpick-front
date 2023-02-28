@@ -144,7 +144,7 @@ const PostWritingPage = () => {
         
         edit({
             postNum : location.state.postNum,
-            files : [],
+            files : imgFiles,
             postContent : content!,
             postTitle : title,
         })

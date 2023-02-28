@@ -47,7 +47,6 @@ export default function PortfolioMenu({portfolio}:{portfolio : PortfolioData}) {
 
   const { mutate : delProduct } = useMutation(deletePortfolio, {
     onSuccess : data => {
-        console.log(data);
         queryClient.invalidateQueries("getPortfolioList");
     },
     onError : data => {
