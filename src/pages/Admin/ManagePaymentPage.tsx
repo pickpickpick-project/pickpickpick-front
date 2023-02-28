@@ -123,7 +123,6 @@ const ManagePaymentPage = () => {
                   <thead>
                     <tr>
                       <th className="num">번호</th>
-                      <th>결제수</th>
                       <th>가격</th>
                       <th>결제방법</th>
                       <th>결제일</th>
@@ -136,7 +135,6 @@ const ManagePaymentPage = () => {
                     {pageFiltered.map((item: any) => (
                       <tr key={item.paymentId}>
                         <td>{item.paymentId}</td>
-                        <td>{item.paymentCount}</td>
                         <td>{item.paymentPrice}</td>
                         <td>{item.payMethod}</td>
                         <td>{item.paymentDate.slice(0, 10)}</td>
@@ -158,7 +156,6 @@ const ManagePaymentPage = () => {
                   <thead>
                     <tr>
                       <th className="num">번호</th>
-                      <th>결제수</th>
                       <th>가격</th>
                       <th>결제방법</th>
                       <th>결제일</th>
@@ -171,7 +168,6 @@ const ManagePaymentPage = () => {
                     {pageItems.map((item: any) => (
                       <tr key={item.paymentId}>
                         <td>{item.paymentId}</td>
-                        <td>{item.paymentCount}</td>
                         <td>{item.paymentPrice}</td>
                         <td>{item.payMethod}</td>
                         <td>{item.paymentDate.slice(0, 10)}</td>
