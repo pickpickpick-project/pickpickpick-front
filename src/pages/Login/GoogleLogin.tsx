@@ -18,7 +18,7 @@ interface UserInfo {
 }
 
 const GoogleLogin = () => {
-  const KAKAO_AUTH_URL = `http://api.pppick.store/login/oauth2/code/google?redirect_uri=http://www.pppick.store/oauth2/redirect`;
+  const KAKAO_AUTH_URL = `http://api.pppick.store/oauth2/authorization/google?redirect_uri=http://www.pppick.store/oauth2/redirect`;
   const loaction = useLocation();
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");

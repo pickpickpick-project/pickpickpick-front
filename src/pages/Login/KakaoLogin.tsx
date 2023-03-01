@@ -6,7 +6,7 @@ import Kakao from "../../assets/images/Home/kakao.png";
 import { snsState } from "../../recoil/login";
 
 const KakaoLogin = () => {
-  const KAKAO_AUTH_URL = `http://api.pppick.store/login/oauth2/code/kakao?redirect_uri=http://www.pppick.store/oauth2/redirect`;
+  const KAKAO_AUTH_URL = `http://api.pppick.store/oauth2/authorization/kakao?redirect_uri=http://www.pppick.store/oauth2/redirect`;
   const loaction = useLocation();
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");
