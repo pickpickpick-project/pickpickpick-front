@@ -91,8 +91,7 @@ const settings = {
 };
 
 const ImageSwiper = (imgArr: any) => {
-  const baseURL =
-    "http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/";
+  const baseURL = "http://api.pppick.store/";
   return (
     <SwiperStyle>
       <Slider {...settings}>

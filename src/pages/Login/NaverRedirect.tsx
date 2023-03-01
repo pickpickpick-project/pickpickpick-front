@@ -11,14 +11,11 @@ const NaverRedirect = () => {
     console.log("naver redirect");
     try {
       axios
-        .get(
-          `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/auth/token?token=${token}`,
-          {
-            headers: {
-              "Content-type": "application/x-www-form-urlencoded",
-            },
-          }
-        )
+        .get(`http://api.pppick.store/auth/token?token=${token}`, {
+          headers: {
+            "Content-type": "application/x-www-form-urlencoded",
+          },
+        })
         .then(res => {
           localStorage.setItem("userId", res.data.data.userNum);
           navigate("/");

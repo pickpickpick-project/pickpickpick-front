@@ -46,8 +46,7 @@ interface Imgs {
 
 const MainContent = ({ item }: Item) => {
   const width = window.innerWidth;
-  const baseURL =
-    "http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/";
+  const baseURL = "http://api.pppick.store/";
   const userNum = Number(localStorage.getItem("userId"));
 
   const [isHeart, setIsHeart] = useState<boolean>(false);
