@@ -16,6 +16,7 @@ import {
   patchFavorites,
   postFavorites,
 } from "../../api/favorites";
+import Toast from "../../components/Common/toast";
 
 const PageStyle = styled.div`
   padding: 135px 0px 40px 0px;
@@ -24,6 +25,12 @@ const PageStyle = styled.div`
     height: 450px;
     display: flex;
     overflow: hidden;
+  }
+
+  .middle-section{
+    position : relative;
+    width : 100%;
+    height : 100%;
   }
 
   .bottom-section {
@@ -251,12 +258,30 @@ const PortfolioDetail = () => {
     // setHeartList(heartList => [...heartList, item.portfolioNum])
   };
 
+  const toastProps_1 = {
+    title : "문의하기",
+    content : "디자인을 의뢰하고 싶으시면 문의하기 버튼을 클릭하여 문의해 주세요",
+    top_pos : -50,
+    right_pos : 30,
+    start_time : 500,
+  }
+  const toastProps_2 = {
+    title : "작가페이지",
+    content : "더 다양한 포트폴리오와 상품을 확인하고 싶으시다면 작가 이름을 클릭해 주세요",
+    top_pos : -50,
+    right_pos : 30,
+    start_time : 5000,
+  }
+
   return (
+
     <PageStyle>
       {User === undefined || Info === undefined ? (
         <div>Loading</div>
       ) : (
         <>
+            
+            
           <div className="images-container">
             <ImageSwiper data={imgInfo} />
           </div>
@@ -274,6 +299,10 @@ const PortfolioDetail = () => {
                   <ModalTag key={item.tag.tagNum} tag={item.tag.tagName} />
                 ))}
               </div>
+            </div>
+            <div className="middle-section">
+                <Toast props={toastProps_2} />
+                <Toast props={toastProps_1} />
             </div>
             <div className="right-section">
               <div
