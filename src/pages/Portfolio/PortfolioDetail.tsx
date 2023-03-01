@@ -139,32 +139,26 @@ const PortfolioDetail = () => {
   const [isHeart, setIsHeart] = useState<boolean>(false);
   const [type, setType] = useState("일러스트");
   const [click, setClick] = useState(false);
-  const [ artistId, setArtistId ] = useState(0);
-    const navigate = useNavigate();
-  const { data: Info } = useQuery("getInfo", () => 
-  getPortfolioId(Number(id)),
-  {
-    onSuccess : (data) => {
-        console.log(data)
-        setArtistId(data.data.user)
-    }
-  },
-  
-  );
+  const [artistId, setArtistId] = useState(0);
+  const navigate = useNavigate();
+  const { data: Info } = useQuery("getInfo", () => getPortfolioId(Number(id)), {
+    onSuccess: data => {
+      console.log(data);
+      setArtistId(data.data.user);
+    },
+  });
   const tagInfo = Info?.data.portfolioTags ?? [];
   const imgInfo = Info?.data.portfolioImgList ?? [];
   const ArtistId = Info?.data.user;
-  
-  
-  const { data: User } = useQuery(
-    "getUserId",
-    () => getUserInfo(ArtistId),
-    {
-        enabled : !!artistId,
-    }
-  );
-  
-  const ImgURL = User?.data.imageUrl[0] === 'h' ? User?.data.imageUrl : `http://ec2-15-164-113-99.ap-northeast-2.compute.amazonaws.com:8080/${User?.data.imageUrl}`
+
+  const { data: User } = useQuery("getUserId", () => getUserInfo(ArtistId), {
+    enabled: !!artistId,
+  });
+
+  const ImgURL =
+    User?.data.imageUrl[0] === "h"
+      ? User?.data.imageUrl
+      : `http://api.pppick.store/${User?.data.imageUrl}`;
 
   const { data, refetch } = useQuery("getFavorites", () =>
     getFavorites(userNum)
@@ -196,10 +190,10 @@ const PortfolioDetail = () => {
     },
   });
 
-//   useEffect(() => {
-//     console.log(User?.data.name);
-//     UserRefetch();
-//   }, [Info?.data.user]);
+  //   useEffect(() => {
+  //     console.log(User?.data.name);
+  //     UserRefetch();
+  //   }, [Info?.data.user]);
 
   let heartArr: number[] = [];
   useEffect(() => {
@@ -234,8 +228,7 @@ const PortfolioDetail = () => {
     }
     setClick(false);
   }, [isHeart, click]);
-  
-  
+
   useEffect(() => {
     console.log(Info);
     if (Info?.data.portfolioType === 1) {
@@ -247,7 +240,7 @@ const PortfolioDetail = () => {
     } else if (Info?.data.portfolioType === 4) {
       setType("캐릭터");
     } else if (Info?.data.portfolioType === 5) {
-        setType("이모티콘");
+      setType("이모티콘");
     }
   }, [Info]);
 
@@ -259,55 +252,60 @@ const PortfolioDetail = () => {
   };
 
   return (
-        
     <PageStyle>
-        {
-            User === undefined || Info === undefined ? 
-            <div>Loading</div> 
-            :
-            <>
-                <div className="images-container">
-                    <ImageSwiper data={imgInfo} />
+      {User === undefined || Info === undefined ? (
+        <div>Loading</div>
+      ) : (
+        <>
+          <div className="images-container">
+            <ImageSwiper data={imgInfo} />
+          </div>
+          <div className="bottom-section">
+            <div className="modal-info">
+              <div className="modal-info-top">
+                <div className="modal-info-type">{type}</div>
+                <div className="item-heart" onClick={item => heartItem(item)}>
+                  {isHeart ? <HeartFilled /> : <Heart />}
                 </div>
-                <div className="bottom-section">
-                    <div className="modal-info">
-                    <div className="modal-info-top">
-                        <div className="modal-info-type">{type}</div>
-                        <div className="item-heart" onClick={item => heartItem(item)}>
-                        {isHeart ? <HeartFilled /> : <Heart />}
-                        </div>
-                    </div>
-                    <div className="modal-info-title">{Info?.data.portfolioName}</div>
-                    <div className="modal-info-tags">
-                        {tagInfo.map((item: any) => (
-                        <ModalTag key={item.tag.tagNum} tag={item.tag.tagName} />
-                        ))}
-                    </div>
-                    </div>
-                    <div className="right-section">
-                    <div onClick={() => {navigate(`/artist/${artistId}`)}} className="artist-section">
-                        <div className="artist-img">
-                        {User?.data.imageUrl ? (
-                            <img src={ImgURL} alt="" />
-                        ) : (
-                            <Profile width="45px" height="45px" />
-                        )}
-                        </div>
-                        <div className="arist-info">
-                        <div className="artist-info-name">{User?.data?.name}</div>
-                        </div>
-                    </div>
-                    <CommonYellowButton
-                        onClick={() => {navigate(`/board/${artistId}`)}}
-                        text={"작가에게 문의하기"}
-                        width={269}
-                        height={52}
-                        hover={true}
-                    />
-                    </div>
+              </div>
+              <div className="modal-info-title">{Info?.data.portfolioName}</div>
+              <div className="modal-info-tags">
+                {tagInfo.map((item: any) => (
+                  <ModalTag key={item.tag.tagNum} tag={item.tag.tagName} />
+                ))}
+              </div>
+            </div>
+            <div className="right-section">
+              <div
+                onClick={() => {
+                  navigate(`/artist/${artistId}`);
+                }}
+                className="artist-section"
+              >
+                <div className="artist-img">
+                  {User?.data.imageUrl ? (
+                    <img src={ImgURL} alt="" />
+                  ) : (
+                    <Profile width="45px" height="45px" />
+                  )}
                 </div>
-            </>
-        }   
+                <div className="arist-info">
+                  <div className="artist-info-name">{User?.data?.name}</div>
+                </div>
+              </div>
+              <CommonYellowButton
+                onClick={() => {
+                  navigate(`/board/${artistId}`);
+                }}
+                text={"작가에게 문의하기"}
+                width={269}
+                height={52}
+                hover={true}
+              />
+            </div>
+          </div>
+        </>
+      )}
     </PageStyle>
   );
 };
