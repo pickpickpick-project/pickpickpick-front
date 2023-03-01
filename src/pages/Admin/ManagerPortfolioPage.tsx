@@ -86,6 +86,20 @@ const ManagePortfolioPage = () => {
     setPageItems(portfolioArr.slice(0, 8));
   }, [portfolioArr]);
 
+  const typeName = (num: number) => {
+    if (num === 1) {
+      return "일러스트";
+    } else if (num === 2) {
+      return "캐리커쳐";
+    } else if (num === 3) {
+      return "웹툰.콘티";
+    } else if (num === 4) {
+      return "캐릭터";
+    } else if (num === 5) {
+      return "이모티콘";
+    }
+  };
+
   return (
     <PageStyle>
       <div className="container">
@@ -125,7 +139,7 @@ const ManagePortfolioPage = () => {
                           ? item.portfolioName.slice(0, 10) + "..."
                           : item.portfolioName}
                       </td>
-                      <td>{item.portfolioType}</td>
+                      <td>{typeName(item.portfolioType)}</td>
                       <td>
                         {item.portfolioDate && item.portfolioDate.slice(0, 10)}
                       </td>
@@ -163,7 +177,7 @@ const ManagePortfolioPage = () => {
                           ? item.portfolioName.slice(0, 10) + "..."
                           : item.portfolioName}
                       </td>
-                      <td>{item.portfolioType}</td>
+                      <td>{typeName(item.portfolioType)}</td>
                       <td>
                         {item.portfolioDate && item.portfolioDate.slice(0, 10)}
                       </td>
