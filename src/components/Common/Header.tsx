@@ -249,9 +249,6 @@ const Header = () => {
               //   로그인하기
               // </div>
             )}
-            <div className="admin" onClick={() => navigate("/admin/signin")}>
-              관리자페이지
-            </div>
           </div>
         </div>
       </div>
