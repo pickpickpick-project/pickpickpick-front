@@ -233,9 +233,9 @@ const Header = () => {
                 <div className="login-button">
                   <KakaoLogin />
                 </div>
-                {/* <div className="login-button">
+                <div className="login-button">
                   <NaverLogin />
-                </div> */}
+                </div>
                 <div className="login-button">
                   <GoogleLogin />
                 </div>
