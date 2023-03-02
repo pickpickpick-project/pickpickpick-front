@@ -24,14 +24,14 @@ import { useQuery } from "react-query";
 import { getFavorites } from "../../api/favorites";
 
 const MainStyle = styled.div`
-  padding: 135px 16px 140px 16px;
+  padding: 115px 16px 140px 16px;
   
   .tags {
     width: 1200px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
   }
 
   .tag {
@@ -85,7 +85,7 @@ const TagInputWrapper = styled.div`
   height: 50px;
   display: flex;
   justify-content: center;
-  margin: 10px;
+  margin-bottom : 10px;
 `;
 
 const TagInput = styled.input`
@@ -169,6 +169,9 @@ const Main = () => {
     // <MainStyle isLoad={load}>
     <MainStyle>
       <section className="main">
+        <TagInputWrapper>
+            <TagInput placeholder="태그를 입력 후 엔터" value={tagValue} onChange={onChangeTextValue} onKeyPress={handleOnKeyPress}/>
+        </TagInputWrapper>
         <div className="tags">
           <button className="tag" onClick={() => onClickType(0)}>
             전체보기
@@ -189,9 +192,7 @@ const Main = () => {
             #이모티콘
           </button>
         </div>
-        <TagInputWrapper>
-            <TagInput placeholder="태그를 입력 후 엔터" value={tagValue} onChange={onChangeTextValue} onKeyPress={handleOnKeyPress}/>
-        </TagInputWrapper>
+        
         <div className="contents-container" id="scrollArea">
           <Masonry columns={3} spacing={2}>
             {searchFlag === true ? ( // 태그 검색할 경우
