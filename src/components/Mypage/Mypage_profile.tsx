@@ -76,7 +76,7 @@ const MypageProfile = ({ email }: Email) => {
   const ImgURL =
     User?.data.imageUrl[0] === "h"
       ? User?.data.imageUrl
-      : `http://api.pppick.store/${User?.data.imageUrl}`;
+      : `https://api.pppick.store/${User?.data.imageUrl}`;
 
   const queryClient = useQueryClient();
   const { mutate: updateInfo } = useMutation(updateUserInfo, {

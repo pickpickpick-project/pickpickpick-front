@@ -67,7 +67,7 @@ const CommonImgCarousel = ({ data }: any) => {
           {/* 게시물의 개수에 따라서  */}
           <CarouselContainerStyled width={600} ref={slideRef}>
             {data.map((data: any) => {
-              const imgSrc = `http://api.pppick.store/${data.filePath}`;
+              const imgSrc = `https://api.pppick.store/${data.filePath}`;
               return (
                 <CarouselElementContainerStyled key={imgSrc}>
                   <CarouselElementImgStyled src={imgSrc} />

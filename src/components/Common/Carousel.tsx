@@ -144,13 +144,13 @@ const CommonCarousel = ({ data, category }: any) => {
                   imgSrc =
                     data[page_img].length === 0
                       ? "https://i.ibb.co/t8C6xSr/Portfolio.png"
-                      : `http://api.pppick.store/${data[page_img][0].portfolioImgAddr}`;
+                      : `https://api.pppick.store/${data[page_img][0].portfolioImgAddr}`;
                   break;
                 case "work":
                   imgSrc =
                     data[page_img].length === 0
                       ? "https://i.ibb.co/t8C6xSr/Portfolio.png"
-                      : `http://api.pppick.store/${data[page_img][0].workImgSrcPath}`;
+                      : `https://api.pppick.store/${data[page_img][0].workImgSrcPath}`;
                   break;
               }
 

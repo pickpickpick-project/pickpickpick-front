@@ -46,7 +46,7 @@ interface Imgs {
 
 const MainContent = ({ item }: Item) => {
   const width = window.innerWidth;
-  const baseURL = "http://api.pppick.store/";
+  const baseURL = "https://api.pppick.store/";
   const userNum = Number(localStorage.getItem("userId"));
 
   const [isHeart, setIsHeart] = useState<boolean>(false);

@@ -37,7 +37,7 @@ interface Favorites {
 }
 
 const HeartItem = ({ item }: Item) => {
-  const baseURL = "http://api.pppick.store/";
+  const baseURL = "https://api.pppick.store/";
   return (
     <ItemStyle>
       <div className="item-img">

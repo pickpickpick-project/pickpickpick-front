@@ -92,7 +92,7 @@ const items: MenuProps["items"] = [
   {
     key: "1",
     label: (
-      <a href="http://www.pppick.store/mypage">
+      <a href="https://www.pppick.store/mypage">
         <div
           className="menu-item"
           style={{
@@ -111,7 +111,7 @@ const items: MenuProps["items"] = [
   {
     key: "2",
     label: (
-      <a href="http://www.pppick.store/heart">
+      <a href="https://www.pppick.store/heart">
         <div
           className="menu-item"
           style={{
@@ -130,7 +130,7 @@ const items: MenuProps["items"] = [
   {
     key: "3",
     label: (
-      <a href="http://www.pppick.store/portfolio/post">
+      <a href="https://www.pppick.store/portfolio/post">
         <div
           className="menu-item"
           style={{
@@ -149,7 +149,7 @@ const items: MenuProps["items"] = [
   {
     key: "4",
     label: (
-      <a href="http://www.pppick.store/product/post">
+      <a href="https://www.pppick.store/product/post">
         <div
           className="menu-item"
           style={{
@@ -194,7 +194,7 @@ const Header = () => {
   const ImgURL =
     User?.data.imageUrl[0] === "h"
       ? User?.data.imageUrl
-      : `http://api.pppick.store/${User?.data.imageUrl}`;
+      : `https://api.pppick.store/${User?.data.imageUrl}`;
   useEffect(() => {
     if (userId) {
       setIsLogin(true);
