@@ -18,7 +18,7 @@ interface UserInfo {
 }
 
 const GoogleLogin = () => {
-  const KAKAO_AUTH_URL = `http://api.pppick.store/oauth2/authorization/google?redirect_uri=http://www.pppick.store/oauth2/redirect`;
+  const KAKAO_AUTH_URL = `https://api.pppick.store/oauth2/authorization/google?redirect_uri=https://www.pppick.store/oauth2/redirect`;
   const loaction = useLocation();
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");
@@ -30,7 +30,7 @@ const GoogleLogin = () => {
   const getGoogleToken = useCallback(async () => {
     try {
       await axios
-        .get(`http://api.pppick.store/auth/token?token=${token}`, {
+        .get(`https://api.pppick.store/auth/token?token=${token}`, {
           headers: {
             "Content-type": "application/x-www-form-urlencoded",
           },

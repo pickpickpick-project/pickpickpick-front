@@ -6,7 +6,7 @@ interface Item {
 }
 
 const ImageSwiperItem = ({ item }: Item) => {
-  const baseURL = "http://api.pppick.store/";
+  const baseURL = "https://api.pppick.store/";
   return (
     <>
       <div className="item-img">

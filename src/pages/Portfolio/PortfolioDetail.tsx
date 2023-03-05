@@ -165,7 +165,7 @@ const PortfolioDetail = () => {
   const ImgURL =
     User?.data.imageUrl[0] === "h"
       ? User?.data.imageUrl
-      : `http://api.pppick.store/${User?.data.imageUrl}`;
+      : `https://api.pppick.store/${User?.data.imageUrl}`;
 
   const { data, refetch } = useQuery("getFavorites", () =>
     getFavorites(userNum)

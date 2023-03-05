@@ -87,7 +87,7 @@ const OrderPage = () => {
   const product = productInfo?.data.workInfo;
   const product_img =
     product?.workImages.length! > 0
-      ? `http://api.pppick.store/${product?.workImages[0].workImgSrcPath}`
+      ? `https://api.pppick.store/${product?.workImages[0].workImgSrcPath}`
       : "https://ibb.co/2hz8Jgr";
 
   const { mutate: handlePostOrder } = useMutation(postOrder, {
@@ -148,7 +148,7 @@ const OrderPage = () => {
       console.log(data);
 
       axios
-        .get("http://api.pppick.store/orders/status/", {
+        .get("https://api.pppick.store/orders/status/", {
           params: {
             merchantUid: merchantUid.current,
             orderStatus: orderStatus.current,

@@ -77,7 +77,7 @@ const Mypage = (): React.ReactElement => {
       orderStatus.current = "CANCEL";
 
       axios
-        .get("http://api.pppick.store/orders/status/", {
+        .get("https://api.pppick.store/orders/status/", {
           params: {
             merchantUid: merchantUid.current,
             orderStatus: orderStatus.current,
@@ -97,7 +97,7 @@ const Mypage = (): React.ReactElement => {
     merchantUid.current = item.merchantUid;
 
     axios
-      .get("http://api.pppick.store/orders/status/", {
+      .get("https://api.pppick.store/orders/status/", {
         params: {
           merchantUid: merchantUid.current,
           orderStatus: orderStatus.current,

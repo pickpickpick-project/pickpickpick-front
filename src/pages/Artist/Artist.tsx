@@ -63,7 +63,7 @@ const ArtistPage = () => {
   const ImgURL =
     User?.data.imageUrl[0] === "h"
       ? User?.data.imageUrl
-      : `http://api.pppick.store/${User?.data.imageUrl}`;
+      : `https://api.pppick.store/${User?.data.imageUrl}`;
 
   return (
     <ArtistStyled>
