@@ -91,7 +91,7 @@ const settings = {
 };
 
 const ImageSwiper = (imgArr: any) => {
-  const baseURL = "http://api.pppick.store/";
+  const baseURL = "https://api.pppick.store/";
   return (
     <SwiperStyle>
       <Slider {...settings}>

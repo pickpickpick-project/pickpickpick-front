@@ -23,7 +23,7 @@ const CommentStyled = styled.div`
         top : 0;
         cursor: pointer;
         display: flex;
-        margin-right : 20px;
+        margin-left : 20px;
         flex-direction : column;
         
     }
