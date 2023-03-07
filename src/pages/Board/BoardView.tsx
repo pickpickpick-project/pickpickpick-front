@@ -13,7 +13,8 @@ import { ProductPostBoxStyled, ProductPostTextareaStyled } from "../Product/Prod
 import CommonYellowButton from "../../components/Common/Button";
 import { getCommentList, handleSubmitComment } from "../../api/comment";
 import BoardMenu from "../../components/Board/button";
-
+import ToastCenter from "../../components/Common/toastcenter";
+import Spinner from "../../components/Common/spinner";
 const PostViewStyled = styled(PageStyled)`
     padding : 135px 16px 100px 16px;
     
@@ -71,6 +72,7 @@ const PostViewCommentContainerStyled = styled.div`
     padding : 135px 16px 100px 16px;
 
     .button-wrapper{
+        position : relative;
         display: flex;
         justify-content: end;
         margin-top : 30px;
@@ -88,14 +90,16 @@ const PostView = () => {
     
     const [ postImg, setPostImg ] = useState<any>([]);
     const [ textareaValue, setTextareaValue ] = useState<string>('');
-    
+    const [valid, setValid] = useState<boolean>(false);
     const navigate = useNavigate();
     const param = useParams();
     const boardNum = Number(param.id);
     const {state} = useLocation();
-    const userId = Number(localStorage.getItem('userId'));
+    const userId = localStorage.getItem('userId') === null ? null : Number(localStorage.getItem('userId'));
     const { data : getPostInfo } = useQuery("PostInfo", () => getPostData(boardNum!));
-    const { data : getUser } = useQuery("getUser", () => getUserInfo(userId));
+    const { data : getUser } = useQuery("getUser", () => getUserInfo(userId!), { enabled : !!userId });
+    const { data : getPostUser } = useQuery("getPostUser", () => getUserInfo(getPostInfo?.data.userNum));
+    
     const { data : getComment } = useQuery("getComment", () => getCommentList(boardNum));   
     const queryClient = useQueryClient();
     const { mutate : posting } = useMutation(handleSubmitComment, {
@@ -110,26 +114,37 @@ const PostView = () => {
 
     const onSubmitComment = () => {
         setTextareaValue('');
-        posting({
-            postNum : Number(param.id),
-            commentContent : textareaValue,
-            userNum : userId,
-        })
+        if(userId === null){
+            setValid(true)
+        }else{
+            posting({
+                postNum : Number(param.id),
+                commentContent : textareaValue,
+                userNum : userId!,
+            })
+        }
     }
 
     const textareaOnChange = (e:any) => {
         setTextareaValue(e.target.value);
     }
 
-    const onClickPostEdit = () => {
-
+    const toastProps = {
+        title : "댓글 작성",
+        content : "로그인 후 댓글 작성 이용 가능합니다.",
+        start_time : 200,
+        width : 220,
+        height : 25,
+        top : 50,
+        left : 50,
     }
+
     // useQuery로 불러오기 전에 렌더링이 되는 것 같다. 데이터 불러오고 렌더링 완료되어야 하는데. 
     // 문제 직면.
     
-    if(getPostInfo===undefined || getUser === undefined || getComment === undefined){
+    if(getPostInfo===undefined ||  getComment === undefined){
         return(
-            <div>loadingloadingloadingloading</div>
+            <Spinner/>
         )
     }
 
@@ -154,7 +169,7 @@ const PostView = () => {
                 <PostViewContainerStyled>
                     <BigText>{getPostInfo!.data.postTitle}</BigText>
                     <PostViewInfoContainerStyled style={{marginBottom:"20px"}}>
-                        <img className="post-img" src={getUser!.data.imageUrl}/>
+                        <img className="post-img" src={getPostUser?.data.imageUrl}/>
                         <div className="post-info">
                             <p className="post-user-name">{getPostInfo!.data.userName}</p>
                         </div>
@@ -162,7 +177,7 @@ const PostView = () => {
                         {
                             getPostInfo.data.userNum === userId ?
                             <BoardMenu props={propsData}/>
-                            :
+                            : 
                             null
                         }
                     </PostViewInfoContainerStyled>
@@ -192,6 +207,7 @@ const PostView = () => {
                         <SmallText style={{marginBottom:"20px"}}>댓글</SmallText>
                         <ProductPostTextareaStyled placeholder="댓글을 입력하세요" rows={8} cols={50} value={textareaValue} onChange={textareaOnChange}></ProductPostTextareaStyled>
                         <div className="button-wrapper">
+                            <ToastCenter toastprop={toastProps} validprop={valid} setValid={setValid}/>
                             <CommonYellowButton width={150} height={50} hover={false} text={"등록"} onClick={() => {onSubmitComment()}}/>
                         </div>
                     </ProductPostBoxStyled>

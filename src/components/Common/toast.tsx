@@ -46,7 +46,7 @@ interface ToastProps {
     start_time : number,
 }
 
-const Toast = ({props} : {props:ToastProps}) => {
+const Toast = ({props}:{props:ToastProps}) => {
     const [effectTrue, setEffectTrue] = useState<boolean>(false);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [flag, setFlag] = useState<boolean>(true);

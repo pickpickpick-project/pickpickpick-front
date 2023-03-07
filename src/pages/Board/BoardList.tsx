@@ -4,6 +4,7 @@ import { CommonIntroduceBoxStyled } from "../../assets/CommonStyled";
 import MovePage from "../../util/navigate";
 import { useParams } from "react-router";
 
+
 const BoardPostWrapperStyled = styled(CommonIntroduceBoxStyled)`
     width : 600px;
     height : 40px;
@@ -18,7 +19,6 @@ const BoardPostWrapperStyled = styled(CommonIntroduceBoxStyled)`
 `
 
 const BoardPostContainerStyled = styled.ul`
-
 `
 
 

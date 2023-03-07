@@ -11,7 +11,7 @@ const NaverRedirect = () => {
     console.log("naver redirect");
     try {
       axios
-        .get(`https://api.pppick.store/auth/token?token=${token}`, {
+        .get(`http://ec2-43-201-150-123.ap-northeast-2.compute.amazonaws.com:8080/auth/token?token=${token}`, {
           headers: {
             "Content-type": "application/x-www-form-urlencoded",
           },

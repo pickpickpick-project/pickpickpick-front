@@ -10,6 +10,7 @@ import { getUserInfo } from "../../api/user";
 import { getUserPortfolio } from "../../api/portfolio";
 import { getWorkList } from "../../api/work";
 import Follow from "../../components/follow/Follow";
+import Spinner from "../../components/Common/spinner";
 
 const ArtistBannerContainerStyled = styled.div`
   width: 1140px;
@@ -70,7 +71,7 @@ const ArtistPage = () => {
       {getWorkListData?.data === undefined ||
       getPortfolioData.data?.data === undefined ||
       User?.data === undefined ? (
-        <div>loading</div>
+        <Spinner/>
       ) : (
         <>
           <ArtistBannerContainerStyled>

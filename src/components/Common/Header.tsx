@@ -92,7 +92,7 @@ const items: MenuProps["items"] = [
   {
     key: "1",
     label: (
-      <a href="https://www.pppick.store/mypage">
+      <a href="http://localhost:3000/mypage">
         <div
           className="menu-item"
           style={{
@@ -111,7 +111,7 @@ const items: MenuProps["items"] = [
   {
     key: "2",
     label: (
-      <a href="https://www.pppick.store/heart">
+      <a href="http://localhost:3000/heart">
         <div
           className="menu-item"
           style={{
@@ -130,7 +130,7 @@ const items: MenuProps["items"] = [
   {
     key: "3",
     label: (
-      <a href="https://www.pppick.store/portfolio/post">
+      <a href="http://localhost:3000/portfolio/post">
         <div
           className="menu-item"
           style={{
@@ -149,7 +149,7 @@ const items: MenuProps["items"] = [
   {
     key: "4",
     label: (
-      <a href="https://www.pppick.store/product/post">
+      <a href="http://localhost:3000/product/post">
         <div
           className="menu-item"
           style={{

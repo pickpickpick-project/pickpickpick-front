@@ -17,6 +17,7 @@ import {
   postFavorites,
 } from "../../api/favorites";
 import Toast from "../../components/Common/toast";
+import Spinner from "../../components/Common/spinner";
 
 const PageStyle = styled.div`
   padding: 135px 0px 40px 0px;
@@ -277,7 +278,7 @@ const PortfolioDetail = () => {
 
     <PageStyle>
       {User === undefined || Info === undefined ? (
-        <div>Loading</div>
+        <Spinner/>
       ) : (
         <>
             

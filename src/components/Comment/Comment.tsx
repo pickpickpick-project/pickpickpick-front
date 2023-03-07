@@ -4,6 +4,7 @@ import { getUserInfo } from "../../api/user";
 import styled from "styled-components";
 import { ReactComponent as Delete } from "../../assets/images/delete.svg";
 import { handleDeleteComment, handleEditComment } from "../../api/comment";
+import colors from '../../assets/colors';
 
 
 const CommentStyled = styled.div`
@@ -21,7 +22,6 @@ const CommentStyled = styled.div`
     .edit-container{
         right : 0;
         top : 0;
-        cursor: pointer;
         display: flex;
         margin-left : 20px;
         flex-direction : column;
@@ -63,12 +63,27 @@ const CommentInfoDateStyled = styled.p`
 const CommentWritingStyled = styled.div`
     width : 100%;
     margin-right : auto;
+
     .textarea{
-        border : none;
         width : 100%;
         height : 100%;
-
+        border : none;
+        border-radius: 3px;
+        resize : none;
     }
+
+`
+const EditButtonStyled = styled.div`
+        color: ${colors.text};
+        background-color: ${colors.button};
+        padding : 5px 10px 5px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 7px;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
 `
 
 interface CommentData {
@@ -152,15 +167,15 @@ const Comment = (props:CommentData) => {
             {/* 본인 댓글만 삭제할 수 있도록 */}
             {getUser?.data.id === userId ? 
                 <div className="edit-container">
-                    <Delete style={{marginBottom : '10px'}} onClick={() => onClickDelete()}/>
-                    <button onClick={() => onClickEdit()}>
+                    <Delete style={{marginBottom : '10px', cursor:"pointer"}} onClick={() => onClickDelete()}/>
+                    <EditButtonStyled onClick={() => onClickEdit()}>
                         {
                             editBtn === true ? 
                             'edit'
                             :
                             'submit'
                         } 
-                    </button>
+                    </EditButtonStyled>
                     
                 </div>
                 :

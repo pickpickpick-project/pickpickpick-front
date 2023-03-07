@@ -22,6 +22,7 @@ import {
 } from "../../api/portfolio";
 import { useQuery } from "react-query";
 import { getFavorites } from "../../api/favorites";
+import Spinner from "../../components/Common/spinner";
 
 const MainStyle = styled.div`
   padding: 115px 16px 140px 16px;
@@ -197,7 +198,7 @@ const Main = () => {
           <Masonry columns={3} spacing={2}>
             {searchFlag === true ? ( // 태그 검색할 경우
               getTag === undefined ? (
-                <div>loading</div> // 태그 정보를 불러오기 전
+                <Spinner/> // 태그 정보를 불러오기 전
               ) : (
                 getTag.data.map((data: any, index: number) => (
                   <div
@@ -221,7 +222,7 @@ const Main = () => {
               ))
             ) : type === 1 ? (
               ListInfo?.map((item: any, index: number) =>
-                item.portfolioType === 1 ? ( // 타입 1인 것만
+                item.portfolioType === 1 ? ( // 타입 1
                   <div
                     key={item.id ?? index}
                     className="content-item"
@@ -233,7 +234,7 @@ const Main = () => {
               )
             ) : type === 2 ? (
               ListInfo?.map((item: any, index: number) =>
-                item.portfolioType === 2 ? ( // 타입 1인 것만
+                item.portfolioType === 2 ? ( // 타입 2
                   <div
                     key={item.id ?? index}
                     className="content-item"
@@ -245,7 +246,7 @@ const Main = () => {
               )
             ) : type === 3 ? (
               ListInfo?.map((item: any, index: number) =>
-                item.portfolioType === 3 ? ( // 타입 1인 것만
+                item.portfolioType === 3 ? ( // 타입 3
                   <div
                     key={item.id ?? index}
                     className="content-item"
@@ -257,7 +258,7 @@ const Main = () => {
               )
             ) : type === 4 ? (
               ListInfo?.map((item: any, index: number) =>
-                item.portfolioType === 4 ? ( // 타입 1인 것만
+                item.portfolioType === 4 ? ( // 타입 4
                   <div
                     key={item.id ?? index}
                     className="content-item"

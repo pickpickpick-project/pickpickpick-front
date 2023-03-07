@@ -11,6 +11,7 @@ import { getUserInfo } from "../../api/user";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import Spinner from "../../components/Common/spinner";
 const OrderPageStyle = styled(PageStyled)`
   .OrderButtonWrapper {
     width: 100%;
@@ -196,7 +197,7 @@ const OrderPage = () => {
   return (
     <OrderPageStyle>
       {product === undefined ? (
-        <div>loading</div>
+        <Spinner/>
       ) : (
         <>
           <BigText>결제하기</BigText>

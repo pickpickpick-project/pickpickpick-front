@@ -16,6 +16,7 @@ import {
 import { Pagination } from "@mui/material";
 import { Paging, Table } from "../pages/Admin/ManageUserPage";
 import axios from "axios";
+import Spinner from "../components/Common/spinner";
 
 const MypageStyled = styled.div`
   padding: 125px 16px 140px 16px;
@@ -143,7 +144,7 @@ const Mypage = (): React.ReactElement => {
 
   return getPortfolioData.status === "loading" ||
     getProductListData.status === "loading" ? (
-    <div>loadingloadingloadingloadingloading</div>
+    <Spinner/>
   ) : (
     <MypageStyled>
       <MypageProfile email={user_email} />
@@ -194,7 +195,7 @@ const Mypage = (): React.ReactElement => {
                 </tr>
               ))
             ) : (
-              <div>loading</div>
+              <Spinner/>
             )}
           </tbody>
         </table>

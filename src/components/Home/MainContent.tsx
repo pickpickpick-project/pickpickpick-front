@@ -69,7 +69,6 @@ const MainContent = ({ item }: Item) => {
   const { mutate: favorites } = useMutation(postFavorites, {
     onSuccess: data => {
       queryClient.invalidateQueries("postFavorites");
-      console.log(data, "좋아요");
       if (data.msg === "Success") {
       }
     },
@@ -126,7 +125,6 @@ const MainContent = ({ item }: Item) => {
     setClick(true);
     setIsHeart(!isHeart);
   };
-  console.log(item);
   return (
     <ContentStyle>
       <div className="item-heart" onClick={it => heartItem(it)}>
@@ -134,12 +132,7 @@ const MainContent = ({ item }: Item) => {
       </div>
       {item.portfolioImgList && item.portfolioImgList.length > 0 ? (
         <img
-          src={`${
-            baseURL + item.portfolioImgList[0]?.portfolioImgAddr ?? ""
-          }?w=162&auto=format`}
-          srcSet={`${
-            baseURL + item.portfolioImgList[0]?.portfolioImgAddr ?? ""
-          }?w=162&auto=format&dpr=2 2x`}
+          src={baseURL + item.portfolioImgList[0]?.portfolioImgAddr}
           alt={item.portfolioName}
           loading="lazy"
           style={{

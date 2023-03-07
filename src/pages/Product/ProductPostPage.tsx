@@ -7,8 +7,8 @@ import CommonYellowButton from "../../components/Common/Button";
 import { useMutation, useQueryClient } from "react-query";
 import { handleSubmitProduct, editProduct } from "../../api/product";
 import { useNavigate, useLocation } from "react-router";
+import colors from "../../assets/colors";
 
-import MovePage from "../../util/navigate";
 
 const ProductPostStyled = styled(PageStyled)``
 
@@ -79,8 +79,9 @@ const ProductPostButtonContainer = styled.div`
 
 export const ProductPostTextareaStyled = styled.textarea`
     
-    border: 1px solid #979797;
-
+    padding : 10px;
+    resize : none;
+    
     &:focus{
         outline:0;
         

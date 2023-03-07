@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { inquiryBoardCurrentPage, inquiryBoardPostPerPage } from "../../recoil";
 import { ReactComponent as ArrowLeft } from "../../assets/images/Mypage/arrow-left.svg";
 import { ReactComponent as ArrowRight } from "../../assets/images/Mypage/arrow-right.svg";
+import colors from "../../assets/colors";
 
 
 const PageUl = styled.ul`
@@ -26,7 +27,7 @@ const PageLi = styled.li`
 `;
 
 const SelectPageLiStyled = styled(PageLi)`
-    background-color: antiquewhite;
+    background-color: ${colors.button};
 `
     
 
