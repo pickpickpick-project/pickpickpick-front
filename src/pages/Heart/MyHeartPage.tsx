@@ -9,6 +9,7 @@ const PageStyle = styled.div`
   padding: 135px 16px 140px 16px;
   margin: 0 auto;
   width: 1200px;
+  height : 100%;
   color: ${colors.text};
 
   .title {
