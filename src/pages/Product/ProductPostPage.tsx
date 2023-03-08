@@ -93,7 +93,7 @@ export const ProductPostImageStyled = styled.div`
 `
 
 export const ProductPostPage = () => {
-    const location = useLocation();
+    const location = useLocation(); 
     const navigate = useNavigate();
     const [ textareaValue, setTextareaValue ] = useState<string>("");
     const [productName, setProductName] = useState<string>("");
@@ -104,7 +104,8 @@ export const ProductPostPage = () => {
     const userId = Number(localStorage.getItem('userId'));
     let fileURLs:any = [];
     let file;
-
+    
+    
     useEffect(() => {
         if(location.state !== null){
             setProductPrice(location.state.workPrice);
@@ -119,7 +120,10 @@ export const ProductPostPage = () => {
     }
 
     const handleAddImages = (event:any) => {
+        console.log(event);
         const imageLists = event.target.files;
+        console.log(event.target.files);
+        
         setFiles([...imageLists]);
         console.log(files);
     

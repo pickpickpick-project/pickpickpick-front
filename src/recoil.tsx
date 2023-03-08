@@ -11,3 +11,8 @@ export const inquiryBoardPostPerPage = atom<number>({
     default : 5,
 });
 
+export const editInfoModalShow = atom<boolean>({
+    key :'editInfoModalShow',
+    default : false,
+})
+

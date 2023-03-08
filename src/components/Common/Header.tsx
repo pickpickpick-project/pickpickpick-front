@@ -16,6 +16,7 @@ import NaverLogin from "../../pages/Login/NaverLogin";
 import GoogleLogin from "../../pages/Login/GoogleLogin";
 
 const HeaderStyle = styled.div`
+    z-index: 99999;
   position: fixed;
   z-index: 10;
   background-color: #ffffff;

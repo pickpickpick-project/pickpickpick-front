@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { getUserInfo } from "../../api/user";
 import colors from "../../assets/colors";
 import { updateUserInfo } from "../../api/user";
+import MypageMenu from "./button";
+import EditModal from "./editModal";
 const ProfileStyled = styled.div`
   display: flex;
   flex-direction: row;
@@ -24,6 +26,10 @@ const ProfileIntroductContainer = styled(CommonIntroduceBoxWrapperStyled)`
 
 const ProfileContainerStyled = styled.div`
   width: 650px;
+
+  .Container{
+    display: flex;
+  }
 `;
 
 const ProfileImageStyled = styled.img`
@@ -69,9 +75,10 @@ const MypageProfile = ({ email }: Email) => {
     getUserInfo(Number(localStorage.getItem("userId")))
   );
 
-  const [introduceText, setIntroduceText] = useState("소개 글을 입력해 주세요");
-  const [introduceBoxValid, setIntroduceBoxValid] = useState(true);
-  const [btnState, setBtnState] = useState(true);
+  const [ introduceText, setIntroduceText ] = useState("소개 글을 입력해 주세요");
+  const [ introduceBoxValid, setIntroduceBoxValid ] = useState(true);
+  const [ btnState, setBtnState ] = useState(true);
+  const [ editModalShow, setEditModalShow ] = useState<boolean>(false);
 
   const ImgURL =
     User?.data.imageUrl[0] === "h"
@@ -116,25 +123,19 @@ const MypageProfile = ({ email }: Email) => {
     <ProfileStyled>
       <ProfileImageStyled src={ImgURL} width="90" height="90" />
       <ProfileContainerStyled>
-        <BigText>{User?.data.name}</BigText>
+        <div className="Container">
+            <BigText style={{marginRight:"auto"}}>{User?.data.name}</BigText>
+            <MypageMenu/>
+        </div>
         <CommonIntroduceBoxContainerStyled style={{ marginTop: "20px" }}>
           <ProfileIntroductContainer>
-            {introduceBoxValid === true ? (
               <ProfileIntroduceBoxStyled>
                 {introduceText}
               </ProfileIntroduceBoxStyled>
-            ) : (
-              <ProfileIntroduceInputStyled
-                value={introduceText}
-                onChange={onChangeInput}
-              />
-            )}
-            <ProfileIntroduceEditBtnStyled onClick={onClickBtn}>
-              {btnState === true ? "edit" : "submit"}
-            </ProfileIntroduceEditBtnStyled>
           </ProfileIntroductContainer>
         </CommonIntroduceBoxContainerStyled>
       </ProfileContainerStyled>
+      <EditModal/>
     </ProfileStyled>
   );
 };

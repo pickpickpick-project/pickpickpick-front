@@ -54,14 +54,16 @@ interface UserUpdatePost{
     userIntro : string
     userNick : string
     userPhone : string
+    userImg? : File[]
 }
 
 export const updateUserInfo = async(params:UserUpdatePost) => {
-    const { userNum, userIntro, userNick, userPhone } = params
+    const { userNum, userIntro, userNick, userPhone, userImg } = params
     const response = await api.post<UserUpdateResponse>(`user/update/${userNum}`, {
         userIntro,
         userNick,
         userPhone,
+        userImg,
     },{
         headers: {
             "Content-Type": "multipart/form-data",
