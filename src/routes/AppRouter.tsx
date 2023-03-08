@@ -20,11 +20,13 @@ import OrderPage from "../pages/order/OrderPage";
 import PostView from "../pages/Board/BoardView";
 import { ProductPostPage } from "../pages/Product/ProductPostPage";
 import AdminSignIn from "../pages/Admin/AdminSignIn";
+import Footer from "../components/Common/Footer";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <Header />
+      
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/:id" element={<Main />} />
@@ -52,6 +54,7 @@ const AppRouter = () => {
         <Route path="order/:id" element={<OrderPage />} />
         <Route path="board/postview/:id" element={<PostView />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 };

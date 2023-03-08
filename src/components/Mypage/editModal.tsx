@@ -9,10 +9,10 @@ import { useRecoilState } from "recoil";
 const EditModalStyle = styled.div<{showInfoModal:boolean}>`
     display : ${props => props.showInfoModal ? 'flex' : 'none'}; 
     width : 100%;
-    height : 100vh;
+    height : 100%;
     background-color : black;
     opacity : 0.8;
-    position : absolute;
+    position : fixed;
     top : 0;
     left : 0;
     z-index : 1000;
@@ -29,6 +29,7 @@ const EditModalContainer = styled.div`
     display : flex;
     flex-direction: column;
     align-items: flex-start;
+    opacity : 1;
 
     .edit-container{
         width : 100%;

@@ -8,6 +8,8 @@ import { useMutation, useQuery } from "react-query";
 import { getUserPortfolio } from "../api/portfolio";
 import { getWorkList } from "../api/work";
 import { getUserInfo } from "../api/user";
+import { editInfoModalShow } from "../recoil";
+import { useRecoilState } from "recoil";
 import {
   getOrderList,
   getOrderStatus,
@@ -18,7 +20,7 @@ import { Paging, Table } from "../pages/Admin/ManageUserPage";
 import axios from "axios";
 import Spinner from "../components/Common/spinner";
 
-const MypageStyled = styled.div`
+const MypageStyled = styled.div<{showInfoModal:boolean}>`
   padding: 125px 16px 140px 16px;
   height: 100%;
   margin: 0 auto;
@@ -26,6 +28,8 @@ const MypageStyled = styled.div`
   display: flex;
   flex-direction: column;
   color: ${colors.text};
+  overflow-y: ${props => props.showInfoModal ? "hidden" : "none"};
+  position : ${props => props.showInfoModal ? "fixed" : "none"};
 `;
 
 interface test {
@@ -41,7 +45,7 @@ interface props {
 
 const Mypage = (): React.ReactElement => {
   // const [ merchantUid, setMerchantUid ] = useState<string>(''); // useState -> 값을 즉시 변동 못해서 전역 변수로 설정함. 리팩토링 필요
-
+  const [ showInfoModal, setShowInfoModal ] = useRecoilState<boolean>(editInfoModalShow);
   const merchantUid = useRef("");
   const orderStatus = useRef("");
   const cancelPrice = useRef(0);
@@ -137,7 +141,7 @@ const Mypage = (): React.ReactElement => {
     getProductListData.status === "loading" ? (
     <Spinner/>
   ) : (
-    <MypageStyled>
+    <MypageStyled showInfoModal={showInfoModal}>
       <MypageProfile email={user_email} />
       <CommonText>포트폴리오</CommonText>
       <CommonCarousel data={portfolioArray} category={"portfolio"} />

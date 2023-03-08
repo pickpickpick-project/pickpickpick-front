@@ -11,6 +11,9 @@ import BoardMenu from "../Board/button";
 import ProductMenu from "../Product/button";
 import PortfolioMenu from "../Portfolio/button";
 import { useNavigate } from "react-router";
+import { getUserInfo } from "../../api/user";
+import { useQuery } from "react-query";
+import { useParams, useLocation } from "react-router";
 
 export const ArrowStyled = styled.span<{ left?: number; right?: number }>`
   position: absolute;
@@ -74,8 +77,20 @@ interface props {
 }
 
 const CommonCarousel = ({ data, category }: any) => {
-  const navigate = useNavigate();
-  const [arrowFlag, setArrowFlag] = useState(true);
+    const location = useLocation();
+    const params = useParams();
+    const navigate = useNavigate();
+    const [arrowFlag, setArrowFlag] = useState(true);
+  
+    const artistId = Number(params.id);
+    const { data: User } = useQuery("getUserInfo", () =>
+    getUserInfo(Number(localStorage.getItem("userId")))
+  );
+  const { data: Artist } = useQuery("getUserArtist", () => getUserInfo(artistId));
+
+  console.log(User);
+  console.log(Artist); 
+  
   let page_category: any = {
     portfolio: {
       name: "portfolio",
@@ -170,11 +185,14 @@ const CommonCarousel = ({ data, category }: any) => {
                     src={imgSrc}
                   ></CarouselElementImgStyled>
                   <CarouselTextStyled>{dataName}</CarouselTextStyled>
-                  {page_category[category].name === "work" ? (
-                    <ProductMenu productData={data} />
-                  ) : (
-                    <PortfolioMenu portfolio={data} />
-                  )}
+                  {location.pathname === "/mypage" || Artist?.data.id === User?.data.id ?   // 마이페이지이거나 본인 작업물이거나
+                        page_category[category].name === "work" ? (
+                            <ProductMenu productData={data} />
+                        ) : (
+                            <PortfolioMenu portfolio={data} />
+                        ) 
+                        : null
+                    }
                 </CarouselElementContainerStyled>
               );
             })}
