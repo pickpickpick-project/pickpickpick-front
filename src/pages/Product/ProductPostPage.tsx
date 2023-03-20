@@ -2,12 +2,11 @@
 import styled from "styled-components";
 import { BigText, SmallText } from "../../assets/CommonStyled";
 import { PageStyled } from "../../assets/pageStyle";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import CommonYellowButton from "../../components/Common/Button";
 import { useMutation, useQueryClient } from "react-query";
 import { handleSubmitProduct, editProduct } from "../../api/product";
 import { useNavigate, useLocation } from "react-router";
-import colors from "../../assets/colors";
 
 
 const ProductPostStyled = styled(PageStyled)``
@@ -98,11 +97,9 @@ export const ProductPostPage = () => {
     const [ textareaValue, setTextareaValue ] = useState<string>("");
     const [productName, setProductName] = useState<string>("");
     const [productPrice, setProductPrice] = useState<number>(0);
-    const [showImages, setShowImages] = useState([]);
-    const [ sendImages, setSendImages ] = useState<any>([]);
+    const [showImages, setShowImages] = useState<string[]>([]);
     const [ files, setFiles] = useState<File[]>([]);
     const userId = Number(localStorage.getItem('userId'));
-    let fileURLs:any = [];
     let file;
     
     
@@ -115,32 +112,20 @@ export const ProductPostPage = () => {
     }, [])
 
 
-    const textareaOnChange = (e:any) => {
+    const textareaOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTextareaValue(e.target.value);
     }
 
-    const handleAddImages = (event:any) => {
-        console.log(event);
+    const handleAddImages = (event: React.ChangeEvent<HTMLInputElement>) => {
         const imageLists = event.target.files;
-        console.log(event.target.files);
+        setFiles(Array.from(imageLists || []));
+        let imageUrlLists: string[] = [];
         
-        setFiles([...imageLists]);
-        console.log(files);
-    
-        let imageUrlLists:any = [];
-        
-        for (let i = 0; i < imageLists.length; i++) {
-            file = imageLists[i];
-            let reader = new FileReader();
-            reader.onload = () => {
-                fileURLs[i] = reader.result;
-                setSendImages([...fileURLs]);
-            }
-            reader.readAsDataURL(file);
-            const currentImageUrl = URL.createObjectURL(imageLists[i]);
+        for (let i = 0; i < imageLists!.length; i++) {
+            file = imageLists![i];
+            const currentImageUrl = URL.createObjectURL(imageLists![i]);
             imageUrlLists.push(currentImageUrl);
         }
-        
         
         if (imageUrlLists.length > 6) {
           imageUrlLists = imageUrlLists.slice(0, 6);
@@ -149,12 +134,12 @@ export const ProductPostPage = () => {
         setShowImages(imageUrlLists);
       };
 
-    const onChangeName = (e: any) => {
+    const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setProductName(e.target.value);
       };
     
-    const onChangePrice = (e: any) => {
-        setProductPrice(e.target.value);
+    const onChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setProductPrice(Number(e.target.value));
     }
 
     const queryClient = useQueryClient();
@@ -199,7 +184,6 @@ export const ProductPostPage = () => {
             workNum : location.state.workNum
         })
     }
-    console.log(location);
     return(
         <ProductPostStyled>
             <BigText style={{marginBottom:"30px"}}>상품 등록하기</BigText>

@@ -1,7 +1,7 @@
 import api from "./api";
 
 interface ProductPost{
-    files : any,
+    files : File[],
     workDesc : string,
     workName : string,
     workPrice : number,
@@ -70,8 +70,8 @@ export const deleteProduct = async (params: {workNum: number}) =>{
 
 
 
-interface ProductEdit{
-    files : any,
+export interface ProductEdit{
+    files : File[],
     workDesc : string,
     workName : string,
     workPrice : number,

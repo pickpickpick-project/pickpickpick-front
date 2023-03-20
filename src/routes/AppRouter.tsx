@@ -5,7 +5,7 @@ import MyHeartPage from "../pages/Heart/MyHeartPage";
 import Main from "../pages/Home/Main";
 import KakaoLogin from "../pages/Login/KakaoLogin";
 import PortfolioDetail from "../pages/Portfolio/PortfolioDetail";
-import Mypage from "../pages/Mypage";
+import Mypage from "../pages/Mypage/Mypage";
 import PostPortfolio from "../pages/Portfolio/PostPortfolio";
 
 import ArtistPage from "../pages/Artist/Artist";

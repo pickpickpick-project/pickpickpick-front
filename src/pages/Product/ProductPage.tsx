@@ -145,7 +145,7 @@ const ProductPage = () => {
   return (
     <PageStyle>
       <div className="image-section">
-        <ProductCarousel workImg={workImg} />
+        <ProductCarousel workImg={workImg!} />
       </div>
       <div className="purchase-section">
         <div className="name">{workInfo?.workName}</div>

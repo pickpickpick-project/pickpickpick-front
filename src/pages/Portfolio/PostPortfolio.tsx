@@ -1,12 +1,10 @@
 import { stringify } from "rc-field-form/es/useWatch";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { pathToFileURL } from "url";
 import { postPortfolio } from "../../api/portfolio";
 import colors from "../../assets/colors";
-import MovePage from "../../util/navigate";
 
 const PageStyle = styled.div<{ type: string }>`
   padding: 135px 16px 140px 16px;
@@ -169,7 +167,6 @@ const PostPortfolio = () => {
   const { mutate: posting } = useMutation(postPortfolio, {
     onSuccess: data => {
       queryClient.invalidateQueries("postPortfolio");
-      console.log(data);
       if (data.msg === "Success") {
         navigate("/");
       }
@@ -181,22 +178,6 @@ const PostPortfolio = () => {
 
   const onUploadImage = () => {
     setFiles([...files, imgRef.current.files[0]]);
-
-    // let fileURLs = [];
-    // let img;
-    // for (let i = 0; i < files.length; i++) {
-    //   img = files[i];
-    //   const reader = new FileReader();
-    //   reader.onload = () => {
-    //     fileURLs[i] = reader.result;
-    //     setImgView([...imgArr]);
-    //   };
-    //   reader.readAsDataURL(img);
-    // }
-
-    // reader.onloadend = () => {
-    //   setImgView(reader.result as string);
-    // };
   };
 
   const onClickRadio = (type: string, typeNum: number) => {
@@ -204,11 +185,11 @@ const PostPortfolio = () => {
     setCheckedTypeNum(typeNum);
   };
 
-  const onChangeName = (e: any) => {
+  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPortfolioName(e.target.value);
   };
 
-  const onChangeTag = (e: any) => {
+  const onChangeTag = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTag(e.target.value);
   };
 
@@ -217,8 +198,9 @@ const PostPortfolio = () => {
     setTagArr(tagArr => [...tagArr, tag]);
   };
 
-  const deleteTag = (e: any) => {
-    const newTagArr = tagArr.filter(v => v !== e.target.outerText);
+  const deleteTag = (e: React.MouseEvent<HTMLDivElement>) => {
+    const eventTarget = e.target as HTMLElement
+    const newTagArr = tagArr.filter(v => v !== eventTarget.outerText);
     setTagArr(newTagArr);
   };
 
@@ -227,7 +209,6 @@ const PostPortfolio = () => {
   }, [tagArr]);
 
   const handlePost = () => {
-    console.log(tagName);   // tagName 바로 적용 안됨 리팩토링 필요
     posting({
       files: files,
       portfolioDate,

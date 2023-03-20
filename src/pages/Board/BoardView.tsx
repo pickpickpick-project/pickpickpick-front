@@ -4,7 +4,7 @@ import { BigText, SmallText } from "../../assets/CommonStyled"
 import { ReactComponent as CommentSVG } from "../../assets/images/post/comment.svg";
 import Comment from "../../components/Comment/Comment";
 import { useParams, useNavigate, useLocation } from "react-router";
-import { useState, useEffect, Suspense } from "react";
+import { useState } from "react";
 import { getPostData } from "../../api/board";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getUserInfo } from "../../api/user";
@@ -88,24 +88,19 @@ const PostViewCommentWrapperStyled = styled.div`
 
 const PostView = () => {
     
-    const [ postImg, setPostImg ] = useState<any>([]);
     const [ textareaValue, setTextareaValue ] = useState<string>('');
     const [valid, setValid] = useState<boolean>(false);
-    const navigate = useNavigate();
     const param = useParams();
     const boardNum = Number(param.id);
     const {state} = useLocation();
     const userId = localStorage.getItem('userId') === null ? null : Number(localStorage.getItem('userId'));
     const { data : getPostInfo } = useQuery("PostInfo", () => getPostData(boardNum!));
-    const { data : getUser } = useQuery("getUser", () => getUserInfo(userId!), { enabled : !!userId });
-    const { data : getPostUser } = useQuery("getPostUser", () => getUserInfo(getPostInfo?.data.userNum));
-    
+    const { data : getPostUser } = useQuery("getPostUser", () => getUserInfo(getPostInfo?.data.userNum!));
     const { data : getComment } = useQuery("getComment", () => getCommentList(boardNum));   
     const queryClient = useQueryClient();
     const { mutate : posting } = useMutation(handleSubmitComment, {
         onSuccess : data => {
             queryClient.invalidateQueries("getComment");   // 캐시 무효화 갱신된 데이터 불러올 수 있다.
-            console.log(data);
         },
         onError : data => {
             console.log(data);
@@ -125,7 +120,7 @@ const PostView = () => {
         }
     }
 
-    const textareaOnChange = (e:any) => {
+    const textareaOnChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
         setTextareaValue(e.target.value);
     }
 
@@ -156,14 +151,6 @@ const PostView = () => {
     }
 
     return(
-
-        // <button className="edit" onClick={() => navigate(`/writing/${getPostInfo.data.postNum}`, {
-        //     state : {
-        //         title : getPostInfo.data.postTitle,
-        //         postContent : getPostInfo.data.postContent,
-        //         postNum : getPostInfo.data.postNum,
-        //     }
-        // })}>edit</button> 
         <> 
             <PostViewStyled>
                 <PostViewContainerStyled>

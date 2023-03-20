@@ -29,7 +29,7 @@ interface YellowButtonProps {
     height : number;
     hover : boolean;
     onClick : ButtonHTMLAttributes<HTMLButtonElement>["onClick"] | undefined | void;
-}
+} 
 
 const CommonYellowButton = ({text, ...props} : YellowButtonProps) => {
     
