@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import colors from "../../assets/colors";
 import ArtistIntroduce from "../../components/Artist/Introduce";
 import CommonYellowButton from "../../components/Common/Button";
@@ -54,7 +54,6 @@ const ArtistImageStyled = styled.img`
 const ArtistPage = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const userId = Number(localStorage.getItem("userId"));
   const artistId = Number(params.id);
   const { data: User } = useQuery("getUserArtist", () => getUserInfo(artistId));
   const getPortfolioData = useQuery("getPortfolioList", () =>

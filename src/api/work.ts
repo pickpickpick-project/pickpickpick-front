@@ -12,12 +12,13 @@ interface WorkData {
     workInfo: WorkInfo,
 }
 
-interface WorkInfo {
+export interface WorkInfo {
     workerNum: number,
-      workName: string,
-      workDesc: string,
-      workPrice: number,
-      workImages: WorkImg[] | any,
+    workNum: number,
+    workName: string,
+    workDesc: string,
+    workPrice: number,
+    workImages: WorkImg[],
 }
 export interface WorkImg {
     workImgNum: number,
@@ -33,15 +34,15 @@ export const getWorkId = async (workNum: number) =>{
     return response.data;
 }
 
-
 // ---------------
 
 interface WorkListTest extends Array<WorkList>{     // 배열로 받아준다.
     data : WorkList[];
 }
 
-interface WorkList {
+export interface WorkList {
     workerNum : number,
+    workNum : number,
     workName : string,
     workDesc : string,
     workPrice : number,
@@ -55,7 +56,6 @@ interface WorkListElementImg {
     workImgSrcPath : string,
     size : number,
 }
-
 
 export const getWorkList = async (workerNum : number) => {
     const response = await api.get<WorkListTest>(`works/users/${workerNum}`);

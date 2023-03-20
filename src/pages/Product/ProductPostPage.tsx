@@ -97,10 +97,9 @@ export const ProductPostPage = () => {
     const [ textareaValue, setTextareaValue ] = useState<string>("");
     const [productName, setProductName] = useState<string>("");
     const [productPrice, setProductPrice] = useState<number>(0);
-    const [showImages, setShowImages] = useState([]);
+    const [showImages, setShowImages] = useState<string[]>([]);
     const [ files, setFiles] = useState<File[]>([]);
     const userId = Number(localStorage.getItem('userId'));
-    let fileURLs:any = [];
     let file;
     
     
@@ -119,9 +118,8 @@ export const ProductPostPage = () => {
 
     const handleAddImages = (event: React.ChangeEvent<HTMLInputElement>) => {
         const imageLists = event.target.files;
-        console.log(imageLists);
         setFiles(Array.from(imageLists || []));
-        let imageUrlLists:any = [];
+        let imageUrlLists: string[] = [];
         
         for (let i = 0; i < imageLists!.length; i++) {
             file = imageLists![i];

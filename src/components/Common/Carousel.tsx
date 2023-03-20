@@ -6,14 +6,14 @@ import {
   CommonIntroduceBoxContainerStyled,
   CommonIntroduceBoxWrapperStyled,
 } from "../../assets/CommonStyled";
-import MovePage from "../../util/navigate";
-import BoardMenu from "../Board/button";
 import ProductMenu from "../Product/button";
 import PortfolioMenu from "../Portfolio/button";
 import { useNavigate } from "react-router";
 import { getUserInfo } from "../../api/user";
 import { useQuery } from "react-query";
 import { useParams, useLocation } from "react-router";
+import { WorkList } from "../../api/work";
+import { PortfolioData } from "../../api/portfolio";
 
 export const ArrowStyled = styled.span<{ left?: number; right?: number }>`
   position: absolute;
@@ -72,11 +72,32 @@ interface test {
   portfolio_type: number | string;
 }
 
-interface props {
-  portfolioProps: test[];
+interface Test1 {
+    portfolio : {
+        name: string,
+        link: string,
+        img: string
+    },
+    work: {
+        name: string,
+        link: string,
+        img: string,
+    }
 }
 
-const CommonCarousel = ({ data, category }: any) => {
+interface Props {
+    data : WorkList[] | PortfolioData[],
+    category: string,    
+}
+
+interface CategoryInterface {
+    name: string,
+    link: string,
+    img: string,
+}
+
+const CommonCarousel = ({ data, category }: Props) => {
+    console.log(data, category)
     const location = useLocation();
     const params = useParams();
     const navigate = useNavigate();
@@ -87,11 +108,11 @@ const CommonCarousel = ({ data, category }: any) => {
     getUserInfo(Number(localStorage.getItem("userId")))
   );
   const { data: Artist } = useQuery("getUserArtist", () => getUserInfo(artistId));
-
-  console.log(User);
-  console.log(Artist); 
   
-  let page_category: any = {
+  type categoryType = {
+    [key: string] : CategoryInterface
+  };
+  let page_category: categoryType = {
     portfolio: {
       name: "portfolio",
       link: "portfolio",

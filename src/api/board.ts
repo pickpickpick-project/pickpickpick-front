@@ -10,7 +10,7 @@ interface BoardList {
     data : BoardListElement[]
 }
 
-interface BoardListElement {
+export interface BoardListElement {
     postNum : number,
     userName : string,
     postTitle : string,
@@ -32,7 +32,7 @@ interface BoardPostingInfo{
     msg : string,
     code : string,
     errorMsg : string,
-    data : BoardPostingInfoData[] | any // ?
+    data : BoardPostingInfoData
 }
 
 
@@ -73,7 +73,7 @@ export const getPostData = async(postNum:number) => {
 
 interface BoardPost{
     postBoardNum : number,
-    files : []
+    files : File[]
     postContent : string, 
     postPwd : string,
     postTitle : string,
@@ -115,7 +115,7 @@ interface BoardPostEditData{
 
 interface BoardPostEditParams{
     postNum : number,
-    files : [],
+    files : File[],
     postContent : string,
     postTitle : string,
 }

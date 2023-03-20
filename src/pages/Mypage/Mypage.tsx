@@ -1,24 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import colors from "../assets/colors";
-import MypageProfile from "../components/Mypage/Mypage_profile";
-import CommonCarousel from "../components/Common/Carousel";
-import { CommonText } from "../components/Artist/ArtistStyled";
+import colors from "../../assets/colors";
+import MypageProfile from "../../components/Mypage/Mypage_profile";
+import CommonCarousel from "../../components/Common/Carousel";
+import { CommonText } from "../../components/Artist/ArtistStyled";
 import { useMutation, useQuery } from "react-query";
-import { getUserPortfolio } from "../api/portfolio";
-import { getWorkList } from "../api/work";
-import { getUserInfo } from "../api/user";
-import { editInfoModalShow } from "../recoil";
+import { getUserPortfolio, PortfolioData } from "../../api/portfolio";
+import { getWorkList, WorkList } from "../../api/work";
+import { getUserInfo } from "../../api/user";
+import { editInfoModalShow } from "../../recoil";
 import { useRecoilState } from "recoil";
 import {
   getOrderList,
-  getOrderStatus,
   handlePaymentCancel,
-} from "../api/order";
+} from "../../api/order";
 import { Pagination } from "@mui/material";
-import { Paging, Table } from "../pages/Admin/ManageUserPage";
+import { Paging, Table } from "../Admin/ManageUserPage";
 import axios from "axios";
-import Spinner from "../components/Common/spinner";
+import Spinner from "../../components/Common/spinner";
 
 const MypageStyled = styled.div<{showInfoModal:boolean}>`
   padding: 125px 16px 140px 16px;
@@ -32,19 +31,7 @@ const MypageStyled = styled.div<{showInfoModal:boolean}>`
   position : ${props => props.showInfoModal ? "fixed" : "none"};
 `;
 
-interface test {
-  portfolio_id: number;
-  user_id: number;
-  portfolio_name: string;
-  portfolio_type: number | string;
-}
-
-interface props {
-  portfolioProps: test[];
-}
-
 const Mypage = (): React.ReactElement => {
-  // const [ merchantUid, setMerchantUid ] = useState<string>(''); // useState -> 값을 즉시 변동 못해서 전역 변수로 설정함. 리팩토링 필요
   const [ showInfoModal, setShowInfoModal ] = useRecoilState<boolean>(editInfoModalShow);
   const merchantUid = useRef("");
   const orderStatus = useRef("");
@@ -68,13 +55,13 @@ const Mypage = (): React.ReactElement => {
   const productListCount = getProductListData.data?.length;
   const portfolioListCount = getPortfolioData.data?.data.length;
 
-  let productArray = [];
-  let portfolioArray = [];
+  let productArray: WorkList[] = []
+  let portfolioArray: PortfolioData[] = []
   for (let i = 0; i < productListCount!; i++) {
-    productArray.push(getProductListData.data![i]);
+    productArray.push(getProductListData.data![i])
   }
   for (let i = 0; i < portfolioListCount; i++) {
-    portfolioArray.push(getPortfolioData.data.data[i]);
+    portfolioArray.push(getPortfolioData.data.data[i])
   }
 
   const { mutate: cancel } = useMutation(handlePaymentCancel, {
@@ -97,7 +84,6 @@ const Mypage = (): React.ReactElement => {
   });
 
   const onClickOrderStatusComplete = (item: any) => {
-    console.log(item);
     orderStatus.current = "COMPLETE";
     merchantUid.current = item.merchantUid;
 
@@ -113,7 +99,6 @@ const Mypage = (): React.ReactElement => {
   };
 
   const onClickOrderStatusCancel = (item: any) => {
-    console.log(item);
     cancelPrice.current = item.orderPrice;
     merchantUid.current = item.merchantUid;
     orderStatus.current = "CANCEL";
@@ -137,8 +122,9 @@ const Mypage = (): React.ReactElement => {
 
   useEffect(() => {}, [orderStatus.current]);
 
-  return getPortfolioData.status === "loading" ||
-    getProductListData.status === "loading" ? (
+  return getPortfolioData.status === "loading" || 
+        getProductListData.status === "loading" 
+  ? (
     <Spinner/>
   ) : (
     <MypageStyled showInfoModal={showInfoModal}>

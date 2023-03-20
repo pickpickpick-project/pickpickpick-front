@@ -77,7 +77,7 @@ const EditModal:React.FunctionComponent = () => {
     const [ img, setImg ] = useState<File[]>([]);
     const [ showInfoModal, setShowInfoModal ] = useRecoilState<boolean>(editInfoModalShow);
     const [ contact, setContact ] = useState<string>(User?.data.phone!);
-    const imgRef = useRef<any>();
+    const imgRef = useRef<HTMLInputElement>(null);
 
     const onChangeNickname = (event : React.ChangeEvent<HTMLInputElement>) => {
         setNickname(event.target.value)
@@ -91,9 +91,8 @@ const EditModal:React.FunctionComponent = () => {
         setContact(event.target.value);
     }
 
-    const onChangeImg = (event:any) => {
-        setImg([...event.target.files])
-        console.log(img);
+    const onChangeImg = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setImg(Array.from(event.target.files || []))
     }
     
     const queryClient = useQueryClient();

@@ -40,9 +40,8 @@ const PostTitleInputWrapper = styled.div`
 
 const PostWritingPage = () => {
 
-    const [showImages, setShowImages] = useState([]);
-    const [ sendImages, setSendImages ] = useState<any>([]);
-    const [ imgFiles, setImgFiles ] = useState<any>([]);    // 이미지 배열
+    const [showImages, setShowImages] = useState<string[]>([]);
+    const [ imgFiles, setImgFiles ] = useState<File[]>([]);    // 이미지 배열
     const [ title, setTitle ] = useState<string>('');   // 제목
     const [ artistNum, setArtistNum ] = useState<number>(); // 작가 고유 번호
     const [ content, setContent ] = useState<string>();     // 문의 글
@@ -51,7 +50,6 @@ const PostWritingPage = () => {
     const param = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    console.log(location);
     
     useEffect(() => {
         setArtistNum(Number(param.id));
@@ -63,24 +61,16 @@ const PostWritingPage = () => {
             setContent(location.state.postContent)
         }
     }, [])
-    
-    let fileURLs:any = [];
     let file;
     
-    const handleAddImages = (event:any) => {
+    const handleAddImages = (event:React.ChangeEvent<HTMLInputElement>) => {
         const imageLists = event.target.files;
-        let imageUrlLists:any = [];
-        setImgFiles([...imageLists]);
+        let imageUrlLists: string[] = [];
+        setImgFiles(Array.from(imageLists || []));
         
-        for (let i = 0; i < imageLists.length; i++) {
-            file = imageLists[i];
-            let reader = new FileReader();
-            reader.onload = () => {
-                fileURLs[i] = reader.result;
-                setSendImages([...fileURLs]);
-            }
-            reader.readAsDataURL(file);
-            const currentImageUrl = URL.createObjectURL(imageLists[i]);
+        for (let i = 0; i < imageLists!.length; i++) {
+            file = imageLists![i];
+            const currentImageUrl = URL.createObjectURL(imageLists![i]);
             imageUrlLists.push(currentImageUrl);
         }
         
@@ -111,11 +101,9 @@ const PostWritingPage = () => {
             if(data.msg === "Success"){
                 navigate(`/board/${param.id}`);
             }
-            
         },
         onError : data => {
             console.log(data);
-            
         }
     })
 
@@ -140,8 +128,6 @@ const PostWritingPage = () => {
     }
 
     const onEdit = () => {
-        console.log("onEdit함수 진입");
-        
         edit({
             postNum : location.state.postNum,
             files : imgFiles,

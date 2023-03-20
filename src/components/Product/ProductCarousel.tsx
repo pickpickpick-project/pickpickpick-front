@@ -1,10 +1,7 @@
 import ImageSwiperItem from "../Portfolio/ImageSwiperItem";
-import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
 import Slider from "react-slick";
 import styled from "styled-components";
 import { ReactComponent as Arrow } from "../../assets/images/Portfolio/arrow-btn.svg";
-import { PortfolioImg } from "../../api/types";
 import { WorkImg } from "../../api/work";
 
 const SwiperStyle = styled.div`

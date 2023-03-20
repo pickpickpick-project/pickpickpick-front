@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient, useMutation } from "react-query"; 
 import colors from "../../assets/colors";
-import { getFollowerList, getFollowingList, handleFollow, handleFollowCancel } from "../../api/follow";
+import { getFollowerList, getFollowingList, handleFollow, handleFollowCancel, FollowListData } from "../../api/follow";
 const FollowContainerStyled = styled.div`
     margin-right : auto;
     display : flex;
@@ -44,11 +44,15 @@ const FollowModal = styled.div`
     background-color: white;
 `
 
+interface Follow {
+
+}
+
 const Follow = ({artistId} : {artistId : number}) => {   
     const [ modalOpen, setModalOpen ] = useState(false); 
     const [ follow, setFollow ] = useState(false);
-    const [ followerList, setFollowerList ] = useState<any>([]);
-    const [ followingList, setFollowingList ] = useState<any>([]);
+    const [ followerList, setFollowerList ] = useState<FollowListData[]>([]);
+    const [ followingList, setFollowingList ] = useState<FollowListData[]>([]);
     const [ followListFlag, setFollowListFlag ] = useState(false);
     const [ showFollowContainer, setShowFollowContainer ] = useState(true);
     
@@ -150,11 +154,11 @@ const Follow = ({artistId} : {artistId : number}) => {
                     <FollowModal>
                         <ul>
                             {followListFlag === false ?
-                                    followerList.map((data:any) => 
+                                    followerList.map((data:FollowListData) => 
                                         <li>{data.name}</li>
                                     )
                                     :
-                                    followingList.map((data:any) => 
+                                    followingList.map((data:FollowListData) => 
                                         <li>{data.name}</li>
                                     )
                             }

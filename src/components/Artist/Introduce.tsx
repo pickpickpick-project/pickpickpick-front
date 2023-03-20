@@ -24,7 +24,7 @@ interface UserData {
     intro: string,
     imageUrl: string,
     role: string,
-    emailVerified: any, //수정필요
+    emailVerified: null, //수정필요
     provider: string,
     providerId: number,
 }

@@ -89,7 +89,6 @@ const MypageProfile = ({ email }: Email) => {
   const { mutate: updateInfo } = useMutation(updateUserInfo, {
     onSuccess: data => {
       queryClient.invalidateQueries("getUserInfo");
-      console.log(data);
     },
 
     onError: data => {
@@ -99,7 +98,6 @@ const MypageProfile = ({ email }: Email) => {
 
   const onClickBtn = () => {
     setIntroduceBoxValid(!introduceBoxValid);
-    console.log(User);
     if (!introduceBoxValid) {
       updateInfo({
         userNum: Number(User?.data.id!),
@@ -109,10 +107,6 @@ const MypageProfile = ({ email }: Email) => {
       });
     }
     setBtnState(!introduceBoxValid);
-  };
-
-  const onChangeInput = (e: any) => {
-    setIntroduceText(e.target.value);
   };
 
   useEffect(() => {

@@ -7,7 +7,7 @@ interface FollowResponse{
     msg: string,
     code: string,
     errorMsg: string,
-    data: any,
+    data: {},
 }
 
 // 팔로우 하는 사람 : 현재 user
@@ -39,7 +39,7 @@ interface FollowCancleResponse{
     msg: string,
     code: string,
     errorMsg: string,
-    data: any,
+    data: {},
 }
 
 export const handleFollowCancel = async(params : {userId : number, artistId : number}) => {
@@ -65,7 +65,7 @@ interface FollowListResponse{
     data: FollowListData[],
 }
 
-interface FollowListData{
+export interface FollowListData{
         id: number,
         name: string,
         email: string,

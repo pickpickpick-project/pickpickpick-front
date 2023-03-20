@@ -1,14 +1,11 @@
 import styled from "styled-components";
 import { PageStyled } from "../../assets/pageStyle";
-import {CommonIntroduceBoxStyled } from "../../assets/CommonStyled";
 import { inquiryBoardCurrentPage, inquiryBoardPostPerPage } from "../../recoil";
 import { useRecoilState } from "recoil";
 import PaginationBottomUl from "../../components/Pagination/pageUl";
 import BoardPost from "./BoardList";
 import CommonYellowButton from "../../components/Common/Button";
-import MovePage from "../../util/navigate";
-import { getBoardList } from "../../api/board";
-import { useQuery } from "react-query";
+import { getBoardList, BoardListElement } from "../../api/board";
 import { useParams, useNavigate } from "react-router";
 import React , { useState, useEffect } from "react";
 import ToastCenter from "../../components/Common/toastcenter";
@@ -24,7 +21,7 @@ const BoardContainerStyled = styled.div`
 const BoardPage = () => {
     const [boardCurrentPage, setBoardCurrentPage] = useRecoilState<number>(inquiryBoardCurrentPage);    // 현재 페이지
     const [boardPostPerPage, setBoardPostPerPage] = useRecoilState<number>(inquiryBoardPostPerPage);    // 한 페이지당 게시물 개수
-    const [boardData, setBoardData] = useState<any>([]);
+    const [boardData, setBoardData] = useState<BoardListElement[]>([]);
     const navigate = useNavigate();
     const param = useParams();
     const ArtistId = Number(param.id);
@@ -54,20 +51,19 @@ const BoardPage = () => {
     let indexOfLast = boardCurrentPage * boardPostPerPage;    // last index
     let indexOfFirst = indexOfLast - boardPostPerPage;        // first index
     
-    const currentPosts = (testBoardList:any) => {           // 
+    const currentPosts = (testBoardList:BoardListElement[]) => {           // 
         const currentPostsArray = testBoardList.slice(indexOfFirst, indexOfLast);
         return currentPostsArray;
       };
 
     useEffect(() => {
         getBoardList(ArtistId)
-        .then((res:any) => setBoardData([...res])) 
+        .then((res: BoardListElement[]) => setBoardData([...res])) 
     }, []) 
 
     useEffect(() => {
         console.log(valid);
     }, [valid])
-    console.log(valid);
     return (
             <PageStyled>
                 <h1 style={{marginBottom : "40px", fontWeight:"700", fontSize:"20px"}}>문의 게시판</h1>
