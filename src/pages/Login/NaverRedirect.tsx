@@ -8,7 +8,6 @@ const NaverRedirect = () => {
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");
   useEffect(() => {
-    console.log("naver redirect");
     try {
       axios
         .get(`http://ec2-43-201-150-123.ap-northeast-2.compute.amazonaws.com:8080/auth/token?token=${token}`, {

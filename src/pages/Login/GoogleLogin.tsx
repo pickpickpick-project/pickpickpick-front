@@ -38,7 +38,6 @@ const GoogleLogin = () => {
         .then(res => {
           setExcuted3(true);
           localStorage.setItem("userId", res.data.data.userNum);
-          console.log(res.data.data.userNum);
           navigate("/");
         });
     } catch (err) {}

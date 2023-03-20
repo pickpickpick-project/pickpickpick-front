@@ -37,7 +37,6 @@ const PageSpan = styled.span`
 
 
 const PaginationBottomUl = ({pagination, totalPosts, postPerPage}:any) => {
-    console.log(pagination, totalPosts, postPerPage);
     
     const pageNumbers = [];
     for(let i=1; i <= Math.ceil(totalPosts / postPerPage); i++){

@@ -97,7 +97,6 @@ interface CategoryInterface {
 }
 
 const CommonCarousel = ({ data, category }: Props) => {
-    console.log(data, category)
     const location = useLocation();
     const params = useParams();
     const navigate = useNavigate();

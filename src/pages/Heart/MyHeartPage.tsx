@@ -30,7 +30,6 @@ const MyHeartPage = () => {
   const navigate = useNavigate();
   const { data } = useQuery("getFavorites", () => getFavorites(userId));
   const itemData = data?.data ?? [{}];
-  console.log(itemData);
 
   return (
     <PageStyle>

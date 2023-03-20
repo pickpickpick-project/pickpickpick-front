@@ -22,8 +22,6 @@ interface OrderParams{
 
 export const postOrder = async(params : OrderParams) => {
     const { orderCount, orderPrice, userNum, workNum } = params;
-    console.log(params);
-    
     const response = await api.post('orders', {
         orderCount,
         orderPrice,
@@ -66,8 +64,6 @@ interface PaymentParams{
 
 export const paymentVerify = async(params:PaymentParams) => {
     const { imp_uid, merchantUid } = params
-    console.log(params);
-    
     const response = await api.post<PaymentVerifyResponse>('payment/verify',{
         imp_uid,
         merchantUid,
@@ -93,7 +89,6 @@ interface OrderStatusParams{
 }
 
 export const getOrderStatus = async(params:OrderStatusParams) => {
-    console.log(params);
     const response = await api.get<OrderStatusResponse>('orders/status/',{params});
     return response.data;
 }
@@ -118,7 +113,6 @@ interface PaymentCancel{
 
 export const handlePaymentCancel = async(params : PaymentCancel) => {
     const { merchantUid, cancelRequestAmount } = params;
-    console.log(merchantUid,cancelRequestAmount )
     const response = await api.post('payment/cancel', {
         merchantUid,
         cancelRequestAmount,

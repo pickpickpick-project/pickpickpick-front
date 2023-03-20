@@ -62,7 +62,6 @@ const BoardPage = () => {
     }, []) 
 
     useEffect(() => {
-        console.log(valid);
     }, [valid])
     return (
             <PageStyled>

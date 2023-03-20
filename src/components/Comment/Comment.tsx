@@ -99,7 +99,6 @@ interface Comment {
 }
 
 const Comment = (props:CommentData) => {
-    // console.log(props);
     const userId = Number(localStorage.getItem('userId'))
     const { data : getUser } = useQuery("getCommentUser", () => getUserInfo(props.props.userNum))
     const [ editBtn, setEditBtn ] = useState<boolean>(true);
@@ -109,7 +108,6 @@ const Comment = (props:CommentData) => {
     const { mutate : del } = useMutation(handleDeleteComment, {
         onSuccess : data => {
             queryClient.invalidateQueries("getComment");
-            console.log(data);
         },
         onError : data => {
             console.log(data);    
@@ -119,7 +117,6 @@ const Comment = (props:CommentData) => {
     const { mutate : edit } = useMutation(handleEditComment, {
         onSuccess : data => {
             queryClient.invalidateQueries("getComment");
-            console.log(data);
         },
         onError : data => {
             console.log(data);

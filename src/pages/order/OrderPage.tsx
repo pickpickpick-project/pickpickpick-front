@@ -94,10 +94,7 @@ const OrderPage = () => {
   const { mutate: handlePostOrder } = useMutation(postOrder, {
     // 상품등록 api
     onSuccess: data => {
-      console.log(data);
       merchantUid.current = data.data.merchant_uid; //  /orders API response merchantUid
-      console.log(merchantUid, data.data.merchant_uid);
-      console.log("상품등록api");
       if (!window.IMP) return;
       /* 1. 가맹점 식별하기 */
       const { IMP } = window;
@@ -124,7 +121,6 @@ const OrderPage = () => {
         const { success, error_msg } = response;
 
         if (success) {
-          console.log(response);
           imp_uid.current = response.imp_uid!;
 
           handlePaymentVerify({
@@ -146,7 +142,6 @@ const OrderPage = () => {
   const { mutate: handlePaymentVerify } = useMutation(paymentVerify, {
     onSuccess: data => {
       orderStatus.current = "CONFIRM";
-      console.log(data);
 
       axios
         .get("https://api.pppick.store/orders/status/", {
@@ -156,7 +151,6 @@ const OrderPage = () => {
           },
         })
         .then(res => {
-          console.log(res);
           navigate("/mypage");
         })
         .catch(res => console.log(res));
@@ -175,23 +169,6 @@ const OrderPage = () => {
       userNum: Number(localStorage.getItem("userId")),
       workNum: Number(id),
     });
-
-    // axios({
-    //     method : 'post',
-    //     url : 'http://api.pppick.store/orders',
-    //     params : {
-    //         orderCount : state,
-    //         orderPrice : Number(product?.workPrice),
-    //         userNum : Number(localStorage.getItem('userId')),
-    //         workNum : Number(id),
-    //     }
-    // }).then((res) => {
-    //         console.log(res);
-
-    //      /* 2. 결제 데이터 정의하기 */
-    // }).catch((error) => {
-    //     console.log(error);
-    // })
   };
 
   return (

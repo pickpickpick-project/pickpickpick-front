@@ -61,7 +61,6 @@ const Follow = ({artistId} : {artistId : number}) => {
     const { data : getFollowing } = useQuery('getFollowing', () => getFollowingList(artistId),{
         enabled : !!artistId,
         onSuccess : data => {
-            console.log(data);
             setFollowingList([...data.data]);    // 팔로워 목록 usestate에 담기
         }
     });
@@ -69,7 +68,6 @@ const Follow = ({artistId} : {artistId : number}) => {
     const { data : getFollower } = useQuery('getFollower', () => getFollowerList(artistId),{
         enabled : !!artistId,
         onSuccess : data => {
-            console.log(data);
             setFollowerList([...data.data]);    // 팔로워 목록 usestate에 담기
             for(let i=0; i<data.data.length; i++){
                 if(data.data[i].id === userId){ // 현재 유저가 이미 팔로잉 한 상태
@@ -82,8 +80,6 @@ const Follow = ({artistId} : {artistId : number}) => {
 
     const { mutate : following } = useMutation(handleFollow, {
         onSuccess : data => {
-            console.log(data);
-            // setFollowingList([...data.data]);   // 팔로잉 목록 usestate에 담기
             setFollow(!follow);
             queryClient.invalidateQueries("getFollower");
         },
