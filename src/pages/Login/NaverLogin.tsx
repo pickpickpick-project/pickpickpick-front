@@ -17,7 +17,7 @@ interface UserInfo {
 }
 
 const NaverLogin = () => {
-    const NAVER_AUTH_URL = `https://api.pppick.store/oauth2/authorization/naver?redirect_uri=http://www.pppick.store/oauth2/redirect`;
+    const NAVER_AUTH_URL = `https://api.pppick.store/oauth2/authorization/naver?redirect_uri=https://www.pppick.store/oauth2/redirect`;
   const loaction = useLocation();
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");
