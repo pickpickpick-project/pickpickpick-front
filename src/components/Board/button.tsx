@@ -47,7 +47,6 @@ export default function BoardMenu({props}:{props:Props}) {
 
   const { mutate : deletePost } = useMutation(removeBoardPost, {
     onSuccess : data => {
-        console.log(data);
     },
     onError : data => {
         console.log(data);

@@ -72,7 +72,6 @@ const ToastCenter:React.FunctionComponent<Props> = ({toastprop, validprop, setVa
     }
 
     useEffect(() => {
-        console.log(validprop);
         if(validprop === true){
             effectTest();
         }

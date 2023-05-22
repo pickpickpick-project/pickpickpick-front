@@ -8,7 +8,6 @@ const NaverRedirect = () => {
   const searchParams = new URLSearchParams(loaction.search);
   const token = searchParams.get("token");
   useEffect(() => {
-    console.log("naver redirect");
     try {
       axios
         .get(`https://api.pppick.store/auth/token?token=${token}`, {

@@ -121,13 +121,11 @@ const Main = () => {
 
   const onChangeTextValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTagValue(e.target.value);
-    console.log(tagValue);
   };
 
   const handleOnKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setCompleteTag(tagValue);
-      console.log("enter", completeTag);
       setSearchFlag(true);
     }
   };

@@ -15,7 +15,6 @@ import {
 } from "../../assets/CommonStyled";
 
 const CommonImgCarousel = ({ data }: any) => {
-    console.log(data);
   const [arrowFlag, setArrowFlag] = useState(true);
 
   // const repeat = [1, 2, 3, 4, 5]; // 게시물 개수 test

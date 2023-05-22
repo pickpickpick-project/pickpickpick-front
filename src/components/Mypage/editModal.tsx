@@ -128,7 +128,6 @@ const EditModal:React.FunctionComponent = () => {
 
     const onClickBtn = () => {
         setShowInfoModal(!showInfoModal);
-        console.log(showInfoModal);
       }
     return(
         <EditModalStyle showInfoModal={showInfoModal}>

@@ -26,7 +26,6 @@ const NaverLogin = () => {
   const navigate = useNavigate();
 
   const getNaverToken = useCallback(async () => {
-    console.log("여기1");
     try {
       await axios
       .get(`https://api.pppick.store/auth/token?token=${token}`, {
@@ -45,16 +44,13 @@ const NaverLogin = () => {
   }, []);
 
   const handleLoginNaver = () => {
-    console.log("naver");
     localStorage.setItem("sns", "naver");
     window.location.href = NAVER_AUTH_URL;
   };
 
   useEffect(() => {
-    console.log(sns, "sns");
     if (!loaction.search || excuted2) return;
     if (sns === "naver") {
-      console.log("여기2");
       getNaverToken();
     }
   }, []);

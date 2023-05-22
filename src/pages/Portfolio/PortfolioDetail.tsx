@@ -151,7 +151,6 @@ const PortfolioDetail = () => {
   const navigate = useNavigate();
   const { data: Info } = useQuery("getInfo", () => getPortfolioId(Number(id)), {
     onSuccess: data => {
-      console.log(data);
       setArtistId(data.data.user);
     },
   });
@@ -177,7 +176,6 @@ const PortfolioDetail = () => {
   const { mutate: favorites } = useMutation(postFavorites, {
     onSuccess: data => {
       queryClient.invalidateQueries("postFavorites");
-      console.log(data, "좋아요");
       if (data.msg === "Success") {
       }
     },
@@ -189,7 +187,6 @@ const PortfolioDetail = () => {
   const { mutate: cancleFavorites } = useMutation(patchFavorites, {
     onSuccess: data => {
       queryClient.invalidateQueries("patchFavorites");
-      console.log(data, "좋아요취소");
       if (data.msg === "Success") {
       }
     },
@@ -197,11 +194,6 @@ const PortfolioDetail = () => {
       console.log(error, "좋아요취소에러");
     },
   });
-
-  //   useEffect(() => {
-  //     console.log(User?.data.name);
-  //     UserRefetch();
-  //   }, [Info?.data.user]);
 
   let heartArr: number[] = [];
   useEffect(() => {
@@ -238,7 +230,6 @@ const PortfolioDetail = () => {
   }, [isHeart, click]);
 
   useEffect(() => {
-    console.log(Info);
     if (Info?.data.portfolioType === 1) {
       setType("일러스트");
     } else if (Info?.data.portfolioType === 2) {

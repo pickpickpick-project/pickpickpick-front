@@ -127,7 +127,6 @@ const ProductPage = () => {
   const workImg = data?.data.workInfo.workImages;
 
   const handleAmout = (text: string) => {
-    console.log(imgView);
     if (text === "add") {
       setAmout(amount + 1);
     } else {

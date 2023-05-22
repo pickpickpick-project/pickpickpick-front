@@ -80,7 +80,6 @@ export interface ProductEdit{
 }
 
 export const editProduct = async(params:ProductEdit) => {
-    console.log(params);
     const { files, workDesc, workName, workPrice, workerNum, workNum } = params;
     const response = await api.post('works/edit', {
         files,
